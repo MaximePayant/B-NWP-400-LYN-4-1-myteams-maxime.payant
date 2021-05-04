@@ -2,3 +2,4 @@ obj/
 cmake-build-debug
 CMakeLists.txt
 my_teams_server
+.minfo
