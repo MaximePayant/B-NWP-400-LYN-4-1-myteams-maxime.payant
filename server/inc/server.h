@@ -1,0 +1,37 @@
+/*
+** EPITECH PROJECT, 2021
+** my_teams.h
+** File description:
+** my_teams.h
+*/
+
+#ifndef SERVER
+#define SERVER
+
+#include <netinet/in.h>
+
+typedef struct client_s
+{
+    char *user_name;
+    int control_socket;
+    int connected;
+    struct sockaddr_in data;
+    struct client_s *next;
+}client_t;
+
+typedef struct server_s
+{
+    struct sockaddr_in sock;
+    socklen_t sock_size;
+    int port;
+    int server_socket;
+    client_t *client;
+}server_t;
+
+//init
+int init_server(server_t *server);
+
+//Core
+void server_core(server_t *server);
+
+#endif //SERVER

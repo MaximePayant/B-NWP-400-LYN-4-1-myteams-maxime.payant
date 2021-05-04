@@ -7,8 +7,8 @@
 
 ## VARIABLES
 ## --------------------------------------------->
-EXEC :=	my_teams_server
-FLAG := -Wall -Wextra -pedantic -g3 -std=c++2a -Ofast
+EXEC :=	myteams_server
+FLAG := -Wall -Wextra -pedantic -g3 -Ofast
 CC :=	gcc
 EXT :=	c
 ## --------------------------------------------->
