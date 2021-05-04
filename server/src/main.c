@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include "server.h"
 
@@ -25,6 +24,7 @@ server_t *init_struct(char **av)
     new_server->sock = (struct sockaddr_in){ 0 };
     new_server->sock_size = sizeof(new_server->sock);
     new_server->port = atoi(av[1]);
+    new_server->set_save = (fd_set){ 0 };
     new_server->client = NULL;
     return (new_server);
 }

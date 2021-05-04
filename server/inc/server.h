@@ -25,6 +25,7 @@ typedef struct server_s
     socklen_t sock_size;
     int port;
     int server_socket;
+    fd_set set_save;
     client_t *client;
 }server_t;
 
@@ -33,5 +34,8 @@ int init_server(server_t *server);
 
 //Core
 void server_core(server_t *server);
+
+//Client
+client_t *create_new_client(server_t *server);
 
 #endif //SERVER
