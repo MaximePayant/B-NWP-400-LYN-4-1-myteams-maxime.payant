@@ -91,64 +91,21 @@ SRC_FAILED =			(echo -e $(YELLOW)" ╚═> " $(RED) "Coudn't Build" ; $(MAKE) in
 ## --------------------------------------------->
 .PHONY: all introduce compile_obj re clean fclean
 
-all: introduce $(EXEC)
-	if [ $(shell cat .minfo/builded) == $(N) ] \
-	|| [ $(shell cat .minfo/errors) == 0 ] \
-	&& [ $(shell cat .minfo/fails) == 0 ]; \
-		then $(COMPILE_SRC_SUCCESS) \
-		else $(COMPILE_SRC_FAIL) \
-	fi
-	rm -f .minfo/builded
-	rm -f .minfo/errors
-	rm -f .minfo/fails
-	rm -f .minfo/process
-	rm -f .minfo/tmp
-	$(COLOR_RESET)
-
-introduce: $(SYSFILES) $(OBJ_FOLDER)
-	$(COMPILE_SRC)
-
-$(EXEC): compile_obj
-	$(COLOR_RESET)
-	$(COMPILE_OBJ)
-	if [ $(shell cat .minfo/errors) == 0 ]; \
-		then \
-			($(COLOR_RESET) ; \
-			$(CC) -o $@ $(OBJ) $(LIB_FOLDER) $(LIB_NAME) $(LIB_EXT) $(INC) $(FLAG) \
-				&& $(SRC_BUILT) || $(SRC_FAILED)); \
-		else \
-			echo -e $(YELLOW)" ╚═> " $(RED) "Coudn't Build"; \
-	fi
-	mv $(EXEC) ..
-	$(COLOR_RESET)
-
-compile_obj: $(OBJ)
-	$(COLOR_RESET)
-	if [ $(shell cat .minfo/errors) == 0 ]; \
-		then $(COMPILE_OBJ_SUCCESS) \
-		else $(COMPILE_OBJ_FAILED) \
-	fi
-	$(COLOR_RESET)
-	echo -e $(MAGENTA)"\nWarning list :"
-	$(COLOR_RESET)
-	cat .minfo/errors_list
-	$(COLOR_RESET)
-
-$(OBJ): $(OBJ_PATH)%.o: %.$(EXT)
-	$(COLOR_RESET)
-	$(CC) -o $@ -c $< $(INC) $(FLAG) $(REDIRECT) \
-		&& $(OBJ_BUILT) || $(OBJ_FAILED)
-	$(MAKE) increment_process
-	$(COLOR_RESET)
+all:
+	$(MAKE) all -C client/
+	$(MAKE) all -C server/
 
 clean:
-	rm -rf $(OBJ_PATH)
+	$(MAKE) clean -C client/
+	$(MAKE) clean -C server/
 
-fclean: clean
-	rm -f $(EXEC)
-	rm -rf .minfo
+fclean:
+	$(MAKE) fclean -C client/
+	$(MAKE) fclean -C server/
 
-re: fclean all
+re:
+	$(MAKE) re -C client/
+	$(MAKE) re -C server/
 ## --------------------------------------------->
 
 # LIBRARY RULES

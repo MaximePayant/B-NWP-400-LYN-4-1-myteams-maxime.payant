@@ -118,6 +118,7 @@ $(EXEC): compile_obj
 		else \
 			echo -e $(YELLOW)" ╚═> " $(RED) "Coudn't Build"; \
 	fi
+	mv $(EXEC) ..
 	$(COLOR_RESET)
 
 compile_obj: $(OBJ)

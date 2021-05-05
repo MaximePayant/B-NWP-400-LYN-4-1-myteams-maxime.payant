@@ -26,10 +26,13 @@ client_t *init_struct(char **av)
 {
     client_t *new_client = malloc(sizeof(client_t));
 
-    new_client->port = NULL;
-    new_client->ip = NULL;
+    new_client->ip = av[1];
+    new_client->port = av[2];
+    new_client->socket = socket(AF_INET, SOCK_STREAM, 0);
     new_client->sock = (struct sockaddr_in){ 0 };
-    new_client->socket = -1;
+    new_client->sock.sin_port = htons(atoi(new_client->port));
+    new_client->sock.sin_addr.s_addr = inet_addr(new_client->ip);
+    new_client->sock.sin_family = AF_INET;
     return (new_client);
 }
 
@@ -42,14 +45,6 @@ int main(int ac, char **av)
     if (ac != 3)
         return (84);
     client = init_struct(av);
-    client->ip = av[1];
-    client->port = av[2];
-
-    client->socket = socket(AF_INET, SOCK_STREAM, 0);
-    client->sock.sin_port = htons(atoi(client->port));
-    client->sock.sin_addr.s_addr = inet_addr(client->ip);
-    client->sock.sin_family = AF_INET;
-
     if (connect(client->socket, (struct sockaddr *) &client->sock, sizeof(client->sock)) == -1)
         printf("Connection refused!\n");
     else {
