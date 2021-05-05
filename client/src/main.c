@@ -45,10 +45,12 @@ int main(int ac, char **av)
     if (ac != 3)
         return (84);
     client = init_struct(av);
-    if (connect(client->socket, (struct sockaddr *) &client->sock, sizeof(client->sock)) == -1)
+    if (connect(client->socket, (struct sockaddr *) &client->sock,
+    sizeof(client->sock)) == -1)
         printf("Connection refused!\n");
     else {
         printf("Connection successful!\n");
     }
     close(client->socket);
+    return (0);
 }
