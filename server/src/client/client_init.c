@@ -36,5 +36,6 @@ client_t *create_new_client(server_t *server)
     else
         server->client = new_client;
     FD_SET(new_client->control_socket, &server->set_save);
+    printf("[SERVER] New client created\n");
     return (new_client);
 }
