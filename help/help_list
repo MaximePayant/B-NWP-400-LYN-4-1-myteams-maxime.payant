@@ -1,0 +1,8 @@
+When the context is not defined (/use):
+    /list : list all existing teams
+When team_uuid is defined (/use “team_uuid”):
+    /list : list all existing channels
+When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
+    /list : list all existing threads
+When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+    /list : list all existing replies

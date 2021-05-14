@@ -13,9 +13,9 @@
 
 static void close_and_free(client_t *delete)
 {
-    if (delete->control_socket != -1)
-        close(delete->control_socket);
-    close(delete->control_socket);
+    if (delete->socket != -1)
+        close(delete->socket);
+    close(delete->socket);
     free(delete->user_name);
     free(delete);
     printf("[SERVER] Client disconnected\n");
@@ -27,8 +27,8 @@ void delete_client(server_t *ftp, int socket)
     client_t *delete = NULL;
 
     while (current) {
-        if ((current->next && current->next->control_socket == socket) ||
-            current->control_socket == socket)
+        if ((current->next && current->next->socket == socket) ||
+            current->socket == socket)
             break;
         current = current->next;
     }
@@ -39,6 +39,6 @@ void delete_client(server_t *ftp, int socket)
         current->next = current->next->next;
     else if (ftp->client == delete)
         ftp->client = NULL;
-    FD_CLR(delete->control_socket, &ftp->set_save);
+    FD_CLR(delete->socket, &ftp->set_save);
     close_and_free(delete);
 }

@@ -1,0 +1,8 @@
+When the context is not defined (/use):
+    /create [“team_name”] [“team_description”] : create a new team
+When team_uuid is defined (/use “team_uuid”):
+    /create [“channel_name”] [“channel_description”] : create a new channel
+When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
+    /create [“thread_title”] [“thread_message”] : create a new thread
+When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+    /create [“comment_body”] : create a new reply

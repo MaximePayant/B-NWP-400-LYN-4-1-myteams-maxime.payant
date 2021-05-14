@@ -13,7 +13,7 @@
 typedef struct client_s
 {
     char *user_name;
-    int control_socket;
+    int socket;
     int connected;
     struct sockaddr_in data;
     struct client_s *next;
@@ -40,5 +40,10 @@ void command_handler(server_t *server, client_t *client);
 client_t *create_new_client(server_t *server);
 client_t *get_client_by_sclient(server_t *ftp, int socket);
 void delete_client(server_t *ftp, int socket);
+
+//Command
+void help(server_t *server, client_t *client, const char *command);
+void login(server_t *server, client_t *client, const char *command);
+void logout(server_t *server, client_t *client, const char *command);
 
 #endif //SERVER

@@ -21,9 +21,9 @@ client_t *create_new_client(server_t *server)
     client_t *new_client = malloc(sizeof(client_t));
     client_t *current = server->client;
 
-    new_client->control_socket = accept(server->server_socket,
-    (struct sockaddr *)&server->sock, &server->sock_size);
-    if (new_client->control_socket < 0) {
+    new_client->socket = accept(server->server_socket,
+                                (struct sockaddr *)&server->sock, &server->sock_size);
+    if (new_client->socket < 0) {
         perror("accept");
         free(new_client);
         return (NULL);
@@ -35,7 +35,7 @@ client_t *create_new_client(server_t *server)
         current->next = new_client;
     else
         server->client = new_client;
-    FD_SET(new_client->control_socket, &server->set_save);
+    FD_SET(new_client->socket, &server->set_save);
     printf("[SERVER] New client created\n");
     return (new_client);
 }

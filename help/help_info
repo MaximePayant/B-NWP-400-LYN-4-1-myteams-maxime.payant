@@ -1,0 +1,8 @@
+When the context is not defined (/use):
+    /info : display currently logged user infos
+When team_uuid is defined (/use “team_uuid”):
+    /info : display currently selected team infos
+When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
+    /info : display currently selected channel infos
+When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+    /info : display currently selected thread infos
