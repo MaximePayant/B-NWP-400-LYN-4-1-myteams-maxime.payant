@@ -49,8 +49,9 @@ int main(int ac, char **av)
     sizeof(client->sock)) == -1)
         printf("Connection refused!\n");
     else {
-        printf("Connection successful!\n");
+        client_core(client);
     }
     close(client->socket);
+    free(client);
     return (0);
 }

@@ -34,8 +34,11 @@ int init_server(server_t *server);
 
 //Core
 void server_core(server_t *server);
+void command_handler(server_t *server, client_t *client);
 
 //Client
 client_t *create_new_client(server_t *server);
+client_t *get_client_by_sclient(server_t *ftp, int socket);
+void delete_client(server_t *ftp, int socket);
 
 #endif //SERVER

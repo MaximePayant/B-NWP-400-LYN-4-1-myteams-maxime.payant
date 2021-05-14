@@ -1,6 +1,6 @@
 obj/
 cmake-build-debug
-CMakeLists.txt
+server/CMakeLists.txt
 myteams_server
 myteams_cli
 .minfo

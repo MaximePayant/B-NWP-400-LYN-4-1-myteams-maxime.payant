@@ -23,6 +23,8 @@ int select_socket(server_t *server, fd_set *set)
                 continue;
             if (i == server->server_socket)
                 create_new_client(server);
+            else
+                command_handler(server, get_client_by_sclient(server, i));
         }
     }
     return (0);

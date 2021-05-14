@@ -17,4 +17,11 @@ typedef struct client_s
     struct sockaddr_in sock;
     int socket;
 } client_t;
+
+//Core
+void client_core(client_t *client);
+
+//Command
+int send_command(client_t *client, char *command);
+
 #endif //CLIENT
