@@ -9,6 +9,7 @@
 #define SERVER
 
 #include <netinet/in.h>
+#include <uuid/uuid.h>
 
 typedef struct client_s
 {
@@ -16,6 +17,7 @@ typedef struct client_s
     int socket;
     int connected;
     struct sockaddr_in data;
+    uuid_t uuid;
     struct client_s *next;
 }client_t;
 
