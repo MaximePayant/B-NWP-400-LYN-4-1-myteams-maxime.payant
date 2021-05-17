@@ -23,7 +23,7 @@ client_t *create_new_client(server_t *server)
     client_t *current = server->client;
 
     new_client->socket = accept(server->server_socket,
-                                (struct sockaddr *)&server->sock, &server->sock_size);
+    (struct sockaddr *)&server->sock, &server->sock_size);
     if (new_client->socket < 0) {
         perror("accept");
         free(new_client);
