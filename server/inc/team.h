@@ -15,6 +15,7 @@ typedef struct team_s {
     uuid_t uuid;
     char *name;
     char *description;
+    list_uuid list_uuid;
 } team_t;
 
 #endif //TEAM

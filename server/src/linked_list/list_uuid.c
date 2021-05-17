@@ -31,7 +31,7 @@ list_uuid *search_uuid(list_uuid **first, const uuid_t target_uuid)
 {
     list_uuid *current = *first;
 
-    while (current && current->uuid != target_uuid)
+    while (current && uuid_compare(current->uuid, target_uuid) != 0)
         current = current->next;
     return ((current) ? current : NULL);
 }
@@ -41,7 +41,7 @@ int delete_uuid(list_uuid **first, const uuid_t target_uuid)
     list_uuid *current = *first;
     list_uuid *delete = NULL;
 
-    while (current && current->uuid != target_uuid)
+    while (current && uuid_compare(current->uuid, target_uuid) != 0)
         current = current->next;
     if (!current)
         return (-1);
