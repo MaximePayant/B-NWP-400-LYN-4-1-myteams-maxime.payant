@@ -18,6 +18,7 @@ int select_socket(server_t *server, fd_set *set)
         perror("select()");
         return (1);
     } else if (select_return > 0) {
+        printf("%d\n", FD_SETSIZE);
         for (int i = 0; i < FD_SETSIZE; i++) {
             if (!FD_ISSET(i, set))
                 continue;
@@ -30,14 +31,25 @@ int select_socket(server_t *server, fd_set *set)
     return (0);
 }
 
+void update_set(server_t *server, fd_set *set)
+{
+    client_t *current = server->client;
+
+    FD_ZERO(set);
+    FD_SET(server->server_socket, set);
+    while (current) {
+        FD_SET(current->socket, set);
+        current = current->next;
+    }
+}
+
 void server_core(server_t *server)
 {
     fd_set set = (fd_set){ 0 };
     int value = -1;
 
-    FD_SET(server->server_socket, &server->set_save);
     while (1) {
-        set = server->set_save;
+        update_set(server, &set);
         value = select_socket(server, &set);
         if (value == 1)
             return;
