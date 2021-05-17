@@ -8,8 +8,13 @@
 #ifndef TEAM
 #define TEAM
 
-typedef struct team_s {
+#include <uuid/uuid.h>
+#include "list_uuid.h"
 
+typedef struct team_s {
+    uuid_t uuid;
+    char *name;
+    char *description;
 } team_t;
 
 #endif //TEAM
