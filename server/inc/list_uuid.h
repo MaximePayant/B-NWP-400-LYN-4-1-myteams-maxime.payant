@@ -18,4 +18,8 @@ typedef struct list_uuid_s
     struct list_uuid_s *prev;
 } list_uuid;
 
+list_uuid *create_uuid(list_uuid **first, const uuid_t new_uuid, char *string);
+list_uuid *search_uuid(list_uuid **first, const uuid_t target_uuid);
+int delete_uuid(list_uuid **first, const uuid_t target_uuid);
+
 #endif //UUID

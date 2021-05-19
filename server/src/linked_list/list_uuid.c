@@ -18,8 +18,10 @@ list_uuid *create_uuid(list_uuid **first, const uuid_t new_uuid, char *string)
     new_node->prev = NULL;
     uuid_copy(new_node->uuid, new_uuid);
     new_node->string = string;
-    if (!current)
+    if (!current) {
         *first = new_node;
+        return (new_node);
+    }
     while (current->next)
         current = current->next;
     current->next = new_node;
@@ -47,10 +49,12 @@ int delete_uuid(list_uuid **first, const uuid_t target_uuid)
         return (-1);
     delete = current;
     current = current->prev;
-    current->next = delete->next;
+    if (current)
+        current->next = delete->next;
     if (delete->next)
         delete->next->prev = delete->prev;
     uuid_clear(delete->uuid);
+    free(delete->string);
     free(delete);
     return (0);
 }

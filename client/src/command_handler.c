@@ -8,17 +8,20 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include "client.h"
 
 int send_command(client_t *client, char *command)
 {
     FILE *file = fdopen(client->socket, "rw");
-    char *respond = NULL;
+    char *respond = "\0";
     size_t size = 0;
 
     dprintf(client->socket, "%s\n", command);
-    getline(&respond, &size, file);
-    puts(respond);
+    while (!strstr(respond, "\r\n")) {
+        getline(&respond, &size, file);
+        printf(respond);
+    }
     free(respond);
     return (0);
 }

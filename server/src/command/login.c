@@ -12,5 +12,5 @@ void login(server_t *server, client_t *client, const char *command)
 {
     (void) server;
     (void) command;
-    dprintf(client->socket, "T konecter frr\n");
+    dprintf(client->socket, "T konecter frr\r\n");
 }

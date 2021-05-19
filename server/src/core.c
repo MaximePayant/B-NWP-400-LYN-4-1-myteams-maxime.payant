@@ -18,7 +18,6 @@ int select_socket(server_t *server, fd_set *set)
         perror("select()");
         return (1);
     } else if (select_return > 0) {
-        printf("%d\n", FD_SETSIZE);
         for (int i = 0; i < FD_SETSIZE; i++) {
             if (!FD_ISSET(i, set))
                 continue;

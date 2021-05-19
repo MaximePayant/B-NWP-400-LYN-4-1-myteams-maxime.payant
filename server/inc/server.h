@@ -8,20 +8,31 @@
 #ifndef SERVER
 #define SERVER
 
+typedef struct server_s server_t;
+typedef struct client_s client_t;
+
 #include <netinet/in.h>
 #include <uuid/uuid.h>
+#include "team.h"
 
-typedef struct client_s
+#define MAX_NAME_LENGTH 32
+#define MAX_DESCRIPTION_LENGTH 255
+#define MAX_BODY_LENGTH 512
+
+struct client_s
 {
     char *user_name;
     int socket;
     int connected;
     struct sockaddr_in data;
     uuid_t uuid;
+    uuid_t team_uuid;
+    uuid_t channel_uuid;
+    uuid_t thread_uuid;
     struct client_s *next;
-}client_t;
+};
 
-typedef struct server_s
+struct server_s
 {
     struct sockaddr_in sock;
     socklen_t sock_size;
@@ -29,7 +40,8 @@ typedef struct server_s
     int server_socket;
     fd_set set_save;
     client_t *client;
-}server_t;
+    team_t *teams;
+};
 
 //init
 int init_server(server_t *server);
@@ -41,11 +53,14 @@ void command_handler(server_t *server, client_t *client);
 //Client
 client_t *create_new_client(server_t *server);
 client_t *get_client_by_sclient(server_t *ftp, int socket);
+client_t *get_client_by_uuid(server_t *server, uuid_t target_uuid);
 void delete_client(server_t *ftp, int socket);
 
 //Command
 void help(server_t *server, client_t *client, const char *command);
 void login(server_t *server, client_t *client, const char *command);
 void logout(server_t *server, client_t *client, const char *command);
+void create(server_t *server, client_t *client, const char *command);
+void list(server_t *server, client_t *client, const char *command);
 
 #endif //SERVER
