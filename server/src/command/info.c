@@ -9,7 +9,7 @@
 #include <malloc.h>
 #include "server.h"
 
-void display_teams(server_t *server, client_t *client)
+static void display_teams(server_t *server, client_t *client)
 {
     team_t *current = server->teams;
     int i = 0;
@@ -20,7 +20,7 @@ void display_teams(server_t *server, client_t *client)
         dprintf(client->socket, "Team n°%d:\n", i);
         dprintf(client->socket, "\tName: %s\n", current->name);
         dprintf(client->socket, "\tUuid: %s\n", uuid);
-        dprintf(client->socket, "\tDescription: %s", current->description);
+        dprintf(client->socket, "\tDescription: %s\n", current->description);
         dprintf(client->socket, "\tChannels: BAH YA PA FRR");
         current = current->next;
         if (current)
@@ -33,6 +33,9 @@ void display_teams(server_t *server, client_t *client)
 void info(server_t *server, client_t *client, const char *command)
 {
     (void)command;
-    if (uuid_is_null(client->channel_uuid) && uuid_is_null(client->thread_uuid))
+    if (!uuid_is_null(client->team_uuid)) {
         display_teams(server, client);
+        return;
+    }
+    dprintf(client->socket, "BA YA R CHEH\r\n");
 }

@@ -24,8 +24,9 @@ server_t *init_struct(char **av)
     new_server->sock = (struct sockaddr_in){ 0 };
     new_server->sock_size = sizeof(new_server->sock);
     new_server->port = atoi(av[1]);
-    new_server->set_save = (fd_set){ 0 };
     new_server->client = NULL;
+    new_server->server_socket = -1;
+    new_server->teams = NULL;
     return (new_server);
 }
 int main(int ac, char **av)

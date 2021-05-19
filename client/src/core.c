@@ -29,13 +29,13 @@ int on_command(char *command)
 
 char *get_command()
 {
-    char *buffer = malloc(sizeof (char) * 33);
+    char *buffer = NULL;
+    size_t size = 0;
     int status = 0;
 
-    memset(buffer, 0, 32);
-    status = read(0, buffer, 32);
+    status = (int)getline(&buffer, &size, stdin);
     if (status == -1) {
-        perror("read()");
+        perror("getline");
         return (NULL);
     } else {
         if (on_command(buffer))
@@ -54,7 +54,7 @@ void client_core(client_t *client)
         command = get_command();
         if (command == NULL)
             return;
-        if (strcasecmp(command, "/logout") == 0)
+        if (strcasecmp(command, "/logout\n") == 0)
             quit = 1;
         send_command(client, command);
         free(command);

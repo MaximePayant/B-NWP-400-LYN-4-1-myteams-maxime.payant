@@ -41,7 +41,6 @@ client_t *create_new_client(server_t *server)
         current->next = new_client;
     else
         server->client = new_client;
-    FD_SET(new_client->socket, &server->set_save);
     printf("[SERVER] New client created\n");
     return (new_client);
 }

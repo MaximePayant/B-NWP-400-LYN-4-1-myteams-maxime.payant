@@ -38,7 +38,6 @@ struct server_s
     socklen_t sock_size;
     int port;
     int server_socket;
-    fd_set set_save;
     client_t *client;
     team_t *teams;
 };

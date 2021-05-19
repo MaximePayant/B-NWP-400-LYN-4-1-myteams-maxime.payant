@@ -20,8 +20,9 @@ int send_command(client_t *client, char *command)
     dprintf(client->socket, "%s\n", command);
     while (!strstr(respond, "\r\n")) {
         getline(&respond, &size, file);
-        printf(respond);
+        printf("%s", respond);
     }
     free(respond);
+    free(file);
     return (0);
 }

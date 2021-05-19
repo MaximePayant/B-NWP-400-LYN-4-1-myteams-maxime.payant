@@ -6,6 +6,7 @@
 */
 
 #include <string.h>
+#include <malloc.h>
 #include "server.h"
 
 void create(server_t *server, client_t *client, const char *command)
@@ -21,4 +22,5 @@ void create(server_t *server, client_t *client, const char *command)
         return;
     if (uuid_is_null(client->channel_uuid) && uuid_is_null(client->thread_uuid))
         create_team(server, client, name, description);
+    free(new_command);
 }

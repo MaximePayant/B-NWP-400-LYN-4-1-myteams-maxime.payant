@@ -14,14 +14,15 @@
 
 void define_value(team_t *new_team, char *name, char *description)
 {
+    int last = strlen(description) - 1;
+
     new_team->next = NULL;
     new_team->prev = NULL;
     new_team->list_uuid = NULL;
     uuid_generate(new_team->uuid);
-    new_team->name = name;
-    description[strlen(description)] =
-    (description[strlen(description)] == '\n') ? '\0' : '\n';
-    new_team->description = description;
+    new_team->name = strdup(name);
+    description[last] = (description[last] == '\n') ? '\0' : description[last];
+    new_team->description = strdup(description);
 }
 
 static void free_mem(char *str1, char *str2)

@@ -11,7 +11,7 @@
 
 #include <string.h>
 
-void display_teams(server_t *server, client_t *client)
+static void display_teams(server_t *server, client_t *client)
 {
     team_t *current = server->teams;
     int i = 0;
@@ -22,7 +22,7 @@ void display_teams(server_t *server, client_t *client)
         dprintf(client->socket, "Team n°%d:\n", i);
         dprintf(client->socket, "\tName: %s\n", current->name);
         dprintf(client->socket, "\tUuid: %s\n", uuid);
-        dprintf(client->socket, "\tDescription: %s", current->description);
+        dprintf(client->socket, "\tDescription: %s\n", current->description);
         current = current->next;
         if (current)
             i++;
