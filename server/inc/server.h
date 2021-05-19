@@ -62,5 +62,6 @@ void login(server_t *server, client_t *client, const char *command);
 void logout(server_t *server, client_t *client, const char *command);
 void create(server_t *server, client_t *client, const char *command);
 void list(server_t *server, client_t *client, const char *command);
-
+void info(server_t *server, client_t *client, const char *command);
+void use(server_t *server, client_t *client, const char *command);
 #endif //SERVER

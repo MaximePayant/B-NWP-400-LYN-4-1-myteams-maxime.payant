@@ -21,6 +21,7 @@ void display_teams(server_t *server, client_t *client)
         dprintf(client->socket, "\tName: %s\n", current->name);
         dprintf(client->socket, "\tUuid: %s\n", uuid);
         dprintf(client->socket, "\tDescription: %s", current->description);
+        dprintf(client->socket, "\tChannels: BAH YA PA FRR");
         current = current->next;
         if (current)
             i++;
@@ -29,7 +30,7 @@ void display_teams(server_t *server, client_t *client)
     free(uuid);
 }
 
-void list(server_t *server, client_t *client, const char *command)
+void info(server_t *server, client_t *client, const char *command)
 {
     (void)command;
     if (uuid_is_null(client->channel_uuid) && uuid_is_null(client->thread_uuid))
