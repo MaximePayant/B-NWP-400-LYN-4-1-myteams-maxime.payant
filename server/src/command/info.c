@@ -11,21 +11,15 @@
 
 static void display_teams(server_t *server, client_t *client)
 {
-    team_t *current = server->teams;
-    int i = 0;
     char *uuid = malloc(sizeof(char) * 37);
+    team_t *target = get_team_by_uuid(&server->teams, client->team_uuid);
 
-    while (current) {
-        uuid_unparse(current->uuid, uuid);
-        dprintf(client->socket, "Team n°%d:\n", i);
-        dprintf(client->socket, "\tName: %s\n", current->name);
-        dprintf(client->socket, "\tUuid: %s\n", uuid);
-        dprintf(client->socket, "\tDescription: %s\n", current->description);
-        dprintf(client->socket, "\tChannels: BAH YA PA FRR");
-        current = current->next;
-        if (current)
-            i++;
-    }
+    uuid_unparse(target->uuid, uuid);
+    dprintf(client->socket, "Team %s(%s):\n", target->name, uuid);
+    dprintf(client->socket, "\tName: %s\n", target->name);
+    dprintf(client->socket, "\tUuid: %s\n", uuid);
+    dprintf(client->socket, "\tDescription: %s\n", target->description);
+    dprintf(client->socket, "\tChannels: BAH YA PA FRR");
     dprintf(client->socket, "\r\n");
     free(uuid);
 }

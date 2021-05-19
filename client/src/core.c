@@ -54,7 +54,7 @@ void client_core(client_t *client)
         command = get_command();
         if (command == NULL)
             return;
-        if (strcasecmp(command, "/logout\n") == 0)
+        if (strcasecmp(command, "/logout") == 0)
             quit = 1;
         send_command(client, command);
         free(command);
