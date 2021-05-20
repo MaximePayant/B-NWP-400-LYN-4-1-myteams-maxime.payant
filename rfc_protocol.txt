@@ -29,10 +29,11 @@ Command and return
 List of command
     HELP    []                              List all available command
     LOG     ['user_name']                   Connection to the server
-    LOGOUT  []                              Disconnection from the current server
+    OUT     []                              Disconnection from the current server
     USERS   []                              List all user on the server
     USER    ['user_uuid']                   Get information from specified user
-    SEND    ['user_uuid'] ['body_message']  Send a message to a specified user
+    SEND    ['user_uuid']                   Send a message to a specified user
+            ['body_message']
     MSG     ['user_uuid']                   List all message from specified user
     SUB     ['team_uuid']                   Subscribe to a specified team
     UNSUB   ['team_uuid']                   nsubscribe from a specified team
@@ -66,3 +67,4 @@ List of return
     412     Cannot list all sub resources
     113     List information on the current context
     413     Cannot list information
+    404     Command not found

@@ -22,6 +22,7 @@ typedef struct client_s
 void client_core(client_t *client);
 
 //Command
-int send_command(client_t *client, char *command);
+int command_handler(client_t *client, char *command);
+void send_command(client_t *client, char *command);
 
 #endif //CLIENT

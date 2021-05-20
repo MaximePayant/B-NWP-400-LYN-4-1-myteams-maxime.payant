@@ -6,23 +6,27 @@
 */
 
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include "client.h"
 
-int send_command(client_t *client, char *command)
+int command_handler(client_t *client, char *command)
 {
     FILE *file = fdopen(client->socket, "rw");
     char *respond = "\0";
     size_t size = 0;
+    char *complete = malloc(sizeof(char));
 
-    dprintf(client->socket, "%s\n", command);
-    while (!strstr(respond, "\r\n")) {
+    complete[0] = '\0';
+    send_command(client, command);
+    while (!strstr(complete, "\r\n")) {
         getline(&respond, &size, file);
-        printf("%s", respond);
+        complete = realloc(complete, strlen(complete) + strlen(respond));
+        strcat(complete, respond);
     }
+    printf("%s", complete);
     free(respond);
+    free(complete);
     free(file);
     return (0);
 }
