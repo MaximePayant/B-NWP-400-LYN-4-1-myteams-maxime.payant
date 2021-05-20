@@ -39,6 +39,5 @@ void delete_client(server_t *ftp, int socket)
         current->next = current->next->next;
     else if (ftp->client == delete)
         ftp->client = NULL;
-    FD_CLR(delete->socket, &ftp->set_save);
     close_and_free(delete);
 }

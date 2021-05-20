@@ -48,9 +48,8 @@ int main(int ac, char **av)
     if (connect(client->socket, (struct sockaddr *) &client->sock,
     sizeof(client->sock)) == -1)
         printf("Connection refused!\n");
-    else {
+    else
         client_core(client);
-    }
     close(client->socket);
     free(client);
     return (0);

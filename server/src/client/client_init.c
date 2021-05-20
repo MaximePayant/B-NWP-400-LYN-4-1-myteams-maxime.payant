@@ -9,11 +9,16 @@
 #include <malloc.h>
 #include "server.h"
 
+// @TODO changer le connected
+
 void init_value(client_t *new_client)
 {
-    new_client->connected = 0;
+    new_client->connected = 1;
     new_client->user_name = NULL;
     new_client->next = NULL;
+    uuid_clear(new_client->team_uuid);
+    uuid_clear(new_client->channel_uuid);
+    uuid_clear(new_client->thread_uuid);
 //    uuid_generate(new_client->uuid);
 }
 
@@ -36,7 +41,6 @@ client_t *create_new_client(server_t *server)
         current->next = new_client;
     else
         server->client = new_client;
-    FD_SET(new_client->socket, &server->set_save);
     printf("[SERVER] New client created\n");
     return (new_client);
 }

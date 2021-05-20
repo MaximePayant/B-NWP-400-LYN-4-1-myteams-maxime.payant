@@ -29,13 +29,13 @@ int on_command(char *command)
 
 char *get_command()
 {
-    char *buffer = malloc(sizeof (char) * 33);
+    char *buffer = NULL;
+    size_t size = 0;
     int status = 0;
 
-    memset(buffer, 0, 32);
-    status = read(0, buffer, 32);
+    status = (int)getline(&buffer, &size, stdin);
     if (status == -1) {
-        perror("read()");
+        perror("getline");
         return (NULL);
     } else {
         if (on_command(buffer))
