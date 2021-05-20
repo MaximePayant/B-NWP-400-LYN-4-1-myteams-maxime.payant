@@ -1,0 +1,38 @@
+Epitech 2021                                                          G. Soisson
+Category: Communication protocol                                       M. Payant
+                                                                        N. Peter
+
+                                My_teams Protocol
+
+Introduction
+    This document provide all information for our project about communication.
+    Our goal is to provide a good protocol that allow us, to creat a new command
+    easily and improve the existing one.
+
+Syntax
+    Each command is composed by a tag a space and a value and terminated by
+    \r\n.
+    [Command] [Space] [Value]
+    Example: LOG ['user_name']\r\n
+
+Command and return
+    When you send a command to the server he send back a command you have to
+    read. This command is composed by a code a space and a description ended by \r\n.
+    [Code] [Space] [Description]
+    101 ['uuid user_name']\r\n
+
+List of command
+    HELP    List all available command
+    LOG     Connection to the server
+    LOGOUT  Disconnection from the current server
+    USERS   List all user on the server
+    USER    Get information from specified user
+    SEND    Send a message to a specified user
+    MSG     List all message from specified user
+    SUB     Subscribe to a specified team
+    UNSUB   Unsubscribe from a specified team
+    SUBED   List all subscribed teams or list all users subscribed to a team
+    USE     Specify a context (team/channel/thread)
+    CREA    Create a resources based on the context
+    LIST    List all sub resources based ont the context
+    INFO    List the current information based on the context

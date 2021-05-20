@@ -11,9 +11,9 @@
 #include "server.h"
 
 const char *command_nolog[] = {"/help", "/login", "/logout", NULL};
-const char *command_log[] = {"/users", "/user", "/send", "/messages", "/subscribe",
-                             "/subscribed", "/unsubscribe", "/use", "/create",
-                             "/list", "/info", NULL};
+const char *command_log[] = {"/users", "/user", "/send", "/messages",
+                             "/subscribe", "/subscribed", "/unsubscribe",
+                             "/use", "/create", "/list", "/info", NULL};
 
 char *str_clean(char *string)
 {
