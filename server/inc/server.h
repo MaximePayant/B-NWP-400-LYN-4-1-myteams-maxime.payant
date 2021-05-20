@@ -17,7 +17,6 @@ typedef struct client_s client_t;
 #include <sys/types.h>
 #include <string.h>
 #include <malloc.h>
-#include "../../libs/myteams/logging_client.h"
 #include <dirent.h>
 #include "team.h"
 
@@ -69,4 +68,7 @@ void create(server_t *server, client_t *client, const char *command);
 void list(server_t *server, client_t *client, const char *command);
 void info(server_t *server, client_t *client, const char *command);
 void use(server_t *server, client_t *client, const char *command);
+void message(server_t *server, client_t *client, const char *command);
+void send_message(server_t *server, client_t *client, const char *command);
+
 #endif //SERVER

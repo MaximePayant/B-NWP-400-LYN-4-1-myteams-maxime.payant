@@ -134,25 +134,30 @@ char *check_log_exist(char *log)
 void login(server_t *server, client_t *client, const char *command)
 {
     struct stat st = {0};
-    char *log = find_log(command);   
-    char *path_folder; 
+    char *new_command = strdup(command);
+    char *log = NULL;
+    char *path_folder = NULL; 
     char *uuid_str;
 
-    if (log == NULL) {
+    strtok(new_command, " ");
+    log = strtok(NULL, " ");    
+    if (!log) {
         dprintf(client->socket, "Enter a valid log please\r\n");
         return;
     }
-    if (check_log_exist(log) == NULL) {
-        path_folder = malloc(sizeof(char) * 51);
+    if (/*!check_log_exist*/log) {
+        path_folder = malloc(sizeof(char) * 58);
         uuid_str = malloc(sizeof(char) * 37);
-        strcpy(path_folder, "save/clients/");
+        strcpy(path_folder, "server/save/clients/");
         uuid_generate(client->uuid);
         uuid_unparse_lower(client->uuid, uuid_str);
         strcat(path_folder, uuid_str);
-//        printf("generate uuid=%s\n", path_folder);
-        if (stat(path_folder, &st) == -1)
+        printf("generate uuid=%s\n", path_folder);
+        if (stat(path_folder, &st) == -1) {
             mkdir(path_folder, 0755);
-        create_txt_log(path_folder, uuid_str, log);
+            printf("bite\n");
+        }
+//        create_txt_log(path_folder, uuid_str, log);
         client->connected = 1;
         client->user_name = log;
         dprintf(client->socket, "Create clients with UUID = %s\r\n", uuid_str);

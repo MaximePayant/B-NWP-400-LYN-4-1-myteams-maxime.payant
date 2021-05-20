@@ -147,7 +147,7 @@ $(OBJ): $(OBJ_PATH)%.o: %.$(EXT)
 
 clean:
 	rm -rfv $(OBJ_PATH)
-	rm -rfv ../save/clients/*
+	rm -rfv save/clients/*
 
 
 fclean: clean

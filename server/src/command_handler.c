@@ -24,7 +24,7 @@ char *str_clean(char *string)
 void command_logged(server_t *server, client_t *client, char *command)
 {
     void (*list_func[])(server_t *, client_t *, const char *) =
-    {NULL, NULL, NULL, NULL, NULL,
+    {NULL, NULL, &send_message, &message, NULL,
     NULL, NULL, &use, &create,
     &list, &info, NULL};
     char *real_command = strdup(command);
