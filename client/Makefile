@@ -22,7 +22,8 @@ SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_r
 
 ## INCLUDE VARIABLES
 ## --------------------------------------------->
-INC_FOLDER =	./inc
+INC_FOLDER =	./inc	\
+				./../
 IGNORE_INC := .
 INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 ## --------------------------------------------->
@@ -35,7 +36,7 @@ LIB :=		$(addprefix $(LFOLDER), $(LNAME))
 
 LIB_FOLDER :=	$(addprefix -L, $(LFOLDER))
 LIB_NAME :=		$(addprefix -l, $(LNAME))
-LIB_EXT :=
+LIB_EXT := -lmyteams
 ## --------------------------------------------->
 
 ## OBJECT VARIABLES
