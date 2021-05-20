@@ -14,7 +14,7 @@ void init_value(client_t *new_client)
     new_client->connected = 0;
     new_client->user_name = NULL;
     new_client->next = NULL;
-    uuid_generate(new_client->uuid);
+//    uuid_generate(new_client->uuid);
 }
 
 client_t *create_new_client(server_t *server)

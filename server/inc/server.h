@@ -10,6 +10,12 @@
 
 #include <netinet/in.h>
 #include <uuid/uuid.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <string.h>
+#include <malloc.h>
+#include "../../libs/myteams/logging_client.h"
+#include <dirent.h>
 
 typedef struct client_s
 {

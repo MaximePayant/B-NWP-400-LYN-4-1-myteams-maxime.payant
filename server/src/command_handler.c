@@ -6,11 +6,9 @@
 */
 
 #include <stdio.h>
-#include <malloc.h>
-#include <string.h>
 #include "server.h"
 
-const char *command_nolog[] = {"/help\n", "/login\n", "/logout\n", NULL};
+const char *command_nolog[] = {"/help\n", "/login", "/logout\n", NULL};
 const char *command_log[] = {"/users\n", "/user\n", "/send\n", "/messages\n", "/subscribe\n",
                              "/subscribed\n", "/unsubscribe\n", "/use\n", "/create\n",
                              "/list\n", "/info\n", NULL};
@@ -27,7 +25,7 @@ void command_without_login(server_t *server, client_t *client, char *command)
     void (*list_func[])(server_t *, client_t *, const char *) =
     {&help, &login, &logout};
     for (int i = 0; command_nolog[i]; i++)
-        if (strcasecmp(command, command_nolog[i]) == 0) {
+        if (strstr(command, command_nolog[i]) != 0) {
             list_func[i](server, client, command);
             return;
         }

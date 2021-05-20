@@ -1,4 +1,0 @@
-#log
-Pascal
-#pass
-4321
