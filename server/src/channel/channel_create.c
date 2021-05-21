@@ -18,6 +18,7 @@ static void define_value(channel_t *new_channel, char *name, char *description)
 
     new_channel->next = NULL;
     new_channel->prev = NULL;
+    new_channel->threads = NULL;
     uuid_generate(new_channel->uuid);
     new_channel->name = strdup(name);
     description[last] = (description[last] == '\n') ? '\0' : description[last];

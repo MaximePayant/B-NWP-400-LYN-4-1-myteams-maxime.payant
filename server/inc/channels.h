@@ -8,10 +8,13 @@
 #ifndef CHANNELS
 #define CHANNELS
 
+#include "thread.h"
+
 typedef struct channel_s {
     uuid_t uuid;
     char *name;
     char *description;
+    thread_t *threads;
     struct channel_s *next;
     struct channel_s *prev;
 } channel_t;
