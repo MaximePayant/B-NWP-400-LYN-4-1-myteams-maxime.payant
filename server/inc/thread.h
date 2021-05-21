@@ -5,11 +5,11 @@
 ** thread.hpp
 */
 
-#ifndef TEAM
+#ifndef TEAMS
 #define TEAM
 
 typedef struct thread_s {
 
 } thread_t;
 
-#endif //TEAM
+#endif //CHANNEL

@@ -12,13 +12,14 @@
 #include "list_uuid.h"
 #include "libs/myteams/logging_server.h"
 
-void define_value(team_t *new_team, char *name, char *description)
+static void define_value(team_t *new_team, char *name, char *description)
 {
     int last = strlen(description) - 1;
 
     new_team->next = NULL;
     new_team->prev = NULL;
     new_team->list_uuid = NULL;
+    new_team->channels = NULL;
     uuid_generate(new_team->uuid);
     new_team->name = strdup(name);
     description[last] = (description[last] == '\n') ? '\0' : description[last];
