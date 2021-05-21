@@ -26,30 +26,33 @@ void insert_value_back(jsnp_value_t *u, jsnp_value_t *value);
 
 jsnp_token_t *object_emplace_primitive_back(jsnp_value_t *u, const char *key, int value);
 jsnp_token_t *object_emplace_primitive_front(jsnp_value_t *u, const char *key, int value);
-jsnp_token_t *object_emplace_primitive_at(jsnp_value_t *u, const char *key, int value, int index);
+jsnp_token_t *object_emplace_primitive_at(jsnp_value_t *u, const char *key, int value, unsigned index);
 jsnp_value_t *array_emplace_primitive_back(jsnp_value_t *u, int value);
 jsnp_value_t *array_emplace_primitive_front(jsnp_value_t *u, int value);
-jsnp_value_t *array_emplace_primitive_at(jsnp_value_t *u, int value, int index);
+jsnp_value_t *array_emplace_primitive_at(jsnp_value_t *u, int value, unsigned index);
 
 jsnp_token_t *object_emplace_string_back(jsnp_value_t *u, const char *key, const char *value);
 jsnp_token_t *object_emplace_string_front(jsnp_value_t *u, const char *key, const char *value);
-jsnp_token_t *object_emplace_string_at(jsnp_value_t *u, const char *key, const char *value, int index);
+jsnp_token_t *object_emplace_string_at(jsnp_value_t *u, const char *key, const char *value, unsigned index);
 jsnp_value_t *array_emplace_string_back(jsnp_value_t *u, const char *value);
 jsnp_value_t *array_emplace_string_front(jsnp_value_t *u, const char *value);
-jsnp_value_t *array_emplace_string_at(jsnp_value_t *u, const char *value, int index);
+jsnp_value_t *array_emplace_string_at(jsnp_value_t *u, const char *value, unsigned index);
 
 jsnp_token_t *object_emplace_array_front(jsnp_value_t *u, const char *key);
 jsnp_token_t *object_emplace_array_back(jsnp_value_t *u, const char *key);
-jsnp_token_t *object_emplace_array_at(jsnp_value_t *u, const char *key, int index);
+jsnp_token_t *object_emplace_array_at(jsnp_value_t *u, const char *key, unsigned index);
 jsnp_value_t *array_emplace_array_back(jsnp_value_t *u);
 jsnp_value_t *array_emplace_array_front(jsnp_value_t *u);
-jsnp_value_t *array_emplace_array_at(jsnp_value_t *u, int index);
+jsnp_value_t *array_emplace_array_at(jsnp_value_t *u, unsigned index);
 
 jsnp_token_t *object_emplace_object_back(jsnp_value_t *u, const char *key);
 jsnp_token_t *object_emplace_object_front(jsnp_value_t *u, const char *key);
-jsnp_token_t *object_emplace_object_at(jsnp_value_t *u, const char *key, int index);
+jsnp_token_t *object_emplace_object_at(jsnp_value_t *u, const char *key, unsigned index);
 jsnp_value_t *array_emplace_object_back(jsnp_value_t *u);
 jsnp_value_t *array_emplace_object_front(jsnp_value_t *u);
-jsnp_value_t *array_emplace_object_at(jsnp_value_t *u, int index);
+jsnp_value_t *array_emplace_object_at(jsnp_value_t *u, unsigned index);
+
+jsnp_token_t *get_token(jsnp_value_t *value, const char *key);
+jsnp_value_t *get_value(jsnp_value_t *value, unsigned index);
 
 #endif // __JSON_LIST_H__
