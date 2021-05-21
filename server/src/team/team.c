@@ -53,13 +53,25 @@ team_t *get_team_by_name(team_t **first, char *name)
     return (current);
 }
 
+int is_in_team(team_t *team, uuid_t uuid)
+{
+    list_uuid *current = team->list_uuid;
+
+    while (current) {
+        if (uuid_compare(uuid, current->uuid) == 0)
+            return (1);
+        current = current->next;
+    }
+    return (0);
+}
+
 void add_user_team(team_t **first, uuid_t team_uuid, client_t *client)
 {
     team_t *target_team = get_team_by_uuid(first, team_uuid);
 
     if (!target_team)
         return;
-    create_uuid(&target_team->list_uuid, client->uuid, NULL);
+    add_uuid(&target_team->list_uuid, client->uuid, NULL);
 }
 
 void remove_user_team(team_t **first, uuid_t team_uuid, client_t *client)

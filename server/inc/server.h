@@ -42,6 +42,9 @@ struct server_s
     team_t *teams;
 };
 
+//Utils
+char *get_args(const char *command);
+
 //init
 int init_server(server_t *server);
 
@@ -63,4 +66,7 @@ void create(server_t *server, client_t *client, const char *command);
 void list(server_t *server, client_t *client, const char *command);
 void info(server_t *server, client_t *client, const char *command);
 void use(server_t *server, client_t *client, const char *command);
+void subscribe(server_t *server, client_t *client, const char *command);
+void unsubscribe(server_t *server, client_t *client, const char *command);
+void subscribed(server_t *server, client_t *client, const char *command);
 #endif //SERVER

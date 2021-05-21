@@ -19,7 +19,7 @@ SRC_FOLDER :=	src/			\
 				src/client		\
 				src/command		\
 				src/linked_list	\
-				src/thread
+				src/team
 IGNORE_SRC :=	.
 SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_readdir_race -maxdepth 1 -name '*.$(EXT)')))
 ## --------------------------------------------->

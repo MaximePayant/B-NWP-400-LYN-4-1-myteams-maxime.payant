@@ -10,8 +10,8 @@
 #include <string.h>
 #include "server.h"
 
-const char *command_nolog[] = {"HELP", "LOG", "OUT", NULL};
-const char *command_log[] = {"USERS", "USER", "SEND", "MSG", "SUB", "UNSUB",
+const char *command_nolog[] = {"HELP", "LOGIN", "LOGOUT", NULL};
+const char *command_log[] = {"USERS", "USER", "SEND", "MSG", "SUBC", "UNSUB",
                              "SUBED", "USE", "CREA", "LIST", "INFO", NULL};
 
 char *str_clean(char *string)
@@ -25,9 +25,8 @@ char *str_clean(char *string)
 void command_logged(server_t *server, client_t *client, char *command)
 {
     void (*list_func[])(server_t *, client_t *, const char *) =
-    {NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, &use, &create,
-    &list, &info, NULL};
+    {NULL, NULL, NULL, NULL, &subscribe, &unsubscribe, &subscribed, &use,
+    &create, &list, &info, NULL};
     char *real_command = strdup(command);
 
     real_command = strtok(real_command, " ");
@@ -62,13 +61,18 @@ void command_without_login(server_t *server, client_t *client, char *command)
 
 void command_handler(server_t *server, client_t *client)
 {
-    char *command = NULL;
+    char *command = "\0";
     size_t len = 0;
     FILE * file = fdopen(client->socket, "r");
+    char *complete = malloc(sizeof(char));
 
     (void)server;
-    getline(&command, &len, file);
-    printf("[DEBUG][%s]\n", command);
-    command_without_login(server, client, str_clean(command));
+    complete[0] = '\0';
+    while (!strstr(complete, "\r\n")) {
+        getline(&command, &len, file);
+        complete = realloc(complete, strlen(complete) + strlen(command));
+        strcat(complete, command);
+    }
+    command_without_login(server, client, str_clean(complete));
     free(command);
 }
