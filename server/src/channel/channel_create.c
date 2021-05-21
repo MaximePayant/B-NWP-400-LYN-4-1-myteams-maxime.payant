@@ -36,21 +36,21 @@ char *name, char *description)
     channel_t *new_channel = malloc(sizeof(channel_t));
     channel_t *current = *first;
     char *channels_uuid = malloc(sizeof(char) * 37);
-    char *client_uuid = malloc(sizeof(char) * 37);
+    char *team_uuid = malloc(sizeof(char) * 37);
 
     if (strlen(name) > MAX_NAME_LENGTH) {
-        free_mem(channels_uuid, client_uuid);
+        free_mem(channels_uuid, team_uuid);
         dprintf(client->socket, "411 channel's name too long\r\n");
         return (NULL);
     }
     if (strlen(description) > MAX_DESCRIPTION_LENGTH) {
-        free_mem(channels_uuid, client_uuid);
+        free_mem(channels_uuid, team_uuid);
         dprintf(client->socket, "411 channel's description too long\r\n");
         return (NULL);
     }
     define_value(new_channel, name, description);
     uuid_unparse(new_channel->uuid, channels_uuid);
-    uuid_unparse(client->uuid, client_uuid);
+    uuid_unparse(client->team_uuid, team_uuid);
     if (!current)
         *first = new_channel;
     else {
@@ -59,8 +59,8 @@ char *name, char *description)
         current->next = new_channel;
         new_channel->prev = current;
     }
-    server_event_channel_created(channels_uuid, new_channel->name, client_uuid);
-    free_mem(channels_uuid, client_uuid);
+    server_event_channel_created(team_uuid, channels_uuid, new_channel->name);
+    free_mem(channels_uuid, team_uuid);
     dprintf(client->socket, "111 channel successfully created\r\n");
     return (new_channel);
 }

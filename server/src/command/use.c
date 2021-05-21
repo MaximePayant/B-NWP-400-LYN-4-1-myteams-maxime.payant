@@ -24,7 +24,7 @@ void use(server_t *server, client_t *client, const char *command)
 
     (void)server;
     value = strtok(NULL, " ");
-    if (!value) {
+    if (!value || strcasecmp(value, "(null)") == 0) {
         uuid_clear(client->team_uuid);
         uuid_clear(client->channel_uuid);
         uuid_clear(client->thread_uuid);
