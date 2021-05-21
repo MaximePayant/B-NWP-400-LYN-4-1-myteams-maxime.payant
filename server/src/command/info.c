@@ -12,7 +12,9 @@
 static void display_teams(server_t *server, client_t *client)
 {
     char *uuid = malloc(sizeof(char) * 37);
+    char *channel_uuid = malloc(sizeof(char) * 37);
     team_t *target = get_team_by_uuid(&server->teams, client->team_uuid);
+    channel_t *current = target->channels;
 
     dprintf(client->socket, "113 \n");
     uuid_unparse(target->uuid, uuid);
@@ -20,7 +22,32 @@ static void display_teams(server_t *server, client_t *client)
     dprintf(client->socket, "\tName: %s\n", target->name);
     dprintf(client->socket, "\tUuid: %s\n", uuid);
     dprintf(client->socket, "\tDescription: %s\n", target->description);
-    dprintf(client->socket, "\tChannels: BAH YA PA FRR");
+    dprintf(client->socket, "\tChannels: \n");
+    while (current) {
+        uuid_unparse(current->uuid, channel_uuid);
+        dprintf(client->socket, "\t\tname: %s ", current->name);
+        dprintf(client->socket, "uuid: %s", channel_uuid);
+        if (current->next)
+            dprintf(client->socket, "\n");
+        current = current->next;
+    }
+    dprintf(client->socket, "\r\n");
+    free(uuid);
+}
+
+static void display_channel(server_t *server, client_t *client)
+{
+    char *uuid = malloc(sizeof(char) * 37);
+    team_t *team = get_team_by_uuid(&server->teams, client->team_uuid);
+    channel_t *target = get_channel_by_uuid(&team->channels, client->channel_uuid);
+
+    dprintf(client->socket, "113 \n");
+    uuid_unparse(target->uuid, uuid);
+    dprintf(client->socket, "Team %s(%s):\n", target->name, uuid);
+    dprintf(client->socket, "\tName: %s\n", target->name);
+    dprintf(client->socket, "\tUuid: %s\n", uuid);
+    dprintf(client->socket, "\tDescription: %s\n", target->description);
+    dprintf(client->socket, "\tthread: BAH YA PA FRR");
     dprintf(client->socket, "\r\n");
     free(uuid);
 }
@@ -28,9 +55,15 @@ static void display_teams(server_t *server, client_t *client)
 void info(server_t *server, client_t *client, const char *command)
 {
     (void)command;
-    if (!uuid_is_null(client->team_uuid)) {
+    if (!uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
+        && uuid_is_null(client->thread_uuid)) {
         display_teams(server, client);
         return;
     }
-    dprintf(client->socket, "413 BA YA R CHEH\r\n");
+    if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
+        && uuid_is_null(client->thread_uuid)) {
+        display_channel(server, client);
+        return;
+    }
+    dprintf(client->socket, "413 Nothing to show\r\n");
 }
