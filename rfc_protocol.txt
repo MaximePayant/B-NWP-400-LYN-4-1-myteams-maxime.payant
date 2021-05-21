@@ -69,3 +69,4 @@ List of return
     413     Cannot list information
     114     List subscribed team
     404     Command not found
+    402     Not logged

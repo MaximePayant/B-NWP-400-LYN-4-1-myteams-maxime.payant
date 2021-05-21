@@ -38,7 +38,7 @@ void command_logged(server_t *server, client_t *client, char *command)
             free(real_command);
             return;
         }
-    dprintf(client->socket, "Command unknown\r\n");
+    dprintf(client->socket, "404 Command unknown\r\n");
     free(real_command);
 }
 
@@ -56,7 +56,7 @@ void command_without_login(server_t *server, client_t *client, char *command)
         command_logged(server, client, command);
     else
         dprintf(client->socket,
-        "You're not logged, use /login[\"user_name\"]\r\n");
+        "402 You're not logged, use /login[\"user_name\"]\r\n");
 }
 
 void command_handler(server_t *server, client_t *client)

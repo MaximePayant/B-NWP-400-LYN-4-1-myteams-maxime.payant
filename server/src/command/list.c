@@ -17,6 +17,7 @@ static void display_teams(server_t *server, client_t *client)
     int i = 0;
     char *uuid = malloc(sizeof(char) * 37);
 
+    dprintf(client->socket, "112 \n");
     while (current) {
         uuid_unparse(current->uuid, uuid);
         dprintf(client->socket, "Team n°%d:\n", i);
@@ -36,4 +37,5 @@ void list(server_t *server, client_t *client, const char *command)
     (void)command;
     if (uuid_is_null(client->channel_uuid) && uuid_is_null(client->thread_uuid))
         display_teams(server, client);
+    dprintf(client->socket, "412 Nothing to show\n");
 }

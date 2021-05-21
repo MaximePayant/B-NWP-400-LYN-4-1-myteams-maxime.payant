@@ -28,25 +28,25 @@ void use(server_t *server, client_t *client, const char *command)
         uuid_clear(client->team_uuid);
         uuid_clear(client->channel_uuid);
         uuid_clear(client->thread_uuid);
-        dprintf(client->socket, "You don't have any target\r\n");
+        dprintf(client->socket, "110 You don't have any target\r\n");
         free(new_command);
         return;
     }
     uuid_parse(correct_uuid(value), client->team_uuid);
     value = strtok(NULL, " ");
     if (!value) {
-        dprintf(client->socket, "You target a team\r\n");
+        dprintf(client->socket, "110 You target a team\r\n");
         free(new_command);
         return;
     }
     uuid_parse(correct_uuid(value), client->channel_uuid);
     value = strtok(NULL, " ");
     if (!value) {
-        dprintf(client->socket, "You target a channel\r\n");
+        dprintf(client->socket, "110 You target a channel\r\n");
         free(new_command);
         return;
     }
     uuid_parse(correct_uuid(value), client->team_uuid);
     free(new_command);
-    dprintf(client->socket, "You target a thread\r\n");
+    dprintf(client->socket, "110 You target a thread\r\n");
 }

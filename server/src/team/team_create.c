@@ -41,10 +41,12 @@ char *name, char *description)
 
     if (strlen(name) > MAX_NAME_LENGTH) {
         free_mem(teams_uuid, client_uuid);
+        dprintf(client->socket, "411 Team's name too long\r\n");
         return (NULL);
     }
     if (strlen(description) > MAX_DESCRIPTION_LENGTH) {
         free_mem(teams_uuid, client_uuid);
+        dprintf(client->socket, "411 Team's description too long\r\n");
         return (NULL);
     }
     define_value(new_team, name, description);
@@ -60,7 +62,6 @@ char *name, char *description)
     }
     server_event_team_created(teams_uuid, new_team->name, client_uuid);
     free_mem(teams_uuid, client_uuid);
-    dprintf(client->socket,
-            "Thread successfully created\r\n");
+    dprintf(client->socket, "111 Team successfully created\r\n");
     return (new_team);
 }
