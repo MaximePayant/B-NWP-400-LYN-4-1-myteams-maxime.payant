@@ -26,7 +26,7 @@ jsnp_token_t *object_emplace_object_front(jsnp_value_t *u, const char *key)
     return (token);
 }
 
-jsnp_token_t *object_emplace_object_at(jsnp_value_t *u, const char *key, int index)
+jsnp_token_t *object_emplace_object_at(jsnp_value_t *u, const char *key, unsigned index)
 {
     jsnp_token_t *token = create_object(key);
 

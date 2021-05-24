@@ -36,7 +36,7 @@ jsnp_value_t *array_emplace_primitive_front(jsnp_value_t *u, int value)
     return (v);
 }
 
-jsnp_value_t *array_emplace_primitive_at(jsnp_value_t *u, int value, int index)
+jsnp_value_t *array_emplace_primitive_at(jsnp_value_t *u, int value, unsigned index)
 {
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 

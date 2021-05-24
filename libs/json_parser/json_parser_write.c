@@ -24,7 +24,7 @@ static unsigned val_tab_count(int off);
 
 void write_jsnp(jsnp_t *jsnp, const char *filename)
 {
-    int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXO);
+    int fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 
     if (fd == -1) {
         perror("open");

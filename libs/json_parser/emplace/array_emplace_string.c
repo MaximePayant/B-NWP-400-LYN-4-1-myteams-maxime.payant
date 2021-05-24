@@ -37,7 +37,7 @@ jsnp_value_t *array_emplace_string_front(jsnp_value_t *u, const char *value)
     return (v);
 }
 
-jsnp_value_t *array_emplace_string_at(jsnp_value_t *u, const char *value, int index)
+jsnp_value_t *array_emplace_string_at(jsnp_value_t *u, const char *value, unsigned index)
 {
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 

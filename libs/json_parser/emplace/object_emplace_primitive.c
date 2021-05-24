@@ -26,7 +26,7 @@ jsnp_token_t *object_emplace_primitive_front(jsnp_value_t *u, const char *key, i
     return (token);
 }
 
-jsnp_token_t *object_emplace_primitive_at(jsnp_value_t *u, const char *key, int value, int index)
+jsnp_token_t *object_emplace_primitive_at(jsnp_value_t *u, const char *key, int value, unsigned index)
 {
     jsnp_token_t *token = create_primitive(key, value);
 
