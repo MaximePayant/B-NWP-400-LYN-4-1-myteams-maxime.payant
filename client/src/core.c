@@ -47,18 +47,12 @@ char *get_command()
 void client_core(client_t *client)
 {
     char *command = NULL;
-    int quit = 0;
 
-    (void)client;
-    while (1) {
+    while (!client->exit) {
         command = get_command();
         if (command == NULL)
             return;
-        if (strcasecmp(command, "/logout") == 0)
-            quit = 1;
         command_handler(client, command);
         free(command);
-        if (quit)
-            return;
     }
 }

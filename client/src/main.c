@@ -28,12 +28,21 @@ client_t *init_struct(char **av)
 
     new_client->ip = av[1];
     new_client->port = av[2];
+    new_client->exit = 0;
     new_client->socket = socket(AF_INET, SOCK_STREAM, 0);
     new_client->sock = (struct sockaddr_in){ 0 };
     new_client->sock.sin_port = htons(atoi(new_client->port));
     new_client->sock.sin_addr.s_addr = inet_addr(new_client->ip);
     new_client->sock.sin_family = AF_INET;
+    new_client->file = fdopen(new_client->socket, "rw");
     return (new_client);
+}
+
+void destroy_client(client_t *client)
+{
+    fclose(client->file);
+    close(client->socket);
+    free(client);
 }
 
 int main(int ac, char **av)
@@ -50,7 +59,6 @@ int main(int ac, char **av)
         printf("Connection refused!\n");
     else
         client_core(client);
-    close(client->socket);
-    free(client);
+    destroy_client(client);
     return (0);
 }

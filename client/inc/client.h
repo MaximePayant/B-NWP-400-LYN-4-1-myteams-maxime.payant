@@ -16,6 +16,8 @@ typedef struct client_s
     char *port;
     struct sockaddr_in sock;
     int socket;
+    int exit;
+    FILE *file;
 } client_t;
 
 //Core
@@ -24,5 +26,10 @@ void client_core(client_t *client);
 //Command
 int command_handler(client_t *client, char *command);
 void send_command(client_t *client, char *command);
+void code_handler(char *code, char *args);
+
+//Code
+void code_101(const char *args);
+void code_102(const char *args);
 
 #endif //CLIENT

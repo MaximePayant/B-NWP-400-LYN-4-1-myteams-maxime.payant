@@ -44,8 +44,8 @@ void command_logged(server_t *server, client_t *client, char *command)
 
 void command_without_login(server_t *server, client_t *client, char *command)
 {
-    void (*list_func[])(server_t *, client_t *, const char *) =
-    {&help, &login, &logout};
+        void (*list_func[])(server_t *, client_t *, const char *) =
+        {&help, &login, &logout};
 
     for (int i = 0; command_nolog[i]; i++)
         if (strstr(command, command_nolog[i]) == command) {
