@@ -7,9 +7,11 @@
 
 #include <stdio.h>
 #include "server.h"
+#include "json_list.h"
 
 void send_message(server_t *server, client_t *client, const char *command)
 {
+/*
     char *new_command = strdup(command);
     char *target = NULL;
     char *message = NULL;
@@ -20,4 +22,5 @@ void send_message(server_t *server, client_t *client, const char *command)
 
     dprintf(client->socket, "Send message %s"\r\n");
     delete_client(server, client->socket);
+*/
 }

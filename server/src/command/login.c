@@ -13,7 +13,7 @@ char *modif_uuid(char *uuid_str)
     char *new_uuid = malloc(sizeof(char) * 43);
     strcpy(new_uuid, "/");
     strcat(new_uuid, uuid_str);
-    strcat(new_uuid, ".txt\0");
+    strcat(new_uuid, ".json\0");
     return new_uuid;
 }
 
@@ -99,8 +99,15 @@ char *search_in_file(char *log, char *str)
 
 char *check_log_exist(char *log)
 {
+
     struct dirent *de;
-    DIR *dr = opendir("save/clients");
+    char *new_path;
+
+
+
+
+
+    DIR *dr = opendir("server/save/clients");
     FILE *fp;
     char *path;
     char *tmp;
@@ -109,7 +116,18 @@ char *check_log_exist(char *log)
     while ((de = readdir(dr)) != NULL) {
         if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, "."))
             continue;
-        path = malloc(sizeof(char) * 93);
+        new_path = malloc(sizeof(char) * 100);
+        strcpy(new_path, "server/save/clients/");
+        strcat(new_path, de->d_name);
+        tmp = de->d_name;
+        tmp = modif_uuid(tmp);
+        strcat(new_path, tmp);
+        printf("\n|%s|\n", new_path);
+        printf("\njuif = %s\n", jsnp_read_file(new_path));
+        log_find = jsnp_read_file(new_path);
+        printf("pitié = %s\n", take_string(log_find, 1));
+
+/*        path = malloc(sizeof(char) * 93);
         strcpy(path, "save/clients/");
         tmp = de->d_name;
         strcat(path, tmp);
@@ -125,10 +143,12 @@ char *check_log_exist(char *log)
         }
         log_find[i] = '\0';
 //        log_find = search_in_file(log_find, "#LOG");
-        fclose(fp);
+  */
+    //    fclose(fp);
     }
     closedir(dr);    
-    return NULL;
+    return 0;
+    
 }
 
 void login(server_t *server, client_t *client, const char *command)
@@ -145,7 +165,7 @@ void login(server_t *server, client_t *client, const char *command)
         dprintf(client->socket, "Enter a valid log please\r\n");
         return;
     }
-    if (/*!check_log_exist*/log) {
+    if (!check_log_exist(log)) {
         path_folder = malloc(sizeof(char) * 58);
         uuid_str = malloc(sizeof(char) * 37);
         strcpy(path_folder, "server/save/clients/");
@@ -157,7 +177,29 @@ void login(server_t *server, client_t *client, const char *command)
             mkdir(path_folder, 0755);
             printf("bite\n");
         }
-//        create_txt_log(path_folder, uuid_str, log);
+
+
+
+    jsnp_t *jsnp = create_jsnp();
+    //jsnp_t *jsnp = jsnp_parse_file("test.json");
+
+    if (!jsnp) {
+        printf("NOP\n");
+        return (84);
+    }
+
+    object_emplace_string_back(jsnp->value, "Name", log);
+    object_emplace_string_back(jsnp->value, "Uuid", uuid_str);
+
+    disp_jsnp(jsnp);
+    char *new_path = malloc(sizeof(char) * 100);
+    strcpy(new_path, path_folder);
+    uuid_str = modif_uuid(uuid_str);
+    strcat(new_path, uuid_str);
+//    printf("|%s|\n", new_path);
+    write_jsnp(jsnp, new_path);
+
+    free_jsnp(jsnp);
         client->connected = 1;
         client->user_name = log;
         dprintf(client->socket, "Create clients with UUID = %s\r\n", uuid_str);

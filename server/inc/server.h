@@ -19,6 +19,11 @@ typedef struct client_s client_t;
 #include <malloc.h>
 #include <dirent.h>
 #include "team.h"
+#include "json_parser.h"
+#include "json_list.h"
+#include "jsnp_header.h"
+#include "data_type.h"
+
 
 #define MAX_NAME_LENGTH 32
 #define MAX_DESCRIPTION_LENGTH 255

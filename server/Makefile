@@ -27,20 +27,25 @@ SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_r
 ## INCLUDE VARIABLES
 ## --------------------------------------------->
 INC_FOLDER =	./inc	\
-				./../
+				./../ \
+				./../libs/json_parser/ \
+				../libs/json_parser/inc
+
 IGNORE_INC := .
 INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 ## --------------------------------------------->
 
 ## LIBRARY VARIABLES
 ## --------------------------------------------->
-LFOLDER := ../libs/myteams
+LFOLDER :=  ../libs/myteams \
+			../libs/json_parser \
+
 LNAME :=
 LIB :=		$(addprefix $(LFOLDER), $(LNAME))
 
 LIB_FOLDER :=	$(addprefix -L, $(LFOLDER))
 LIB_NAME :=		$(addprefix -l, $(LNAME))
-LIB_EXT := -luuid -lmyteams
+LIB_EXT := -luuid -lmyteams -ljsnp
 ## --------------------------------------------->
 
 ## OBJECT VARIABLES
