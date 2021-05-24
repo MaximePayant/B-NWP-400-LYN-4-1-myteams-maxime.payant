@@ -32,7 +32,10 @@ void send_command(client_t *client, char *command)
     if (space != -1)
         args = strdup(command + space);
     for (int i = 0; base_command[i]; i++) {
-        if (strcasecmp(command, base_command[i]) == 0)
+        if (strcasecmp(command, base_command[i]) == 0) {
             dprintf(client->socket, "%s %s\r\n", real_command[i], args);
+            return;
+        }
     }
+    dprintf(client->socket, "UNKW\r\n");
 }

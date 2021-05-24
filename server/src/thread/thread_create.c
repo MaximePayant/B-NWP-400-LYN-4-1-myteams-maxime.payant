@@ -65,6 +65,6 @@ char *name, char *message)
     server_event_thread_created(channel_uuid, threads_uuid, user_uuid,
     new_thread->name, new_thread->message);
     free_mem(threads_uuid, team_uuid);
-    dprintf(client->socket, "111 thread successfully created\r\n");
+    dprintf(client->socket, "111 thread successfully created{%s}{%s}{%s}{%s}\r\n", threads_uuid, user_uuid, name, message);
     return (new_thread);
 }

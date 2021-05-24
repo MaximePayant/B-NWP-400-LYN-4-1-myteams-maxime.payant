@@ -6,19 +6,17 @@
 */
 
 #include <string.h>
-#include <malloc.h>
+#include "client.h"
 #include "libs/myteams/logging_client.h"
 
 void code_111(const char *args)
 {
-    (void) args;
-    /*char *uuid = strstr(args, "{");
-    char *team_uuid = strdup(uuid);
-    char *save = team_uuid;
+    char **list_args = get_return_args(args);
 
-    team_uuid = strstr(team_uuid + 1, "{");
-    uuid = strtok(uuid, "}");
-    team_uuid = strtok(team_uuid, "}");
-    client_print_subscribed(uuid + 1, team_uuid + 1);
-    free(save);*/
+    if (strcmp(list_args[0], "team") == 0)
+        client_print_team_created(list_args[1], list_args[2], list_args[3]);
+    if (strcmp(list_args[0], "channel") == 0)
+        client_print_channel_created(list_args[1], list_args[1], list_args[2]);
+    if (strcmp(list_args[0], "thread") == 0)
+        client_print_thread_created(list_args[1], list_args[2], time(NULL), list_args[3], list_args[4]);
 }

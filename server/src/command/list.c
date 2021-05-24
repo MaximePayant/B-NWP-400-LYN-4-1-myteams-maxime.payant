@@ -17,13 +17,12 @@ static void display_teams(server_t *server, client_t *client)
     int i = 0;
     char *uuid = malloc(sizeof(char) * 37);
 
-    dprintf(client->socket, "112 \n");
+    dprintf(client->socket, "112 {team}");
     while (current) {
         uuid_unparse(current->uuid, uuid);
-        dprintf(client->socket, "Team n°%d:\n", i);
-        dprintf(client->socket, "\tName: %s\n", current->name);
-        dprintf(client->socket, "\tUuid: %s\n", uuid);
-        dprintf(client->socket, "\tDescription: %s\n", current->description);
+        dprintf(client->socket, "{%s}", uuid);
+        dprintf(client->socket, "{%s}", current->name);
+        dprintf(client->socket, "{%s}\n", current->description);
         current = current->next;
         if (current)
             i++;

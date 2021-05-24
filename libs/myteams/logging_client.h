@@ -29,6 +29,7 @@
 /*
 ** To receive team related events you MUST be subscribed to the team
 ** Ex: to receive client_event_thread_reply_received you must be subscribed to
+** Ex: to receive client_event_thread_reply_received you must be subscribed to
 ** the team, that have the channel, that have the thread, that got the new reply
 */
 

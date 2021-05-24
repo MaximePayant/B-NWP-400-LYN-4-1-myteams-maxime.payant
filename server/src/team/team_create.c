@@ -62,7 +62,7 @@ char *name, char *description)
         new_team->prev = current;
     }
     server_event_team_created(teams_uuid, new_team->name, client_uuid);
+    dprintf(client->socket, "111 Team successfully created{team}{%s}{%s}{%s}\r\n", teams_uuid, name, description);
     free_mem(teams_uuid, client_uuid);
-    dprintf(client->socket, "111 Team successfully created\r\n");
     return (new_team);
 }

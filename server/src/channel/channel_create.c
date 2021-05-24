@@ -62,6 +62,6 @@ char *name, char *description)
     }
     server_event_channel_created(team_uuid, channels_uuid, new_channel->name);
     free_mem(channels_uuid, team_uuid);
-    dprintf(client->socket, "111 channel successfully created\r\n");
+    dprintf(client->socket, "111 Channel successfully created{team}{%s}{%s}{%s}\r\n", channels_uuid, name, description);
     return (new_channel);
 }
