@@ -61,18 +61,21 @@ void command_without_login(server_t *server, client_t *client, char *command)
 
 void command_handler(server_t *server, client_t *client)
 {
-    char *command = "\0";
+    char *command = NULL;
     size_t len = 0;
-    FILE * file = fdopen(client->socket, "r");
-    char *complete = malloc(sizeof(char));
+    char *complete = NULL;
+    size_t mem = 0;
 
-    (void)server;
-    complete[0] = '\0';
-    while (!strstr(complete, "\r\n")) {
-        getline(&command, &len, file);
-        complete = realloc(complete, strlen(complete) + strlen(command));
-        strcat(complete, command);
-    }
+    do {
+        getline(&command, &len, client->file);
+        if (!complete)
+            complete = strdup(command);
+        else {
+            mem = ((!complete) ? 0 : strlen(complete)) + strlen(command);
+            complete = realloc(complete, mem);
+            strcat(complete, command);
+        }
+    } while (!strstr(complete, "\r\n"));
     command_without_login(server, client, str_clean(complete));
     free(command);
 }

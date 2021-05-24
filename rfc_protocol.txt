@@ -29,7 +29,8 @@ Command and return
 List of command
     HELP    []                              List all available command
     LOG     ['user_name']                   Connection to the server
-    OUT     []                              Disconnection from the current server
+    OUT     []                              Disconnection from the current
+                                            server
     USERS   []                              List all user on the server
     USER    ['user_uuid']                   Get information from specified user
     SEND    ['user_uuid']                   Send a message to a specified user
@@ -37,14 +38,19 @@ List of command
     MSG     ['user_uuid']                   List all message from specified user
     SUBC    ['team_uuid']                   Subscribe to a specified team
     UNSUB   ['team_uuid']                   nsubscribe from a specified team
-    SUBED   ?['team_uuid']                  List all subscribed teams or list all users subscribed to a team
-    USE     ?['team_uuid']                  Specify a context (team/channel/thread)
+    SUBED   ?['team_uuid']                  List all subscribed teams or list
+                                            all users subscribed to a team
+    USE     ?['team_uuid']                  Specify a context (team/channel/
+                                            thread)
             ?['channel_uuid]
             ?['user_uuid']
-    CREA    ['context_name']                Create a resources based on the context
+    CREA    ['context_name']                Create a resources based on the
+                                            context
             ?['context_desc']
-    LIST    []                              List all sub resources based ont the context
-    INFO    []                              List the current information based on the context
+    LIST    []                              List all sub resources based ont
+                                            the context
+    INFO    []                              List the current information based
+                                            on the context
 
 List of return
     101     Connection successful

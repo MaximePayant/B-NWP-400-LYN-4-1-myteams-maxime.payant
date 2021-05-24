@@ -31,6 +31,7 @@ void unsubscribe(server_t *server, client_t *client, const char *command)
     uuid_unparse(client->uuid, client_uuid);
     server_event_user_unsubscribed(args, client_uuid);
     delete_uuid(&target->list_uuid, client->uuid);
-    dprintf(client->socket, "109 Unsubscription done\r\n");
+    dprintf(client->socket, "109 Unsubscription done{%s}{%s}\r\n",
+    client_uuid, args);
     free(client_uuid);
 }

@@ -31,5 +31,8 @@ void code_handler(char *code, char *args);
 //Code
 void code_101(const char *args);
 void code_102(const char *args);
+void code_108(const char *args);
+void code_109(const char *args);
+void code_111(const char *args);
 
 #endif //CLIENT

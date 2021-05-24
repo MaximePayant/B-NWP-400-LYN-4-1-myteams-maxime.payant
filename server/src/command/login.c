@@ -12,6 +12,7 @@ void login(server_t *server, client_t *client, const char *command)
 {
     (void) server;
     (void) command;
+    client->connected = 1;
     dprintf(client->socket, "101 Connection Successful{%s}{%s}\r\n",
     "UUID", "NAME");
 }

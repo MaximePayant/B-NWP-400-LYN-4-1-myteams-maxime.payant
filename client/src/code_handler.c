@@ -15,7 +15,9 @@ const char *return_code[] = {"101", "102", "103", "104", "105", "106", "107",
 
 void code_handler(char *code, char *args)
 {
-    void (*list_func[])(const char *) = {&code_101, &code_102, NULL};
+    void (*list_func[])(const char *) = {&code_101, &code_102, NULL, NULL, NULL,
+                                         NULL, NULL, &code_108, &code_109, NULL,
+                                         &code_111, NULL};
 
     if (strstr(code, "4") == code) {
         printf("%s", args);

@@ -13,6 +13,7 @@ typedef struct client_s client_t;
 
 #include <netinet/in.h>
 #include <uuid/uuid.h>
+#include <bits/types/FILE.h>
 #include "teams.h"
 
 #define MAX_NAME_LENGTH 32
@@ -29,6 +30,7 @@ struct client_s
     uuid_t team_uuid;
     uuid_t channel_uuid;
     uuid_t thread_uuid;
+    FILE *file;
     struct client_s *next;
 };
 

@@ -26,6 +26,7 @@ void subscribe(server_t *server, client_t *client, const char *command)
     uuid_unparse(client->uuid, client_uuid);
     server_event_user_subscribed(args, client_uuid);
     add_uuid(&target->list_uuid, client->uuid, NULL);
-    dprintf(client->socket, "108 Subscription done\r\n");
+    dprintf(client->socket, "108 Subscription done{%s}{%s}\r\n",
+    client_uuid, args);
     free(client_uuid);
 }
