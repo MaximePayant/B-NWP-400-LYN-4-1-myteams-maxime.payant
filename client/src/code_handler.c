@@ -16,11 +16,12 @@ const char *return_code[] = {"101", "102", "103", "104", "105", "106", "107",
 void code_handler(char *code, char *args)
 {
     void (*list_func[])(const char *) = {&code_101, &code_102, NULL, NULL, NULL,
-                                         &code_106, &code_107, &code_108, &code_109, NULL,
-                                         &code_111, &code_112, NULL};
+                                         &code_106, &code_107, &code_108,
+                                         &code_109, &code_110, &code_111,
+                                         &code_112, NULL};
 
     if (strstr(code, "4") == code) {
-        printf("%s", args);
+        printf("%s", args + 1);
         return;
     }
     for (int i = 0; return_code[i]; i++) {

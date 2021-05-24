@@ -37,6 +37,7 @@ void code_106(const char *args);
 void code_107(const char *args);
 void code_108(const char *args);
 void code_109(const char *args);
+void code_110(const char *args);
 void code_111(const char *args);
 void code_112(const char *args);
 
