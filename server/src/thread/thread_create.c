@@ -49,8 +49,8 @@ static void print_event(thread_t *new_thread, client_t *client)
 
 void *check_error(client_t *client, thread_t **first, char *name, char *message)
 {
-    if (!get_thread_by_name(first, name))
-        return (dprintf(client->socket, "439"), NULL);
+    if (get_thread_by_name(first, name))
+        return (dprintf(client->socket, "439\r\n"), NULL);
     if (strlen(name) > MAX_NAME_LENGTH) {
         dprintf(client->socket, "411 thread's name too long\r\n");
         return (NULL);

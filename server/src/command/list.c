@@ -101,9 +101,6 @@ void list(server_t *server, client_t *client, const char *command)
     (void)command;
     if (uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
         && uuid_is_null(client->thread_uuid)) {
-        if (!get_team_by_uuid(&server->teams, client->team_uuid))
-            dprintf(client->socket, "441 {%s}", client->team_uuid);
-        else
             display_teams(server, client);
         return;
     }
@@ -111,9 +108,7 @@ void list(server_t *server, client_t *client, const char *command)
         && uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
         if (!team)
-            dprintf(client->socket, "441 {%s}", client->team_uuid);
-        else if (get_channel_by_uuid(&team->channels, client->channel_uuid))
-            dprintf(client->socket, "442 {%s}", client->team_uuid);
+            dprintf(client->socket, "441 {%s}\r\n", client->team_uuid);
         else
             display_channels(server, client);
         return;
@@ -122,13 +117,11 @@ void list(server_t *server, client_t *client, const char *command)
         && uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
         if (!team)
-            dprintf(client->socket, "441 {%s}", client->team_uuid);
+            dprintf(client->socket, "441 {%s}\r\n", client->team_uuid);
         else {
             channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
             if (!channel)
-                dprintf(client->socket, "442 {%s}", client->team_uuid);
-            else if (!get_thread_by_uuid(&channel->threads, client->thread_uuid))
-                dprintf(client->socket, "443 {%s}", client->team_uuid);
+                dprintf(client->socket, "442 {%s}\r\n", client->team_uuid);
             else
                 display_threads(server, client);
         }
@@ -136,8 +129,19 @@ void list(server_t *server, client_t *client, const char *command)
     }
     if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
         && !uuid_is_null(client->thread_uuid)) {
-        display_messages(server, client);
+        team = get_team_by_uuid(&server->teams, client->team_uuid);
+        if (!team)
+            dprintf(client->socket, "441 {%s}\r\n", client->team_uuid);
+        else {
+            channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
+            if (!channel)
+                dprintf(client->socket, "442 {%s}\r\n", client->team_uuid);
+            else if (!get_thread_by_uuid(&channel->threads, client->thread_uuid))
+                dprintf(client->socket, "443 {%s}\r\n", client->team_uuid);
+            else
+                display_messages(server, client);
+        }
         return;
     }
-    dprintf(client->socket, "412 Nothing to show\n");
+    dprintf(client->socket, "412 Nothing to show\r\n");
 }
