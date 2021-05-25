@@ -46,6 +46,7 @@ struct server_s
 
 //Utils
 char *get_args(const char *command);
+char **get_params(const char *args);
 
 //init
 int init_server(server_t *server);
@@ -53,6 +54,7 @@ int init_server(server_t *server);
 //Core
 void server_core(server_t *server);
 void command_handler(server_t *server, client_t *client);
+void print_new_reply(message_t *message, client_t *client);
 
 //Client
 client_t *create_new_client(server_t *server);

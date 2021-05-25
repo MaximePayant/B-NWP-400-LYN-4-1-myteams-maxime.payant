@@ -46,7 +46,7 @@ void use(server_t *server, client_t *client, const char *command)
         free(new_command);
         return;
     }
-    uuid_parse(correct_uuid(value), client->team_uuid);
+    uuid_parse(correct_uuid(value), client->thread_uuid);
     free(new_command);
     dprintf(client->socket, "110 You target a thread\r\n");
 }

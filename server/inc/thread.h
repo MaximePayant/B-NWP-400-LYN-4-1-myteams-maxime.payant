@@ -8,11 +8,13 @@
 #ifndef THREAD
 #define THREAD
 
+#include "message.h"
+
 typedef struct thread_s
 {
     uuid_t uuid;
     char *name;
-    char *message; //TODO To change
+    message_t *message;
     struct thread_s *next;
     struct thread_s *prev;
 } thread_t;

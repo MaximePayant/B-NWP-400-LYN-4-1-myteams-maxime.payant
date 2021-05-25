@@ -31,4 +31,10 @@ void code_112(const char *args)
             i += 3;
         }
     }
+    if (strcmp(arg[0], "message") == 0) {
+        for (int i = 1; arg[i]; i++) {
+            client_thread_print_replies(arg[i], arg[i + 1], time(NULL), arg[i + 3]);
+            i += 3;
+        }
+    }
 }
