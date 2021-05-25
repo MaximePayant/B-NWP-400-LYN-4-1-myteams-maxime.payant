@@ -40,8 +40,10 @@ char *name, char *description)
     char *teams_uuid = malloc(sizeof(char) * 37);
     char *client_uuid = malloc(sizeof(char) * 37);
 
-    if (!get_team_by_name(&server->teams, name))
-        return (dprintf(client->socket, "439"), NULL);
+    if (get_team_by_name(&server->teams, name)) {
+        dprintf(client->socket, "439 \r\n");
+        return (NULL);
+    }
     if (strlen(name) > MAX_NAME_LENGTH) {
         free_mem(teams_uuid, client_uuid);
         dprintf(client->socket, "411 Team's name too long\r\n");

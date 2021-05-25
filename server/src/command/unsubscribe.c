@@ -20,11 +20,12 @@ void unsubscribe(server_t *server, client_t *client, const char *command)
     uuid_parse(args[0], team_uuid);
     target = get_team_by_uuid(&server->teams, team_uuid);
     if (!target) {
-        dprintf(client->socket, "441 {%s}\r\n");
+        uuid_unparse(client->team_uuid, client_uuid);
+        dprintf(client->socket, "441 {%s}\r\n", client_uuid);
         return;
     }
     if (!is_in_team(target, client->uuid)) {
-        dprintf(client->socket, "440 {%s}\r\n");
+        dprintf(client->socket, "440 \r\n");
         return;
     }
     uuid_unparse(client->uuid, client_uuid);

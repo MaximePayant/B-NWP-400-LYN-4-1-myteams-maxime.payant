@@ -88,7 +88,7 @@ void info(server_t *server, client_t *client, const char *command)
             else if (!get_thread_by_uuid(&channel->threads, client->thread_uuid))
                 dprintf(client->socket, "443 {%s}", client->team_uuid);
             else
-                ;// display_threads(server, client);
+                printf("ta mer la put\n");// TODO display_threads(server, client);
         }
         return;
     }

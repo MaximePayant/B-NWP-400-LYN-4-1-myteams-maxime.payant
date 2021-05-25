@@ -6,12 +6,11 @@
 */
 
 #include <string.h>
-#include <stdio.h>
 #include "client.h"
 
 const char *return_code[] = {"101", "102", "103", "104", "105", "106", "107",
                              "108", "109", "110", "111", "112", "113", "114",
-                             "440", "441", "442", "443", "444", NULL};
+                             "439", "440", "441", "442", "443", "444", NULL};
 
 void code_handler(char *code, char *args)
 {
@@ -23,10 +22,6 @@ void code_handler(char *code, char *args)
                                          &code_442, &code_443, &code_444,
                                          NULL};
 
-    if (strstr(code, "4") == code) {
-        printf("%s", args + 1);
-        return;
-    }
     for (int i = 0; return_code[i]; i++) {
         if (strcmp(code, return_code[i]) == 0)
             list_func[i](args);
