@@ -17,23 +17,28 @@ client_t *client, char **args)
     channel_t *channel = NULL;
 
     if (uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
-        && uuid_is_null(client->thread_uuid)) {
+        && uuid_is_null(client->thread_uuid))
         create_team(server, client, args[0], args[1]);
-        return;
-    }
-    if (!uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
-        && uuid_is_null(client->thread_uuid)) {
+    else if (!uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
+             && uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
-        create_channel(&team->channels, client, args[0], args[1]);
-        return;
+        if (!team)
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else
+            create_channel(&team->channels, client, args[0], args[1]);
     }
-    if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
-        && uuid_is_null(client->thread_uuid)) {
+    else if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
+             && uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
-        channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
-        create_thread(&channel->threads, client, args[0], args[1]);
-        return;
-    }
+        if (!team)
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else {
+            channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
+            if (!channel)
+                dprintf(client->socket, "442 {%s}", client->channel_uuid);
+            else
+                create_thread(&channel->threads, client, args[0], args[1]);
+        }
 }
 
 void create(server_t *server, client_t *client, const char *command)

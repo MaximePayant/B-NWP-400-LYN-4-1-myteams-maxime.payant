@@ -43,4 +43,11 @@ void code_111(const char *args);
 void code_112(const char *args);
 void code_114(const char *args);
 
+void code_439(const char *args);
+void code_440(const char *args);
+void code_441(const char *args);
+void code_442(const char *args);
+void code_443(const char *args);
+void code_444(const char *args);
+
 #endif //CLIENT

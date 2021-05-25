@@ -11,14 +11,17 @@
 
 const char *return_code[] = {"101", "102", "103", "104", "105", "106", "107",
                              "108", "109", "110", "111", "112", "113", "114",
-                             NULL};
+                             "440", "441", "442", "443", "444", NULL};
 
 void code_handler(char *code, char *args)
 {
     void (*list_func[])(const char *) = {&code_101, &code_102, NULL, NULL, NULL,
                                          &code_106, &code_107, &code_108,
                                          &code_109, &code_110, &code_111,
-                                         &code_112, NULL, &code_114, NULL};
+                                         &code_112, NULL, &code_114,
+                                         &code_439, &code_440, &code_441,
+                                         &code_442, &code_443, &code_444,
+                                         NULL};
 
     if (strstr(code, "4") == code) {
         printf("%s", args + 1);

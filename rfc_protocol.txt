@@ -55,16 +55,18 @@ List of command
 List of return
     101     Connection successful
     401     Connection denied
+
     102     Disconnection successful
     103     List the help
     104     List of users
     105     Information about user
     106     Message successfully sent
     107     List with all messages
+
     108     Subscribe to a team
-    408     Cannot subscribe to a team
     109     Unsubscribe from a team
     409     Cannot unsubscribe from a team
+
     110     Specify a context
     410     Cannot specify the context
     111     Create a new resources
@@ -77,3 +79,10 @@ List of return
     404     Command not found
     402     Not logged
     222     Event on server
+
+    439     Already exist
+    440     Action not authorized
+    441     Unknow team
+    442     Unknow channel
+    443     Unknow thread
+    444     Unknow user

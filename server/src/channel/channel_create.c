@@ -25,8 +25,10 @@ static void define_value(channel_t *new_channel, char *name, char *description)
     new_channel->description = strdup(description);
 }
 
-static void *check_error(client_t *client, char *name, char *description)
+static void *check_error(client_t *client, channel_t **first, char *name, char *description)
 {
+    if (get_channel_by_name(first, name))
+        return (dprintf(client->socket, "439"), NULL);
     if (strlen(name) > MAX_NAME_LENGTH) {
         dprintf(client->socket, "411 channel's name too long\r\n");
         return (NULL);
@@ -57,7 +59,7 @@ char *name, char *description)
     channel_t *new_channel = malloc(sizeof(channel_t));
     channel_t *current = *first;
 
-    if (!check_error(client, name, description)) {
+    if (!check_error(client, first, name, description)) {
         free(new_channel);
         return (NULL);
     }
