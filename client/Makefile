@@ -15,7 +15,8 @@ EXT :=	c
 
 ## SOURCES VARIABLES
 ## --------------------------------------------->
-SRC_FOLDER :=	src/
+SRC_FOLDER :=	src/					\
+				src/return_code_handler
 IGNORE_SRC :=	.
 SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_readdir_race -maxdepth 1 -name '*.$(EXT)')))
 ## --------------------------------------------->
@@ -30,7 +31,7 @@ INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 
 ## LIBRARY VARIABLES
 ## --------------------------------------------->
-LFOLDER :=
+LFOLDER :=	./../libs/myteams
 LNAME :=
 LIB :=		$(addprefix $(LFOLDER), $(LNAME))
 
