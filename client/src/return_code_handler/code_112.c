@@ -19,4 +19,16 @@ void code_112(const char *args)
             i += 2;
         }
     }
+    if (strcmp(arg[0], "channel") == 0) {
+        for (int i = 1; arg[i]; i++) {
+            client_team_print_channels(arg[i], arg[i + 1], arg[i + 2]);
+            i += 2;
+        }
+    }
+    if (strcmp(arg[0], "thread") == 0) {
+        for (int i = 1; arg[i]; i++) {
+            client_channel_print_threads(arg[i], arg[i + 1], time(NULL), arg[i + 2], arg[i + 3]);
+            i += 3;
+        }
+    }
 }
