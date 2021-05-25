@@ -76,3 +76,4 @@ List of return
     114     List subscribed team
     404     Command not found
     402     Not logged
+    222     Event on server

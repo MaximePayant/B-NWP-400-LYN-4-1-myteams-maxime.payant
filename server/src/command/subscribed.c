@@ -26,7 +26,7 @@ void subscribed(server_t *server, client_t *client, const char *command)
         while (target) {
             if (is_in_team(target, client->uuid)) {
                 uuid_unparse(target->uuid, uuid_str);
-                dprintf(client->socket, "name: %s, uuid: %s\n", target->name, uuid_str);
+                dprintf(client->socket, "{%s}{%s}{%s}\n", uuid_str, target->name, target->description);
             }
             target = target->next;
         }

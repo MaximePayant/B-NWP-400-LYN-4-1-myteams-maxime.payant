@@ -40,5 +40,6 @@ void code_109(const char *args);
 void code_110(const char *args);
 void code_111(const char *args);
 void code_112(const char *args);
+void code_114(const char *args);
 
 #endif //CLIENT
