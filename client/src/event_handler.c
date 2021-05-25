@@ -9,5 +9,5 @@
 
 void event_handler(const char *args)
 {
-
+    (void) args;
 }
