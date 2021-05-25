@@ -28,4 +28,5 @@ void code_handler(char *code, char *args)
         if (strcmp(code, return_code[i]) == 0)
             list_func[i](args);
     }
+    if (strcmp(code, "222") == 0)
 }

@@ -29,6 +29,7 @@ int command_handler(client_t *client, char *command);
 void send_command(client_t *client, char *command);
 void code_handler(char *code, char *args);
 char **get_return_args(const char *args);
+void event_handler(const char *args);
 
 //Code
 void code_101(const char *args);
