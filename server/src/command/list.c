@@ -9,8 +9,6 @@
 #include <malloc.h>
 #include "server.h"
 
-#include <string.h>
-
 static void display_teams(server_t *server, client_t *client)
 {
     team_t *current = server->teams;

@@ -25,10 +25,30 @@ static void define_value(channel_t *new_channel, char *name, char *description)
     new_channel->description = strdup(description);
 }
 
-static void free_mem(char *str1, char *str2)
+static void *check_error(client_t *client, char *name, char *description)
 {
-    free(str1);
-    free(str2);
+    if (strlen(name) > MAX_NAME_LENGTH) {
+        dprintf(client->socket, "411 channel's name too long\r\n");
+        return (NULL);
+    }
+    if (strlen(description) > MAX_DESCRIPTION_LENGTH) {
+        dprintf(client->socket, "411 channel's description too long\r\n");
+        return (NULL);
+    }
+    return (client);
+}
+
+static void print_event(channel_t *new_channel, client_t *client)
+{
+    char *channels_uuid = malloc(sizeof(char) * 37);
+    char *team_uuid = malloc(sizeof(char) * 37);
+
+    uuid_unparse(new_channel->uuid, channels_uuid);
+    uuid_unparse(client->team_uuid, team_uuid);
+    server_event_channel_created(team_uuid, channels_uuid, new_channel->name);
+    dprintf(client->socket, "111 Channel successfully created{channel}"
+    "{%s}{%s}{%s}\r\n", channels_uuid, new_channel->name,
+    new_channel->description);
 }
 
 channel_t *create_channel(channel_t **first, client_t *client,
@@ -36,22 +56,12 @@ char *name, char *description)
 {
     channel_t *new_channel = malloc(sizeof(channel_t));
     channel_t *current = *first;
-    char *channels_uuid = malloc(sizeof(char) * 37);
-    char *team_uuid = malloc(sizeof(char) * 37);
 
-    if (strlen(name) > MAX_NAME_LENGTH) {
-        free_mem(channels_uuid, team_uuid);
-        dprintf(client->socket, "411 channel's name too long\r\n");
-        return (NULL);
-    }
-    if (strlen(description) > MAX_DESCRIPTION_LENGTH) {
-        free_mem(channels_uuid, team_uuid);
-        dprintf(client->socket, "411 channel's description too long\r\n");
+    if (!check_error(client, name, description)) {
+        free(new_channel);
         return (NULL);
     }
     define_value(new_channel, name, description);
-    uuid_unparse(new_channel->uuid, channels_uuid);
-    uuid_unparse(client->team_uuid, team_uuid);
     if (!current)
         *first = new_channel;
     else {
@@ -60,8 +70,6 @@ char *name, char *description)
         current->next = new_channel;
         new_channel->prev = current;
     }
-    server_event_channel_created(team_uuid, channels_uuid, new_channel->name);
-    dprintf(client->socket, "111 Channel successfully created{channel}{%s}{%s}{%s}\r\n", channels_uuid, name, description);
-    free_mem(channels_uuid, team_uuid);
+    print_event(new_channel, client);
     return (new_channel);
 }

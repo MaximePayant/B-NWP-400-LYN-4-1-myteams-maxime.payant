@@ -18,7 +18,7 @@ void logout(server_t *server, client_t *client, const char *command)
     uuid_unparse(client->uuid, user_uuid);
     server_event_user_logged_out(user_uuid);
     dprintf(client->socket, "102 Disconnection successfully{%s}{%s}\r\n",
-            "UUID", "NAME");
+    user_uuid, "NAME");
     delete_client(server, client->socket);
     free(user_uuid);
 }
