@@ -39,6 +39,8 @@ char *name, char *message)
     char *channel_uuid = malloc(sizeof(char) * 37);
     char *user_uuid = malloc(sizeof(char) * 37);
 
+    if (!get_thread_by_name(first, name))
+        return (dprintf(client->socket, "439"), NULL);
     if (strlen(name) > MAX_NAME_LENGTH) {
         free_mem(threads_uuid, team_uuid);
         dprintf(client->socket, "411 thread's name too long\r\n");

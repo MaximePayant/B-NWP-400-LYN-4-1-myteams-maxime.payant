@@ -54,15 +54,42 @@ static void display_channel(server_t *server, client_t *client)
 
 void info(server_t *server, client_t *client, const char *command)
 {
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+
     (void)command;
     if (!uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
-        && uuid_is_null(client->thread_uuid)) {
-        display_teams(server, client);
+    && uuid_is_null(client->thread_uuid)) {
+        if (!get_team_by_uuid(&server->teams, client->team_uuid))
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else
+            display_teams(server, client);
         return;
     }
-    if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
-        && uuid_is_null(client->thread_uuid)) {
-        display_channel(server, client);
+    else if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
+    && uuid_is_null(client->thread_uuid)) {
+        if (!team)
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else if (get_channel_by_uuid(&team->channels, client->channel_uuid))
+            dprintf(client->socket, "442 {%s}", client->team_uuid);
+        else
+            display_channel(server, client);
+        return;
+    }
+    else if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
+    && !uuid_is_null(client->thread_uuid)) {
+        team = get_team_by_uuid(&server->teams, client->team_uuid);
+        if (!team)
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else {
+            channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
+            if (!channel)
+                dprintf(client->socket, "442 {%s}", client->team_uuid);
+            else if (!get_thread_by_uuid(&channel->threads, client->thread_uuid))
+                dprintf(client->socket, "443 {%s}", client->team_uuid);
+            else
+                ;// display_threads(server, client);
+        }
         return;
     }
     dprintf(client->socket, "413 Nothing to show\r\n");

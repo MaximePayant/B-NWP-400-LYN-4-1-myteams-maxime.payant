@@ -39,6 +39,8 @@ char *name, char *description)
     char *channels_uuid = malloc(sizeof(char) * 37);
     char *team_uuid = malloc(sizeof(char) * 37);
 
+    if (get_channel_by_name(first, name))
+        return (dprintf(client->socket, "439"), NULL);
     if (strlen(name) > MAX_NAME_LENGTH) {
         free_mem(channels_uuid, team_uuid);
         dprintf(client->socket, "411 channel's name too long\r\n");

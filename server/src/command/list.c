@@ -72,20 +72,43 @@ static void display_threads(server_t *server, client_t *client)
 
 void list(server_t *server, client_t *client, const char *command)
 {
+    team_t *team = NULL;
+    channel_t *channel = NULL;
+
     (void)command;
     if (uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
         && uuid_is_null(client->thread_uuid)) {
-        display_teams(server, client);
+        if (!get_team_by_uuid(&server->teams, client->team_uuid))
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else
+            display_teams(server, client);
         return;
     }
-    if (!uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
+    else if (!uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
         && uuid_is_null(client->thread_uuid)) {
-        display_channels(server, client);
+        team = get_team_by_uuid(&server->teams, client->team_uuid);
+        if (!team)
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else if (get_channel_by_uuid(&team->channels, client->channel_uuid))
+            dprintf(client->socket, "442 {%s}", client->team_uuid);
+        else
+            display_channels(server, client);
         return;
     }
-    if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
+    else if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
         && uuid_is_null(client->thread_uuid)) {
-        display_threads(server, client);
+        team = get_team_by_uuid(&server->teams, client->team_uuid);
+        if (!team)
+            dprintf(client->socket, "441 {%s}", client->team_uuid);
+        else {
+            channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
+            if (!channel)
+                dprintf(client->socket, "442 {%s}", client->team_uuid);
+            else if (!get_thread_by_uuid(&channel->threads, client->thread_uuid))
+                dprintf(client->socket, "443 {%s}", client->team_uuid);
+            else
+                display_threads(server, client);
+        }
         return;
     }
     dprintf(client->socket, "412 Nothing to show\n");
