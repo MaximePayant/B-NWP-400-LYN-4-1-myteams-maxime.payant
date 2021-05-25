@@ -71,7 +71,7 @@ void command_handler(server_t *server, client_t *client)
         if (!complete)
             complete = strdup(command);
         else {
-            mem = ((!complete) ? 0 : strlen(complete)) + strlen(command);
+            mem = strlen(complete) + strlen(command);
             complete = realloc(complete, mem);
             strcat(complete, command);
         }

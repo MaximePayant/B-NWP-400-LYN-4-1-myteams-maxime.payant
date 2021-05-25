@@ -18,19 +18,21 @@ char **get_params(const char *args)
     int index = 0;
 
     do {
-        arg = strstr(arg + 1, "{");
+        arg = strstr(arg + 1, "\"");
         if (!arg)
             continue;
         value = strdup(arg + 1);
-        value = strtok(value, "}");
+        value = strtok(value, "\"");
         if (!return_args) {
             return_args = malloc(sizeof(char *));
             return_args[index] = strdup(value);
             index++;
+            arg += strlen(value) + 1;
         } else {
             return_args = reallocarray(return_args, index + 1, sizeof(char *));
             return_args[index] = strdup(value);
             index++;
+            arg += strlen(value) + 1;
         }
     } while (arg);
     return_args = reallocarray(return_args, index + 1, sizeof(char *));
