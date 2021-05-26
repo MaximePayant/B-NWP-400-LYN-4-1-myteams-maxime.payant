@@ -55,17 +55,14 @@ void login(server_t *server, client_t *client, const char *command)
     char *uuid_str;
     (void) server;
 
-    printf("juif\n");
-
-
     if (client->connected == 1) {
-        dprintf(client->socket, "Already connect, you need loggout\r\n");
+        dprintf(client->socket, "401 Already connect, you need loggout\r\n");
         return;
     }
     strtok(new_command, " ");
     log = strtok(NULL, " ");    
     if (!log) {
-        dprintf(client->socket, "Enter a valid log please\r\n");
+        dprintf(client->socket, "401 Enter a valid log please\r\n");
         client->connected = 0;
         return;
     }
@@ -90,7 +87,10 @@ void login(server_t *server, client_t *client, const char *command)
         client->user_name = strdup(log);
         uuid_unparse_lower(client->uuid, uuid_str);
         client->uuid_str = strdup(uuid_str);
-        dprintf(client->socket, "Create clients with UUID = %s\r\n", uuid_str);
+        server_event_user_created(client->uuid_str, client->user_name);
+        server_event_user_logged_in(client->uuid_str);
+        dprintf(client->socket, "101 create log successfully{%s}{%s}\r\n",
+        client->uuid_str, client->user_name);
         free_jsnp(jsnp);
         free(path_folder);
         free(uuid_str);
@@ -102,7 +102,11 @@ void login(server_t *server, client_t *client, const char *command)
         uuid_str = get_token(jsnp->value, "Uuid")->value->str;
         client->uuid_str = strdup(uuid_str);
         uuid_parse(uuid_str, client->uuid);
-        dprintf(client->socket, "Log in account with UUID = %s\r\n", uuid_str);
+        server_event_user_loaded(client->uuid_str, client->user_name);
+        server_event_user_logged_in(client->uuid_str);
+        dprintf(client->socket, "101 log successfully{%s}{%s}\r\n",
+        client->uuid_str, client->user_name);
+
         free_jsnp(jsnp);
     }
 }

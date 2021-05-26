@@ -23,7 +23,7 @@ char *str_clean(char *string)
 void command_logged(server_t *server, client_t *client, char *command)
 {
     void (*list_func[])(server_t *, client_t *, const char *) =
-    {NULL, NULL, NULL, NULL, &subscribe, &unsubscribe, &subscribed, &use,
+    {NULL, NULL, &send_message, &message, &subscribe, &unsubscribe, &subscribed, &use,
     &create, &list, &info, NULL};
     char *real_command = strdup(command);
 
@@ -47,7 +47,6 @@ void command_without_login(server_t *server, client_t *client, char *command)
 
     for (int i = 0; command_nolog[i]; i++)
         if (strstr(command, command_nolog[i]) == command) {
-            printf("%s\n", command);
             list_func[i](server, client, command);
             return;
         }
