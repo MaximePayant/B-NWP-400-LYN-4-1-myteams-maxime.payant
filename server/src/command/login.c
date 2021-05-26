@@ -55,6 +55,8 @@ void login(server_t *server, client_t *client, const char *command)
     char *uuid_str;
     (void) server;
 
+    printf("juif\n");
+
 
     if (client->connected == 1) {
         dprintf(client->socket, "Already connect, you need loggout\r\n");

@@ -9,58 +9,76 @@
 #include <string.h>
 #include <stdio.h>
 #include "server.h"
-#include "list_uuid.h"
 #include "libs/myteams/logging_server.h"
 
-void define_value(team_t *new_team, char *name, char *description)
+static void define_value(thread_t *new_thread, client_t *client,
+char *name, char *message)
 {
-    int last = strlen(description) - 1;
+    int last = strlen(message) - 1;
 
-    new_team->next = NULL;
-    new_team->prev = NULL;
-    new_team->list_uuid = NULL;
-    uuid_generate(new_team->uuid);
-    new_team->name = strdup(name);
-    description[last] = (description[last] == '\n') ? '\0' : description[last];
-    new_team->description = strdup(description);
+    new_thread->next = NULL;
+    new_thread->prev = NULL;
+    new_thread->message = NULL;
+    uuid_generate(new_thread->uuid);
+    new_thread->name = strdup(name);
+    message[last] = (message[last] == '\n') ? '\0' : message[last];
+    create_message(&new_thread->message, client, message);
 }
 
-static void free_mem(char *str1, char *str2)
+static void print_event(thread_t *new_thread, client_t *client)
 {
-    free(str1);
-    free(str2);
+    char *threads_uuid = malloc(sizeof(char) * 37);
+    char *team_uuid = malloc(sizeof(char) * 37);
+    char *channel_uuid = malloc(sizeof(char) * 37);
+    char *user_uuid = malloc(sizeof(char) * 37);
+
+    uuid_unparse(new_thread->uuid, threads_uuid);
+    uuid_unparse(client->team_uuid, team_uuid);
+    uuid_unparse(client->channel_uuid, channel_uuid);
+    uuid_unparse(client->uuid, user_uuid);
+    server_event_thread_created(channel_uuid, threads_uuid, user_uuid,
+    new_thread->name, new_thread->message->core);
+    dprintf(client->socket, "111 thread successfully created{thread}"
+    "{%s}{%s}{%s}{%s}\r\n", threads_uuid, user_uuid, new_thread->name,
+    new_thread->message->core);
+    free(threads_uuid);
+    free(team_uuid);
+    free(channel_uuid);
+    free(user_uuid);
 }
 
-team_t *create_team(server_t *server, client_t *client,
-char *name, char *description)
+void *check_error(client_t *client, thread_t **first, char *name, char *message)
 {
-    team_t *new_team = malloc(sizeof(team_t));
-    team_t *current = server->teams;
-    char *teams_uuid = malloc(sizeof(char) * 37);
-    char *client_uuid = malloc(sizeof(char) * 37);
-
+    if (get_thread_by_name(first, name))
+        return (dprintf(client->socket, "439\r\n"), NULL);
     if (strlen(name) > MAX_NAME_LENGTH) {
-        free_mem(teams_uuid, client_uuid);
+        dprintf(client->socket, "411 thread's name too long\r\n");
         return (NULL);
     }
-    if (strlen(description) > MAX_DESCRIPTION_LENGTH) {
-        free_mem(teams_uuid, client_uuid);
+    if (strlen(message) > MAX_BODY_LENGTH) {
+        dprintf(client->socket, "411 thread's message too long\r\n");
         return (NULL);
     }
-    define_value(new_team, name, description);
-    uuid_unparse(new_team->uuid, teams_uuid);
-    uuid_unparse(client->uuid, client_uuid);
+    return(client);
+}
+
+thread_t *create_thread(thread_t **first, client_t *client,
+char *name, char *message)
+{
+    thread_t *new_thread = malloc(sizeof(thread_t));
+    thread_t *current = *first;
+
+    if (!check_error(client, first, name, message))
+        return (NULL);
+    define_value(new_thread, client, name, message);
     if (!current)
-        server->teams = new_team;
+        *first = new_thread;
     else {
         while (current->next)
             current = current->next;
-        current->next = new_team;
-        new_team->prev = current;
+        current->next = new_thread;
+        new_thread->prev = current;
     }
-    server_event_team_created(teams_uuid, new_team->name, client_uuid);
-    free_mem(teams_uuid, client_uuid);
-    dprintf(client->socket,
-            "Thread successfully created\r\n");
-    return (new_team);
+    print_event(new_thread, client);
+    return (new_thread);
 }

@@ -13,6 +13,7 @@
 
 static void close_and_free(client_t *delete)
 {
+    fclose(delete->file);
     if (delete->socket != -1)
         close(delete->socket);
     close(delete->socket);

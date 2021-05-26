@@ -4,6 +4,10 @@ Category: Communication protocol                                       M. Payant
 
                                 My_teams Protocol
 
+Abstract
+    This document provide a complete documentation for the communication
+    between the server and client on the Epitech project's my_teams.
+
 Introduction
     This document provide all information for our project about communication.
     Our goal is to provide a good protocol that allow us, to creat a new command
@@ -23,34 +27,46 @@ Command and return
     101 ['uuid user_name']\r\n
 
 List of command
-    HELP    List all available command
-    LOG     Connection to the server
-    LOGOUT  Disconnection from the current server
-    USERS   List all user on the server
-    USER    Get information from specified user
-    SEND    Send a message to a specified user
-    MSG     List all message from specified user
-    SUB     Subscribe to a specified team
-    UNSUB   Unsubscribe from a specified team
-    SUBED   List all subscribed teams or list all users subscribed to a team
-    USE     Specify a context (team/channel/thread)
-    CREA    Create a resources based on the context
-    LIST    List all sub resources based ont the context
-    INFO    List the current information based on the context
+    HELP    []                              List all available command
+    LOG     ['user_name']                   Connection to the server
+    OUT     []                              Disconnection from the current
+                                            server
+    USERS   []                              List all user on the server
+    USER    ['user_uuid']                   Get information from specified user
+    SEND    ['user_uuid']                   Send a message to a specified user
+            ['body_message']
+    MSG     ['user_uuid']                   List all message from specified user
+    SUBC    ['team_uuid']                   Subscribe to a specified team
+    UNSUB   ['team_uuid']                   nsubscribe from a specified team
+    SUBED   ?['team_uuid']                  List all subscribed teams or list
+                                            all users subscribed to a team
+    USE     ?['team_uuid']                  Specify a context (team/channel/
+                                            thread)
+            ?['channel_uuid]
+            ?['user_uuid']
+    CREA    ['context_name']                Create a resources based on the
+                                            context
+            ?['context_desc']
+    LIST    []                              List all sub resources based ont
+                                            the context
+    INFO    []                              List the current information based
+                                            on the context
 
 List of return
     101     Connection successful
     401     Connection denied
+
     102     Disconnection successful
     103     List the help
     104     List of users
     105     Information about user
     106     Message successfully sent
     107     List with all messages
+
     108     Subscribe to a team
-    408     Cannot subscribe to a team
     109     Unsubscribe from a team
     409     Cannot unsubscribe from a team
+
     110     Specify a context
     410     Cannot specify the context
     111     Create a new resources
@@ -59,3 +75,14 @@ List of return
     412     Cannot list all sub resources
     113     List information on the current context
     413     Cannot list information
+    114     List subscribed team
+    404     Command not found
+    402     Not logged
+    222     Event on server
+
+    439     Already exist
+    440     Action not authorized
+    441     Unknow team
+    442     Unknow channel
+    443     Unknow thread
+    444     Unknow user

@@ -15,27 +15,29 @@ EXT :=	c
 
 ## SOURCES VARIABLES
 ## --------------------------------------------->
-SRC_FOLDER :=	src/
+SRC_FOLDER :=	src/					\
+				src/return_code_handler
 IGNORE_SRC :=	.
 SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_readdir_race -maxdepth 1 -name '*.$(EXT)')))
 ## --------------------------------------------->
 
 ## INCLUDE VARIABLES
 ## --------------------------------------------->
-INC_FOLDER =	./inc
+INC_FOLDER =	./inc	\
+				./../
 IGNORE_INC := .
 INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 ## --------------------------------------------->
 
 ## LIBRARY VARIABLES
 ## --------------------------------------------->
-LFOLDER :=
+LFOLDER :=	./../libs/myteams
 LNAME :=
 LIB :=		$(addprefix $(LFOLDER), $(LNAME))
 
 LIB_FOLDER :=	$(addprefix -L, $(LFOLDER))
 LIB_NAME :=		$(addprefix -l, $(LNAME))
-LIB_EXT :=
+LIB_EXT := -lmyteams
 ## --------------------------------------------->
 
 ## OBJECT VARIABLES

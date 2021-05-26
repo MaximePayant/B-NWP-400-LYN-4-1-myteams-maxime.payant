@@ -18,13 +18,13 @@ typedef struct client_s client_t;
 #include <string.h>
 #include <malloc.h>
 #include <dirent.h>
-#include "team.h"
+#include "teams.h"
 #include "json_parser.h"
 #include "json_list.h"
 #include "jsnp_header.h"
 #include "data_type.h"
 #include <time.h>
-
+#include <bits/types/FILE.h>
 
 #define MAX_NAME_LENGTH 32
 #define MAX_DESCRIPTION_LENGTH 255
@@ -41,6 +41,7 @@ struct client_s
     uuid_t team_uuid;
     uuid_t channel_uuid;
     uuid_t thread_uuid;
+    FILE *file;
     struct client_s *next;
 };
 
@@ -54,12 +55,17 @@ struct server_s
     team_t *teams;
 };
 
+//Utils
+char *get_args(const char *command);
+char **get_params(const char *args);
+
 //init
 int init_server(server_t *server);
 
 //Core
 void server_core(server_t *server);
 void command_handler(server_t *server, client_t *client);
+void print_new_reply(message_t *message, client_t *client);
 
 //Client
 client_t *create_new_client(server_t *server);
@@ -77,5 +83,7 @@ void info(server_t *server, client_t *client, const char *command);
 void use(server_t *server, client_t *client, const char *command);
 void message(server_t *server, client_t *client, const char *command);
 void send_message(server_t *server, client_t *client, const char *command);
-
+void subscribe(server_t *server, client_t *client, const char *command);
+void unsubscribe(server_t *server, client_t *client, const char *command);
+void subscribed(server_t *server, client_t *client, const char *command);
 #endif //SERVER

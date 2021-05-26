@@ -94,18 +94,25 @@ SRC_FAILED =			(echo -e $(YELLOW)" ╚═> " $(RED) "Coudn't Build" ; $(MAKE) in
 all:
 	$(MAKE) all -C client/
 	$(MAKE) all -C server/
+	$(MAKE) all -C libs/json_parser/
 
 clean:
 	$(MAKE) clean -C client/
 	$(MAKE) clean -C server/
+	$(MAKE) clean -C libs/json_parser/
+
 
 fclean:
 	$(MAKE) fclean -C client/
 	$(MAKE) fclean -C server/
+	$(MAKE) fclean -C libs/json_parser/
+
 
 re:
 	$(MAKE) re -C client/
 	$(MAKE) re -C server/
+	$(MAKE) re -C libs/json_parser/
+
 ## --------------------------------------------->
 
 # LIBRARY RULES

@@ -9,8 +9,6 @@
 #include <malloc.h>
 #include "server.h"
 
-// @TODO changer le connected
-
 void init_value(client_t *new_client)
 {
     new_client->connected = 0;
@@ -21,6 +19,7 @@ void init_value(client_t *new_client)
     uuid_clear(new_client->channel_uuid);
     uuid_clear(new_client->thread_uuid);
 //    uuid_generate(new_client->uuid);
+    new_client->file = fdopen(new_client->socket, "rw");
 }
 
 client_t *create_new_client(server_t *server)

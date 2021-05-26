@@ -4,3 +4,4 @@ server/CMakeLists.txt
 myteams_server
 myteams_cli
 .minfo
+.vscode/

@@ -9,7 +9,7 @@
 #include <string.h>
 #include "list_uuid.h"
 
-list_uuid *create_uuid(list_uuid **first, const uuid_t new_uuid, char *string)
+list_uuid *add_uuid(list_uuid **first, const uuid_t new_uuid, char *string)
 {
     list_uuid *new_node = malloc(sizeof(list_uuid));
     list_uuid *current = *first;
