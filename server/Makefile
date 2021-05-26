@@ -20,6 +20,7 @@ SRC_FOLDER :=	src/			\
 				src/client		\
 				src/command		\
 				src/linked_list	\
+				src/message		\
 				src/team		\
 				src/thread
 IGNORE_SRC :=	.
