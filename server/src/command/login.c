@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include "clients.h"
 #include "server.h"
 
 char *modif_uuid(char *uuid_str)
@@ -17,18 +18,14 @@ char *modif_uuid(char *uuid_str)
     return new_uuid;
 }
 
-char *check_log_exist(char *log)
+char *check_exist(char *log, char *search)
 {
-
     struct dirent *de;
     char *new_path;
-
     DIR *dr = opendir("server/save/clients");
-    FILE *fp;
-    char *path;
     char *tmp;
-    char *log_find;
-    int i;
+    jsnp_t *jsnp;
+
     while ((de = readdir(dr)) != NULL) {
         if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, "."))
             continue;
@@ -38,82 +35,72 @@ char *check_log_exist(char *log)
         tmp = de->d_name;
         tmp = modif_uuid(tmp);
         strcat(new_path, tmp);
-        printf("\n|%s|\n", new_path);
-        jsnp_t *jsnp = jsnp_parse_file(new_path);
-        
-        jsnp_token_t *test = get_token(jsnp->value, "Name");
-        if (!strcmp(log, test->value->str)) {
+        jsnp = jsnp_parse_file(new_path);
+        if (!strcmp(log, get_token(jsnp->value, search)->value->str)) {
             closedir(dr);
             return (new_path);
         }
     }
     closedir(dr);    
     return NULL;
-    
 }
 
 void login(server_t *server, client_t *client, const char *command)
 {
     struct stat st = {0};
+    jsnp_t *jsnp;
     char *new_command = strdup(command);
     char *log = NULL;
     char *path_folder = NULL; 
     char *uuid_str;
+    (void) server;
 
+
+    if (client->connected == 1) {
+        dprintf(client->socket, "Already connect, you need loggout\r\n");
+        return;
+    }
     strtok(new_command, " ");
     log = strtok(NULL, " ");    
     if (!log) {
         dprintf(client->socket, "Enter a valid log please\r\n");
+        client->connected = 0;
         return;
     }
-    if (!check_log_exist(log)) {
+    if (!check_exist(log, "Name")) {
         path_folder = malloc(sizeof(char) * 58);
         uuid_str = malloc(sizeof(char) * 37);
         strcpy(path_folder, "server/save/clients/");
         uuid_generate(client->uuid);
         uuid_unparse_lower(client->uuid, uuid_str);
         strcat(path_folder, uuid_str);
-        printf("generate uuid=%s\n", path_folder);
-        if (stat(path_folder, &st) == -1) {
+        if (stat(path_folder, &st) == -1)
             mkdir(path_folder, 0755);
-            printf("bite\n");
-        }
-
-
-    jsnp_t *jsnp = create_jsnp();
-
-    if (!jsnp) {
-        printf("NOP\n");
-        return (84);
-    }
-
-    object_emplace_string_back(jsnp->value, "Name", log);
-    object_emplace_string_back(jsnp->value, "Uuid", uuid_str);
-
-    disp_jsnp(jsnp);
-    char *new_path = malloc(sizeof(char) * 100);
-    strcpy(new_path, path_folder);
-    uuid_str = modif_uuid(uuid_str);
-    strcat(new_path, uuid_str);
-    write_jsnp(jsnp, new_path);
-
-    free_jsnp(jsnp);
+        jsnp = create_jsnp();
+        object_emplace_string_back(jsnp->value, "Name", log);
+        object_emplace_string_back(jsnp->value, "Uuid", uuid_str);
+        char *new_path = malloc(sizeof(char) * 100);
+        strcpy(new_path, path_folder);
+        uuid_str = modif_uuid(uuid_str);
+        strcat(new_path, uuid_str);
+        write_jsnp(jsnp, new_path); 
         client->connected = 1;
-        client->user_name = log;
+        client->user_name = strdup(log);
         uuid_unparse_lower(client->uuid, uuid_str);
+        client->uuid_str = strdup(uuid_str);
         dprintf(client->socket, "Create clients with UUID = %s\r\n", uuid_str);
+        free_jsnp(jsnp);
+        free(path_folder);
+        free(uuid_str);
     }
-    else {        
-        jsnp_t *jsnp2 = jsnp_parse_file(check_log_exist(log));
-
+    else {
+        jsnp = jsnp_parse_file(check_exist(log, "Name"));
         client->connected = 1;
-        client->user_name = get_token(jsnp2->value, "Name")->value->str;
-        uuid_str = get_token(jsnp2->value, "Uuid")->value->str;
+        client->user_name = strdup(get_token(jsnp->value, "Name")->value->str);
+        uuid_str = get_token(jsnp->value, "Uuid")->value->str;
+        client->uuid_str = strdup(uuid_str);
         uuid_parse(uuid_str, client->uuid);
-        printf("caca %s\n", check_log_exist(log));
         dprintf(client->socket, "Log in account with UUID = %s\r\n", uuid_str);
-    free_jsnp(jsnp2);
-
+        free_jsnp(jsnp);
     }
-
 }

@@ -23,6 +23,7 @@ typedef struct client_s client_t;
 #include "json_list.h"
 #include "jsnp_header.h"
 #include "data_type.h"
+#include <time.h>
 
 
 #define MAX_NAME_LENGTH 32
@@ -35,6 +36,7 @@ struct client_s
     int socket;
     int connected;
     struct sockaddr_in data;
+    char *uuid_str;
     uuid_t uuid;
     uuid_t team_uuid;
     uuid_t channel_uuid;

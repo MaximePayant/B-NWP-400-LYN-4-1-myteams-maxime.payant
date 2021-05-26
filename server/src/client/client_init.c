@@ -13,9 +13,10 @@
 
 void init_value(client_t *new_client)
 {
-    new_client->connected = 1;
+    new_client->connected = 0;
     new_client->user_name = NULL;
     new_client->next = NULL;
+    new_client->uuid_str = NULL;
     uuid_clear(new_client->team_uuid);
     uuid_clear(new_client->channel_uuid);
     uuid_clear(new_client->thread_uuid);
