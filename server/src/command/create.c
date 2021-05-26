@@ -13,35 +13,40 @@
 static void create_new_resources(server_t *server,
 client_t *client, char **args)
 {
+    char *tmp_uuid = malloc(sizeof(char) * 37);
     team_t *team = NULL;
     channel_t *channel = NULL;
 
     if (uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
-        && uuid_is_null(client->thread_uuid))
+    && uuid_is_null(client->thread_uuid))
         create_team(server, client, args[0], args[1]);
-    else if (!uuid_is_null(client->team_uuid) &&
-             uuid_is_null(client->channel_uuid)
-             && uuid_is_null(client->thread_uuid)) {
+    else if (!uuid_is_null(client->team_uuid)
+    && uuid_is_null(client->channel_uuid)
+    && uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
-        if (!team)
-            dprintf(client->socket, "441 {%s}\r\n", client->team_uuid);
-        else
+        if (!team) {
+            uuid_unparse(client->team_uuid, tmp_uuid);
+            dprintf(client->socket, "441 {%s}\r\n", tmp_uuid);
+        } else
             create_channel(&team->channels, client, args[0], args[1]);
-    } else if (!uuid_is_null(client->team_uuid) &&
-               !uuid_is_null(client->channel_uuid)
-               && uuid_is_null(client->thread_uuid)) {
+    } else if (!uuid_is_null(client->team_uuid)
+    && !uuid_is_null(client->channel_uuid)
+    && uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
-        if (!team)
-            dprintf(client->socket, "441 {%s}\r\n", client->team_uuid);
-        else {
+        if (!team) {
+            uuid_unparse(client->team_uuid, tmp_uuid);
+            dprintf(client->socket, "441 {%s}\r\n", tmp_uuid);
+        } else {
+            uuid_unparse(client->channel_uuid, tmp_uuid);
             channel = get_channel_by_uuid(&team->channels,
                                           client->channel_uuid);
             if (!channel)
-                dprintf(client->socket, "442 {%s}\r\n", client->channel_uuid);
+                dprintf(client->socket, "442 {%s}\r\n", tmp_uuid);
             else
                 create_thread(&channel->threads, client, args[0], args[1]);
         }
     }
+    free(tmp_uuid);
 }
 
 void create(server_t *server, client_t *client, const char *command)
@@ -52,7 +57,7 @@ void create(server_t *server, client_t *client, const char *command)
     thread_t *thread = NULL;
 
     if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
-        && !uuid_is_null(client->thread_uuid)) {
+    && !uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
         channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
         thread = get_thread_by_uuid(&channel->threads, client->thread_uuid);
