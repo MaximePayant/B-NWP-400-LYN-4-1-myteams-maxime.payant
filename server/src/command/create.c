@@ -37,12 +37,12 @@ client_t *client, char **args)
             uuid_unparse(client->team_uuid, tmp_uuid);
             dprintf(client->socket, "441 {%s}\r\n", tmp_uuid);
         } else {
-            uuid_unparse(client->channel_uuid, tmp_uuid);
             channel = get_channel_by_uuid(&team->channels,
                                           client->channel_uuid);
-            if (!channel)
+            if (!channel) {
+                uuid_unparse(client->channel_uuid, tmp_uuid);
                 dprintf(client->socket, "442 {%s}\r\n", tmp_uuid);
-            else
+            } else
                 create_thread(&channel->threads, client, args[0], args[1]);
         }
     }
@@ -51,6 +51,7 @@ client_t *client, char **args)
 
 void create(server_t *server, client_t *client, const char *command)
 {
+    char *tmp_uuid = malloc(sizeof(char) * 37);
     char **args = get_params(command);
     team_t *team = NULL;
     channel_t *channel = NULL;
@@ -59,12 +60,27 @@ void create(server_t *server, client_t *client, const char *command)
     if (!uuid_is_null(client->team_uuid) && !uuid_is_null(client->channel_uuid)
     && !uuid_is_null(client->thread_uuid)) {
         team = get_team_by_uuid(&server->teams, client->team_uuid);
-        channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
-        thread = get_thread_by_uuid(&channel->threads, client->thread_uuid);
-        print_new_reply(create_message(&thread->message, client,
-        strstr(command, " ") + 1), client);
+        if (!team) {
+            uuid_unparse(client->team_uuid, tmp_uuid);
+            dprintf(client->socket, "441 {%s}\r\n", tmp_uuid);
+        } else {
+            channel = get_channel_by_uuid(&team->channels, client->channel_uuid);
+            if (!channel) {
+                uuid_unparse(client->channel_uuid, tmp_uuid);
+                dprintf(client->socket, "442 {%s}\r\n", tmp_uuid);
+            } else {
+                thread = get_thread_by_uuid(&channel->threads, client->thread_uuid);
+                if (!thread) {
+                    uuid_unparse(client->thread_uuid, tmp_uuid);
+                    dprintf(client->socket, "443 {%s}\r\n", tmp_uuid);
+                } else
+                    print_new_reply(create_message(&thread->message, client,
+                    strstr(command, " ") + 1), client);
+            }
+        }
     }
     if (!args[0] || !args[1])
         return;
     create_new_resources(server, client, args);
+    free(tmp_uuid);
 }
