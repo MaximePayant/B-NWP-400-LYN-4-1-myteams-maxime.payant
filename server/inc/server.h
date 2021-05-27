@@ -25,6 +25,8 @@ typedef struct client_s client_t;
 #include "data_type.h"
 #include <time.h>
 #include <bits/types/FILE.h>
+#include <stdlib.h>	
+#include <stdio.h>
 
 #define MAX_NAME_LENGTH 32
 #define MAX_DESCRIPTION_LENGTH 255

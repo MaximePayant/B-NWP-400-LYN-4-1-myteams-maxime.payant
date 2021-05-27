@@ -9,6 +9,18 @@
 #include "server.h"
 #include "clients.h"
 #include "json_list.h"
+#include <stdlib.h>
+#include <string.h>
+
+char *my_itoa(int num, char *str)
+{
+        if(str == NULL)
+        {
+                return NULL;
+        }
+        sprintf(str, "%d", num);
+        return str;
+}
 
 int verif_file_exist(char *path)
 {
@@ -32,13 +44,13 @@ void send_message(server_t *server, client_t *client, const char *command)
     char *tmp = NULL;
     jsnp_t *jnsp;
     jsnp_token_t *msg;
+    jsnp_value_t *value_nbr;
+    jsnp_token_t *nbr;
     time_t now;
+    int j = 0;
     struct tm * timeinfo;
     char *path_target = malloc(sizeof(char) * 110);
     char *path_home = malloc(sizeof(char) * 110);
-
-
-
 
     strtok(new_command, " ");
     target = strtok(NULL, " \"");
@@ -67,20 +79,23 @@ void send_message(server_t *server, client_t *client, const char *command)
         strcat(path_home, ".json\0");
         strcat(path_target, ".json\0");
         jnsp = create_jsnp();
-        if (verif_file_exist(path_target)) {
+        if (verif_file_exist(path_target))
             jnsp = jsnp_parse_file(path_target);
-        }
-        msg = object_emplace_array_back(jnsp->value, "Msg");
+        else
+            nbr = object_emplace_string_back(jnsp->value, "Nbr_msg", "0");
+        nbr = get_token(jnsp->value, "Nbr_msg");
+        j = atoi(nbr->value->str);
+        j++;
+        msg = object_emplace_array_back(jnsp->value, my_itoa(j, nbr->value->str));
         jsnp_value_t *value = array_emplace_object_back(msg->value);
         object_emplace_string_back(value, "Uuid target", target);
         object_emplace_string_back(value, "Uuid home", client->uuid_str);
-        object_emplace_string_back(value, "Heure", asctime(timeinfo));
+        object_emplace_string_back(value, "Heure", strtok(asctime(timeinfo), "\n"));
         object_emplace_string_back(value, "Message", message);
 
         write_jsnp(jnsp, path_target);
         write_jsnp(jnsp, path_home);
         dprintf(client->socket, "106 to uuid {%s} message {%s}\r\n", target, message);
-
 //        disp_jsnp(jnsp);
     }
     else

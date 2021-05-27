@@ -11,5 +11,13 @@
 
 void code_106(const char *args)
 {
-    (void) args;
+    char *uuid = strstr(args, "{");
+    char *message = strdup(uuid);
+    char *save = message;
+
+    message = strstr(message + 1, "{");
+    uuid = strtok(uuid, "}");
+    message = strtok(message, "}");
+    client_event_private_message_received(uuid+1, message+1);
+    free(save);
 }

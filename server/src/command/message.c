@@ -31,5 +31,5 @@ void message(server_t *server, client_t *client, const char *command)
     disp_jsnp(jnsp);
     json_str = jsnp_read_file(path_target);
 
-    dprintf(client->socket, "{%s}, {%s}, {%s}\r\n", target, "heure", json_str);
+    dprintf(client->socket, "107 {%s},{%s},{%s}\r\n", target, "heure", json_str);
 }
