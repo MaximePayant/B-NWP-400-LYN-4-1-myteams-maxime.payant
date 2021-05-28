@@ -30,21 +30,20 @@ int verif_file_exist(char *path)
         fclose(file);
         return 1;
     }
-    else {
-        return 0;
-    }    
+    else
+        return 0; 
     return 0;
 }
 
 void send_message(server_t *server, client_t *client, const char *command)
 {
+    (void)server;
     char *new_command = strdup(command);
     char *target = NULL;
     char *message = NULL;
-    char *tmp = NULL;
     jsnp_t *jnsp;
     jsnp_token_t *msg;
-    jsnp_value_t *value_nbr;
+//    jsnp_value_t *value_nbr;
     jsnp_token_t *nbr;
     time_t now;
     int j = 0;
@@ -54,7 +53,7 @@ void send_message(server_t *server, client_t *client, const char *command)
 
     strtok(new_command, " ");
     target = strtok(NULL, " \"");
-    tmp = strtok(NULL, "\"");
+    strtok(NULL, "\"");
 
     message = strtok(NULL, "\"");
     
