@@ -11,4 +11,5 @@
 
 void code_104(const char *args)
 {
+    printf("%s\n", args);
 }

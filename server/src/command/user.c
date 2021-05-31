@@ -21,7 +21,7 @@ void user(server_t *server, client_t *client, const char *command)
     target = strtok(NULL, " \"");
 
     if (!target) {
-        dprintf(client->socket, "440 Invalide target\r\n");
+        dprintf(client->socket, "444 Invalide target {%s}\r\n", target);
     }
     if (check_exist(target, "Uuid")) {
 
