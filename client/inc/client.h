@@ -35,6 +35,9 @@ void event_handler(const char *args);
 //Code
 void code_101(const char *args);
 void code_102(const char *args);
+void code_103(const char *args);
+void code_104(const char *args);
+void code_105(const char *args);
 void code_106(const char *args);
 void code_107(const char *args);
 void code_108(const char *args);

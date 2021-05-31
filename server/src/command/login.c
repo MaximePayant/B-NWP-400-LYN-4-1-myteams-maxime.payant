@@ -79,6 +79,7 @@ void login(server_t *server, client_t *client, const char *command)
         jsnp = create_jsnp();
         object_emplace_string_back(jsnp->value, "Name", log);
         object_emplace_string_back(jsnp->value, "Uuid", uuid_str);
+        object_emplace_primitive_back(jsnp->value, "Online", 1);
         char *new_path = malloc(sizeof(char) * 100);
         strcpy(new_path, path_folder);
         uuid_str = modif_uuid(uuid_str);
@@ -97,6 +98,8 @@ void login(server_t *server, client_t *client, const char *command)
         free(uuid_str);
     }
     else {
+        path_folder = malloc(sizeof(char) * 58);
+        uuid_str = malloc(sizeof(char) * 37);
         jsnp = jsnp_parse_file(check_exist(log, "Name"));
         client->connected = 1;
         client->user_name = strdup(get_token(jsnp->value, "Name")->value->str);
@@ -105,9 +108,23 @@ void login(server_t *server, client_t *client, const char *command)
         uuid_parse(uuid_str, client->uuid);
         server_event_user_loaded(client->uuid_str, client->user_name);
         server_event_user_logged_in(client->uuid_str);
+
+
+        strcpy(path_folder, "server/save/clients/");
+        strcat(path_folder, uuid_str);
+
+        jsnp = create_jsnp();
+        object_emplace_string_back(jsnp->value, "Name", log);
+        object_emplace_string_back(jsnp->value, "Uuid", uuid_str);
+        object_emplace_primitive_back(jsnp->value, "Online", 1);
+        char *new_path = malloc(sizeof(char) * 100);
+        strcpy(new_path, path_folder);
+        uuid_str = modif_uuid(uuid_str);
+        strcat(new_path, uuid_str);
+        write_jsnp(jsnp, new_path);
+
         dprintf(client->socket, "101 log successfully{%s}{%s}\r\n",
         client->uuid_str, client->user_name);
-
         free_jsnp(jsnp);
     }
 }
