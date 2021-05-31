@@ -34,8 +34,8 @@ void user(server_t *server, client_t *client, const char *command)
         if (verif_file_exist(path))
             jnsp = jsnp_parse_file(path);
         else
-            dprintf(client->socket, "440 Invalide target\r\n");
-        disp_jsnp(jnsp);
-        
+            dprintf(client->socket, "444 Invalide target {%s}\r\n", target);
+       // disp_jsnp(jnsp);
+        dprintf(client->socket, "105 {%s}{%s}{%d}\r\n", target,  get_token(jnsp->value, "Name")->value->str, get_token(jnsp->value, "Online")->value->primitive);
     }
 }

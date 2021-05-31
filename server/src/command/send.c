@@ -11,6 +11,7 @@
 #include "json_list.h"
 #include <stdlib.h>
 #include <string.h>
+#include "libs/myteams/logging_server.h"
 
 char *my_itoa(int num, char *str)
 {
@@ -94,8 +95,10 @@ void send_message(server_t *server, client_t *client, const char *command)
 
         write_jsnp(jnsp, path_target);
         write_jsnp(jnsp, path_home);
+        server_event_private_message_sent(client->uuid_str, target, message);
+
         dprintf(client->socket, "106 to uuid {%s} message {%s}\r\n", target, message);
-//        disp_jsnp(jnsp);
+        
     }
     else
         dprintf(client->socket, "440 Invalide message or target\r\n");

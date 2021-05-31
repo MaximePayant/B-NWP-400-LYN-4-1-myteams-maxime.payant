@@ -14,7 +14,7 @@ const char *return_code[] = {"101", "102", "103", "104", "105", "106", "107",
 
 void code_handler(char *code, char *args)
 {
-    void (*list_func[])(const char *) = {&code_101, &code_102, NULL, NULL, NULL,
+    void (*list_func[])(const char *) = {&code_101, &code_102, &code_103, &code_104, &code_105,
                                          &code_106, &code_107, &code_108,
                                          &code_109, &code_110, &code_111,
                                          &code_112, &code_113, &code_114,

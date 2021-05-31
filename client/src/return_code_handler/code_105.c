@@ -9,15 +9,14 @@
 #include "client.h"
 #include "libs/myteams/logging_client.h"
 
-void code_106(const char *args)
+void code_105(const char *args)
 {
     char *uuid = strstr(args, "{");
     char *message = strdup(uuid);
-    char *save = message;
+    int save;
 
     message = strstr(message + 1, "{");
     uuid = strtok(uuid, "}");
-    message = strtok(message, "}");
-//    client_event_private_message_received(uuid+1, message+1);
-    free(save);
+    save = args[2];
+    client_print_user(message+1, uuid+1, save);
 }
