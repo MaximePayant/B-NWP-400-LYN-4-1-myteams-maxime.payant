@@ -15,6 +15,7 @@ typedef struct thread_s
     uuid_t uuid;
     char *name;
     message_t *message;
+    time_t time;
     struct thread_s *next;
     struct thread_s *prev;
 } thread_t;
