@@ -16,7 +16,7 @@ void user(server_t *server, client_t *client, const char *command)
     char *path = malloc(sizeof(char) * 110);
     jsnp_t *jnsp;
 
-
+    (void) server;
     strtok(new_command, " ");
     target = strtok(NULL, " \"");
 

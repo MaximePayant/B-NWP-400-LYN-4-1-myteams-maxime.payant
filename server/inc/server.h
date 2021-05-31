@@ -18,15 +18,16 @@ typedef struct client_s client_t;
 #include <string.h>
 #include <malloc.h>
 #include <dirent.h>
+#include <time.h>
+#include <bits/types/FILE.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "teams.h"
 #include "json_parser.h"
 #include "json_list.h"
 #include "jsnp_header.h"
 #include "data_type.h"
-#include <time.h>
-#include <bits/types/FILE.h>
-#include <stdlib.h>	
-#include <stdio.h>
+
 
 #define MAX_NAME_LENGTH 32
 #define MAX_DESCRIPTION_LENGTH 255
@@ -45,6 +46,7 @@ struct client_s
     uuid_t thread_uuid;
     FILE *file;
     struct client_s *next;
+    struct client_s *prev;
 };
 
 struct server_s
@@ -74,7 +76,7 @@ server_t *get_server(server_t *server);
 client_t *create_new_client(server_t *server);
 client_t *get_client_by_sclient(server_t *ftp, int socket);
 client_t *get_client_by_uuid(server_t *server, uuid_t target_uuid);
-void delete_client(server_t *ftp, int socket);
+void delete_client(server_t *ftp, uuid_t uuid);
 
 //Command
 void help(server_t *server, client_t *client, const char *command);
