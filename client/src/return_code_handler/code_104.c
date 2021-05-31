@@ -11,5 +11,6 @@
 
 void code_104(const char *args)
 {
+    printf("JUIFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFf\n");
     printf("%s\n", args);
 }
