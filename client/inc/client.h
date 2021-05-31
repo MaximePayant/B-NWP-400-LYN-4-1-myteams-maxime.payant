@@ -26,7 +26,7 @@ void client_core(client_t *client);
 void update_set(client_t *client, fd_set *set);
 
 //Command
-int command_handler(client_t *client, char *command);
+int command_handler(client_t *client);
 void send_command(client_t *client, char *command);
 void code_handler(char *code, char *args);
 char **get_return_args(const char *args);

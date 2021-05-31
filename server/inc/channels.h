@@ -15,6 +15,7 @@ typedef struct channel_s {
     char *name;
     char *description;
     thread_t *threads;
+    char *uuid_str;
     struct channel_s *next;
     struct channel_s *prev;
 } channel_t;

@@ -38,6 +38,7 @@ int main(int ac, char **av)
     if (strcmp(av[1], "-help") == 0)
         return (help_output());
     server = init_struct(av);
+    get_server(server);
     if (init_server(server) == 1) {
         printf("[SERVER] Cannot initialize the server\n");
         free((server));

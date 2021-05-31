@@ -5,7 +5,6 @@
 ** thread_create.c
 */
 
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "server.h"
@@ -24,28 +23,38 @@ char *name, char *message)
     new_thread->name = strdup(name);
     message[last] = (message[last] == '\n') ? '\0' : message[last];
     create_message(&new_thread->message, client, message);
+    new_thread->uuid_str = malloc(sizeof(char) * 37);
+    uuid_unparse(new_thread->uuid, new_thread->uuid_str);
+}
+
+static void send_event(server_t *server, thread_t *new_thread, client_t *client)
+{
+    client_t *current = server->client;
+
+    while (current) {
+        if (!current->connected) {
+            current = current->next;
+            continue;
+        }
+        dprintf(current->socket, "222 New team created{thread}{%s}"
+        "{%s}{%s}{%s}{%s}\r\n", new_thread->uuid_str, client->uuid_str, "TIMER",
+        new_thread->name, new_thread->message->core);
+        current = current->next;
+    }
 }
 
 static void print_event(thread_t *new_thread, client_t *client)
 {
-    char *threads_uuid = malloc(sizeof(char) * 37);
-    char *team_uuid = malloc(sizeof(char) * 37);
     char *channel_uuid = malloc(sizeof(char) * 37);
-    char *user_uuid = malloc(sizeof(char) * 37);
 
-    uuid_unparse(new_thread->uuid, threads_uuid);
-    uuid_unparse(client->team_uuid, team_uuid);
     uuid_unparse(client->channel_uuid, channel_uuid);
-    uuid_unparse(client->uuid, user_uuid);
-    server_event_thread_created(channel_uuid, threads_uuid, user_uuid,
+    server_event_thread_created(channel_uuid, new_thread->uuid_str, client->uuid_str,
     new_thread->name, new_thread->message->core);
     dprintf(client->socket, "111 thread successfully created{thread}"
-    "{%s}{%s}{%s}{%s}\r\n", threads_uuid, user_uuid, new_thread->name,
+    "{%s}{%s}{%s}{%s}\r\n", new_thread->uuid_str, client->uuid_str, new_thread->name,
     new_thread->message->core);
-    free(threads_uuid);
-    free(team_uuid);
+    send_event(get_server(NULL), new_thread, client);
     free(channel_uuid);
-    free(user_uuid);
 }
 
 void *check_error(client_t *client, thread_t **first, char *name, char *message)

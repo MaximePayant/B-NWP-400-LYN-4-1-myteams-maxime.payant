@@ -5,7 +5,6 @@
 ** thread_create.c
 */
 
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "server.h"
@@ -24,12 +23,24 @@ static void define_value(team_t *new_team, char *name, char *description)
     new_team->name = strdup(name);
     description[last] = (description[last] == '\n') ? '\0' : description[last];
     new_team->description = strdup(description);
+    new_team->uuid_str = malloc(sizeof(char) * 37);
+    uuid_unparse(new_team->uuid, new_team->uuid_str);
 }
 
-static void free_mem(char *str1, char *str2)
+static void send_event(server_t *server, char *team_uuid, char *name,
+char *description)
 {
-    free(str1);
-    free(str2);
+    client_t *current = server->client;
+
+    while (current) {
+        if (!current->connected) {
+            current = current->next;
+            continue;
+        }
+        dprintf(current->socket, "222 New team created{team}{%s}{%s}{%s}\r\n",
+        team_uuid, name, description);
+        current = current->next;
+    }
 }
 
 team_t *create_team(server_t *server, client_t *client,
@@ -37,26 +48,20 @@ char *name, char *description)
 {
     team_t *new_team = malloc(sizeof(team_t));
     team_t *current = server->teams;
-    char *teams_uuid = malloc(sizeof(char) * 37);
-    char *client_uuid = malloc(sizeof(char) * 37);
 
     if (get_team_by_name(&server->teams, name)) {
         dprintf(client->socket, "439 \r\n");
         return (NULL);
     }
     if (strlen(name) > MAX_NAME_LENGTH) {
-        free_mem(teams_uuid, client_uuid);
         dprintf(client->socket, "411 Team's name too long\r\n");
         return (NULL);
     }
     if (strlen(description) > MAX_DESCRIPTION_LENGTH) {
-        free_mem(teams_uuid, client_uuid);
         dprintf(client->socket, "411 Team's description too long\r\n");
         return (NULL);
     }
     define_value(new_team, name, description);
-    uuid_unparse(new_team->uuid, teams_uuid);
-    uuid_unparse(client->uuid, client_uuid);
     if (!current)
         server->teams = new_team;
     else {
@@ -65,8 +70,8 @@ char *name, char *description)
         current->next = new_team;
         new_team->prev = current;
     }
-    server_event_team_created(teams_uuid, new_team->name, client_uuid);
-    dprintf(client->socket, "111 Team successfully created{team}{%s}{%s}{%s}\r\n", teams_uuid, name, description);
-    free_mem(teams_uuid, client_uuid);
+    server_event_team_created(new_team->uuid_str, new_team->name, client->uuid_str);
+    dprintf(client->socket, "111 Team successfully created{team}{%s}{%s}{%s}\r\n", new_team->uuid_str, name, description);
+    send_event(server, new_team->uuid_str, name, description);
     return (new_team);
 }

@@ -22,20 +22,35 @@ const char *body)
     new_message->time = time(NULL);
 }
 
+static void send_event(server_t *server, message_t *message, client_t *client, char *thread_uuid)
+{
+    client_t *current = server->client;
+    char *team_uuid = malloc(sizeof(char) * 37);
+
+    uuid_unparse(client->team_uuid, team_uuid);
+    while (current) {
+        if (!current->connected) {
+            current = current->next;
+            continue;
+        }
+        dprintf(current->socket, "222 New team created{replay}{%s}"
+        "{%s}{%s}{%s}\r\n", team_uuid, thread_uuid, client->uuid_str, message->core);
+        current = current->next;
+    }
+}
+
 void print_new_reply(message_t *message, client_t *client)
 {
     char *thread_uuid = malloc(sizeof(char) * 37);
-    char *client_uuid = malloc(sizeof(char) * 37);
     char buff[20];
 
     strftime(buff, 20, "%Y-%m-%d %H:%M:%S", localtime(&message->time));
-    uuid_unparse(client->uuid, client_uuid);
     uuid_unparse(client->thread_uuid, thread_uuid);
-    server_event_thread_new_reply(thread_uuid, client_uuid, message->core);
+    server_event_thread_new_reply(thread_uuid, client->uuid_str, message->core);
     dprintf(client->socket, "111 thread successfully created{message}{%s}{%s}{%s}{%s}\r\n",
-    thread_uuid, client_uuid, buff, message->core);
+    thread_uuid, client->uuid_str, buff, message->core);
+    send_event(get_server(NULL), message, client, thread_uuid);
     free(thread_uuid);
-    free(client_uuid);
 }
 
 message_t *create_message(message_t **first, client_t *client, const char *body)

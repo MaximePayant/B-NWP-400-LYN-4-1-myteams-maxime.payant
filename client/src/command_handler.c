@@ -20,7 +20,7 @@ char *get_code(char *command)
     return (strtok(command, " "));
 }
 
-int command_handler(client_t *client, char *command)
+int command_handler(client_t *client)
 {
     char *respond = "\0";
     size_t size = 0;
@@ -29,7 +29,6 @@ int command_handler(client_t *client, char *command)
     char *code = NULL;
     size_t mem = 0;
 
-    send_command(client, command);
     do {
         getline(&respond, &size, client->file);
         mem = ((!complete) ? 0 : strlen(complete)) + strlen(respond);

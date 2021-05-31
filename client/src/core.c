@@ -50,7 +50,8 @@ int command_handler_send(client_t *client)
     command = get_command();
     if (command == NULL)
         return (1);
-    command_handler(client, command);
+    send_command(client, command);
+    command_handler(client);
     free(command);
     return (0);
 }
@@ -68,7 +69,7 @@ int select_socket(client_t *client, fd_set *set)
             if (!FD_ISSET(i, set))
                 continue;
             if (i == client->socket)
-                printf("event\n");
+                command_handler(client);
             else
                 return (command_handler_send(client));
         }
