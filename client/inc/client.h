@@ -23,6 +23,7 @@ typedef struct client_s
 
 //Core
 void client_core(client_t *client);
+void update_set(client_t *client, fd_set *set);
 
 //Command
 int command_handler(client_t *client, char *command);

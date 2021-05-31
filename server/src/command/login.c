@@ -27,8 +27,8 @@ char *check_exist(char *log, char *search)
     char *tmp;
     jsnp_t *jsnp;
 
-    while ((de = readdir(dr)) != NULL) {
-        if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, "."))
+    while (dr && (de = readdir(dr)) != NULL) {
+        if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, ".") || !strcmp(de->d_name, ".exist"))
             continue;
         new_path = malloc(sizeof(char) * 100);
         strcpy(new_path, "server/save/clients/");

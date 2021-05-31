@@ -19,6 +19,7 @@ char *name, char *message)
     new_thread->next = NULL;
     new_thread->prev = NULL;
     new_thread->message = NULL;
+    new_thread->time = time(NULL);
     uuid_generate(new_thread->uuid);
     new_thread->name = strdup(name);
     message[last] = (message[last] == '\n') ? '\0' : message[last];
