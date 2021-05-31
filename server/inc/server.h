@@ -14,6 +14,7 @@ typedef struct client_s client_t;
 #include <netinet/in.h>
 #include <uuid/uuid.h>
 #include <bits/types/FILE.h>
+#include "libs/json_parser/json_parser.h"
 #include "teams.h"
 
 #define MAX_NAME_LENGTH 32
@@ -73,4 +74,16 @@ void use(server_t *server, client_t *client, const char *command);
 void subscribe(server_t *server, client_t *client, const char *command);
 void unsubscribe(server_t *server, client_t *client, const char *command);
 void subscribed(server_t *server, client_t *client, const char *command);
+
+//Save
+void save(server_t *server);
+server_t *load(int port);
+void load_team(server_t *server, jsnp_token_t *token);
+void load_channel(team_t *team, jsnp_token_t *token);
+void load_thread(channel_t *chan, jsnp_token_t *token);
+
+//time_t converter
+char *time_to_string(time_t time);
+time_t string_to_time(char *string);
+
 #endif //SERVER

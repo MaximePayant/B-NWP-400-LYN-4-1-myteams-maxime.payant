@@ -29,6 +29,7 @@ server_t *init_struct(char **av)
     new_server->teams = NULL;
     return (new_server);
 }
+
 int main(int ac, char **av)
 {
     server_t *server = NULL;

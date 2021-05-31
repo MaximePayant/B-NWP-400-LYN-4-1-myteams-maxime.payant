@@ -22,7 +22,9 @@ SRC_FOLDER :=	src/			\
 				src/linked_list	\
 				src/message		\
 				src/team		\
-				src/thread
+				src/thread		\
+				src/save		\
+				src/utils
 IGNORE_SRC :=	.
 SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_readdir_race -maxdepth 1 -name '*.$(EXT)')))
 ## --------------------------------------------->
@@ -43,7 +45,7 @@ LIB :=		$(addprefix $(LFOLDER), $(LNAME))
 
 LIB_FOLDER :=	$(addprefix -L, $(LFOLDER))
 LIB_NAME :=		$(addprefix -l, $(LNAME))
-LIB_EXT := -luuid -lmyteams
+LIB_EXT := -luuid -lmyteams -L./../libs/json_parser -ljsnp
 ## --------------------------------------------->
 
 ## OBJECT VARIABLES
