@@ -41,4 +41,5 @@ void logout(server_t *server, client_t *client, const char *command)
         delete_client(server, client->socket);
         return;
     }
+        dprintf(client->socket, "440 Disconnection successfully\r\n");
 }

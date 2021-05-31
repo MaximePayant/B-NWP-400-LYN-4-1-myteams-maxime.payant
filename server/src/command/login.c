@@ -23,7 +23,7 @@ char *check_exist(char *log, char *search)
 {
     struct dirent *de;
     char *new_path;
-    DIR *dr = opendir("server/save/clients");
+    DIR *dr = opendir("server/save/clients/");
     char *tmp;
     jsnp_t *jsnp;
 
