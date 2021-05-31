@@ -88,4 +88,7 @@ void send_message(server_t *server, client_t *client, const char *command);
 void subscribe(server_t *server, client_t *client, const char *command);
 void unsubscribe(server_t *server, client_t *client, const char *command);
 void subscribed(server_t *server, client_t *client, const char *command);
+void user(server_t *server, client_t *client, const char *command);
+void users(server_t *server, client_t *client, const char *command);
+
 #endif //SERVER
