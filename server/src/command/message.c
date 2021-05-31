@@ -11,6 +11,7 @@
 
 void message(server_t *server, client_t *client, const char *command)
 {
+    (void)server;
     char *new_command = strdup(command);
     char *target = NULL;
     char *path_target = malloc(sizeof(char) * 110);

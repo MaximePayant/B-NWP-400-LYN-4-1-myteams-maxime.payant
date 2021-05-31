@@ -60,7 +60,7 @@ void login(server_t *server, client_t *client, const char *command)
         return;
     }
     strtok(new_command, " ");
-    log = strtok(NULL, " ");    
+    log = strtok(NULL, "\"");    
     if (!log) {
         dprintf(client->socket, "401 Enter a valid log please\r\n");
         client->connected = 0;
