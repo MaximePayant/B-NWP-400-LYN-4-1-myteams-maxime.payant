@@ -14,25 +14,23 @@
 
 char *my_itoa(int num, char *str)
 {
-        if(str == NULL)
-        {
-                return NULL;
-        }
-        sprintf(str, "%d", num);
-        return str;
+    if(str == NULL)
+        return NULL;
+    sprintf(str, "%d", num);
+    return str;
 }
 
 int verif_file_exist(char *path)
 {
     FILE *file;
 
-    if (file = fopen(path, "r")) {
+    file = fopen(path, "r");
+    if (file) {
         fclose(file);
         return 1;
     }
     else
         return 0; 
-    return 0;
 }
 
 void send_message(server_t *server, client_t *client, const char *command)

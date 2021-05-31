@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "clients.h"
 #include "server.h"
+#include "libs/myteams/logging_server.h"
 
 char *modif_uuid(char *uuid_str)
 {
@@ -26,7 +27,7 @@ char *check_exist(char *log, char *search)
     char *tmp;
     jsnp_t *jsnp;
 
-    while ((de = readdir(dr)) != NULL) {
+    while (dr && (de = readdir(dr)) != NULL) {
         if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, "."))
             continue;
         new_path = malloc(sizeof(char) * 100);
