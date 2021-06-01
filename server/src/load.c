@@ -20,14 +20,10 @@ void load_clients()
     jsnp_t *jsnp;
     char *jew;
 
-    printf("JUIFJUIFJUIF\n");
-
-/*
     while (dr && (de = readdir(dr)) != NULL) {
     
         if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, ".") || !strcmp(de->d_name, ".exist"))
             continue;
-        
         new_path = malloc(sizeof(char) * 100);
         strcpy(new_path, "server/save/clients/");
         strcat(new_path, de->d_name);
@@ -35,12 +31,7 @@ void load_clients()
         tmp = modif_uuid(tmp);
         strcat(new_path, tmp);
         jsnp = jsnp_parse_file(new_path);
-        jew = jsnp_read_file(new_path);
-        
-
-        printf("juif = %s\n", de->d_name);
-    
+        server_event_user_loaded(get_token(jsnp->value, "Uuid")->value->str, get_token(jsnp->value, "Name")->value->str);    
     }
-    */
     closedir(dr);
 }
