@@ -23,7 +23,7 @@ typedef struct client_s client_t;
 #include <stdlib.h>
 #include <stdio.h>
 #include "teams.h"
-#include "json_parser.h"
+#include "libs/json_parser/json_parser.h"
 #include "json_list.h"
 #include "jsnp_header.h"
 #include "data_type.h"
@@ -94,6 +94,18 @@ void send_message(server_t *server, client_t *client, const char *command);
 void subscribe(server_t *server, client_t *client, const char *command);
 void unsubscribe(server_t *server, client_t *client, const char *command);
 void subscribed(server_t *server, client_t *client, const char *command);
+
+//Save
+void save(server_t *server);
+server_t *load(int port);
+void load_team(server_t *server, jsnp_value_t *token);
+void load_channel(team_t *team, jsnp_value_t *token);
+void load_thread(channel_t *chan, jsnp_value_t *token);
+
+//time_t converter
+char *time_to_string(time_t time);
+time_t string_to_time(char *string);
+
 void user(server_t *server, client_t *client, const char *command);
 void users(server_t *server, client_t *client, const char *command);
 
