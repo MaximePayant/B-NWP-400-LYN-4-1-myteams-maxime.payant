@@ -23,9 +23,10 @@ typedef struct client_s
 
 //Core
 void client_core(client_t *client);
+void update_set(client_t *client, fd_set *set);
 
 //Command
-int command_handler(client_t *client, char *command);
+int command_handler(client_t *client);
 void send_command(client_t *client, char *command);
 void code_handler(char *code, char *args);
 char **get_return_args(const char *args);
@@ -34,6 +35,9 @@ void event_handler(const char *args);
 //Code
 void code_101(const char *args);
 void code_102(const char *args);
+void code_103(const char *args);
+void code_104(const char *args);
+void code_105(const char *args);
 void code_106(const char *args);
 void code_107(const char *args);
 void code_108(const char *args);
@@ -41,6 +45,7 @@ void code_109(const char *args);
 void code_110(const char *args);
 void code_111(const char *args);
 void code_112(const char *args);
+void code_113(const char *args);
 void code_114(const char *args);
 
 void code_439(const char *args);

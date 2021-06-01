@@ -5,9 +5,7 @@
 ** delete_client.c
 */
 
-#include <stdlib.h>
 #include <unistd.h>
-#include <stddef.h>
 #include <stdio.h>
 #include "server.h"
 
@@ -22,23 +20,15 @@ static void close_and_free(client_t *delete)
     printf("[SERVER] Client disconnected\n");
 }
 
-void delete_client(server_t *ftp, int socket)
+void delete_client(server_t *server, uuid_t uuid)
 {
-    client_t *current = ftp->client;
-    client_t *delete = NULL;
+    client_t *delete = get_client_by_uuid(server, uuid);
 
-    while (current) {
-        if ((current->next && current->next->socket == socket) ||
-            current->socket == socket)
-            break;
-        current = current->next;
-    }
-    if (!current)
-        return;
-    delete = (current->next) ? current->next : current;
-    if (current->next)
-        current->next = current->next->next;
-    else if (ftp->client == delete)
-        ftp->client = NULL;
+    if (delete->prev)
+        delete->prev->next = delete->next;
+    else
+        server->client = delete->next;
+    if (delete->next)
+        delete->next->prev = delete->prev;
     close_and_free(delete);
 }

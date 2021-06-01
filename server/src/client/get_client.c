@@ -25,7 +25,7 @@ client_t *get_client_by_uuid(server_t *server, uuid_t target_uuid)
     client_t *current = server->client;
 
     while (current) {
-        if (uuid_compare(current->uuid, target_uuid))
+        if (uuid_compare(current->uuid, target_uuid) == 0)
             return (current);
         current = current->next;
     }

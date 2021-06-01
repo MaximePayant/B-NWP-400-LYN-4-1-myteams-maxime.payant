@@ -6,8 +6,6 @@
 */
 
 #include <stdio.h>
-#include <malloc.h>
-#include <string.h>
 #include "server.h"
 
 const char *command_nolog[] = {"HELP", "LOGIN", "LOGOUT", NULL};
@@ -25,7 +23,7 @@ char *str_clean(char *string)
 void command_logged(server_t *server, client_t *client, char *command)
 {
     void (*list_func[])(server_t *, client_t *, const char *) =
-    {NULL, NULL, NULL, NULL, &subscribe, &unsubscribe, &subscribed, &use,
+    {&users, &user, &send_message, &message, &subscribe, &unsubscribe, &subscribed, &use,
     &create, &list, &info, NULL};
     char *real_command = strdup(command);
 

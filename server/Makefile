@@ -32,14 +32,19 @@ SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_r
 ## INCLUDE VARIABLES
 ## --------------------------------------------->
 INC_FOLDER =	./inc	\
-				./../
+				./../ \
+				./../libs/json_parser/ \
+				../libs/json_parser/inc
+
 IGNORE_INC := .
 INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 ## --------------------------------------------->
 
 ## LIBRARY VARIABLES
 ## --------------------------------------------->
-LFOLDER := ./../libs/myteams
+LFOLDER :=  ../libs/myteams \
+			../libs/json_parser \
+
 LNAME :=
 LIB :=		$(addprefix $(LFOLDER), $(LNAME))
 
@@ -50,7 +55,7 @@ LIB_EXT := -luuid -lmyteams -L./../libs/json_parser -ljsnp
 
 ## OBJECT VARIABLES
 ## --------------------------------------------->
-OBJ_PATH :=		obj/
+OBJ_PATH :=	obj/
 OBJ_FOLDER :=	$(addprefix $(OBJ_PATH), $(SRC_FOLDER))
 OBJ :=			$(addprefix $(OBJ_PATH), $(SRC:.$(EXT)=.o))
 ## --------------------------------------------->
@@ -151,7 +156,9 @@ $(OBJ): $(OBJ_PATH)%.o: %.$(EXT)
 	$(COLOR_RESET)
 
 clean:
-	rm -rf $(OBJ_PATH)
+	rm -rfv $(OBJ_PATH)
+	rm -rfv save/clients/*
+
 
 fclean: clean
 	rm -f $(EXEC)
@@ -184,7 +191,7 @@ $(TFOLDER):
 	mv $(lastword $(subst /, $(empty), $@)) tests/bin/
 
 test_clean:
-	rm -rf tests/bin/
+	rm -rfv tests/bin/
 #------------------------------------------>
 
 ## SYSTEM RULES

@@ -13,9 +13,21 @@ typedef struct client_s client_t;
 
 #include <netinet/in.h>
 #include <uuid/uuid.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <string.h>
+#include <malloc.h>
+#include <dirent.h>
+#include <time.h>
 #include <bits/types/FILE.h>
-#include "libs/json_parser/json_parser.h"
+#include <stdlib.h>
+#include <stdio.h>
 #include "teams.h"
+#include "libs/json_parser/json_parser.h"
+#include "json_list.h"
+#include "jsnp_header.h"
+#include "data_type.h"
+
 
 #define MAX_NAME_LENGTH 32
 #define MAX_DESCRIPTION_LENGTH 255
@@ -27,12 +39,14 @@ struct client_s
     int socket;
     int connected;
     struct sockaddr_in data;
+    char *uuid_str;
     uuid_t uuid;
     uuid_t team_uuid;
     uuid_t channel_uuid;
     uuid_t thread_uuid;
     FILE *file;
     struct client_s *next;
+    struct client_s *prev;
 };
 
 struct server_s
@@ -56,12 +70,13 @@ int init_server(server_t *server);
 void server_core(server_t *server);
 void command_handler(server_t *server, client_t *client);
 void print_new_reply(message_t *message, client_t *client);
+server_t *get_server(server_t *server);
 
 //Client
 client_t *create_new_client(server_t *server);
 client_t *get_client_by_sclient(server_t *ftp, int socket);
 client_t *get_client_by_uuid(server_t *server, uuid_t target_uuid);
-void delete_client(server_t *ftp, int socket);
+void delete_client(server_t *ftp, uuid_t uuid);
 
 //Command
 void help(server_t *server, client_t *client, const char *command);
@@ -71,6 +86,8 @@ void create(server_t *server, client_t *client, const char *command);
 void list(server_t *server, client_t *client, const char *command);
 void info(server_t *server, client_t *client, const char *command);
 void use(server_t *server, client_t *client, const char *command);
+void message(server_t *server, client_t *client, const char *command);
+void send_message(server_t *server, client_t *client, const char *command);
 void subscribe(server_t *server, client_t *client, const char *command);
 void unsubscribe(server_t *server, client_t *client, const char *command);
 void subscribed(server_t *server, client_t *client, const char *command);
@@ -85,5 +102,8 @@ void load_thread(channel_t *chan, jsnp_value_t *token);
 //time_t converter
 char *time_to_string(time_t time);
 time_t string_to_time(char *string);
+
+void user(server_t *server, client_t *client, const char *command);
+void users(server_t *server, client_t *client, const char *command);
 
 #endif //SERVER

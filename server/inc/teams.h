@@ -18,6 +18,7 @@ typedef struct team_s {
     char *description;
     list_uuid *list_uuid;
     channel_t *channels;
+    char *uuid_str;
     struct team_s *next;
     struct team_s *prev;
 } team_t;

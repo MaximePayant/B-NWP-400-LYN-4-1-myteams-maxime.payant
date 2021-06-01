@@ -5,7 +5,6 @@
 ** thread_create.c
 */
 
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "server.h"
@@ -23,6 +22,8 @@ static void define_value(channel_t *new_channel, char *name, char *description)
     new_channel->name = strdup(name);
     description[last] = (description[last] == '\n') ? '\0' : description[last];
     new_channel->description = strdup(description);
+    new_channel->uuid_str = malloc(sizeof(char) * 37);
+    uuid_unparse(new_channel->uuid, new_channel->uuid_str);
 }
 
 static void *check_error(client_t *client, channel_t **first, char *name, char *description)
@@ -40,17 +41,34 @@ static void *check_error(client_t *client, channel_t **first, char *name, char *
     return (client);
 }
 
+static void send_event(server_t *server, char *channel_uuid, char *name,
+char *description)
+{
+    client_t *current = server->client;
+
+    while (current) {
+        if (!current->connected) {
+            current = current->next;
+            continue;
+        }
+        dprintf(current->socket, "222 New team created{channel}{%s}"
+        "{%s}{%s}\r\n", channel_uuid, name, description);
+        current = current->next;
+    }
+}
+
 static void print_event(channel_t *new_channel, client_t *client)
 {
-    char *channels_uuid = malloc(sizeof(char) * 37);
     char *team_uuid = malloc(sizeof(char) * 37);
 
-    uuid_unparse(new_channel->uuid, channels_uuid);
     uuid_unparse(client->team_uuid, team_uuid);
-    server_event_channel_created(team_uuid, channels_uuid, new_channel->name);
+    server_event_channel_created(team_uuid, new_channel->uuid_str, new_channel->name);
     dprintf(client->socket, "111 Channel successfully created{channel}"
-    "{%s}{%s}{%s}\r\n", channels_uuid, new_channel->name,
+    "{%s}{%s}{%s}\r\n", new_channel->uuid_str, new_channel->name,
     new_channel->description);
+    send_event(get_server(NULL), new_channel->uuid_str, new_channel->name,
+    new_channel->description);
+    free(team_uuid);
 }
 
 channel_t *create_channel(channel_t **first, client_t *client,
