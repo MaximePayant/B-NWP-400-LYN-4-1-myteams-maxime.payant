@@ -78,6 +78,9 @@ client_t *get_client_by_sclient(server_t *ftp, int socket);
 client_t *get_client_by_uuid(server_t *server, uuid_t target_uuid);
 void delete_client(server_t *ftp, uuid_t uuid);
 
+//Load
+void load_clients();
+
 //Command
 void help(server_t *server, client_t *client, const char *command);
 void login(server_t *server, client_t *client, const char *command);

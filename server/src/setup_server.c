@@ -51,6 +51,7 @@ int init_server(server_t *server)
     server->sock.sin_family = AF_INET;
     server->sock.sin_port = htons(server->port);
     server->sock.sin_addr.s_addr = htonl(INADDR_ANY);
+//    load_clients();
     if (bind_socket(server) == 1 || listen_socket(server) == 1)
         return (1);
     return (0);
