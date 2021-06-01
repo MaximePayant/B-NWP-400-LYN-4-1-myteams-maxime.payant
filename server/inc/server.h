@@ -78,9 +78,9 @@ void subscribed(server_t *server, client_t *client, const char *command);
 //Save
 void save(server_t *server);
 server_t *load(int port);
-void load_team(server_t *server, jsnp_token_t *token);
-void load_channel(team_t *team, jsnp_token_t *token);
-void load_thread(channel_t *chan, jsnp_token_t *token);
+void load_team(server_t *server, jsnp_value_t *token);
+void load_channel(team_t *team, jsnp_value_t *token);
+void load_thread(channel_t *chan, jsnp_value_t *token);
 
 //time_t converter
 char *time_to_string(time_t time);

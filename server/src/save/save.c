@@ -13,23 +13,12 @@
 static void save_message(message_t *mess, jsnp_token_t *array)
 {
     jsnp_value_t *obj = array_emplace_object_back(array->value);
-    jsnp_token_t *cttime = NULL;
     char *uuid = malloc(sizeof(char) * 37);
-    struct tm *ltime = localtime(&mess->time);
 
     uuid_unparse(mess->author, uuid);
     object_emplace_string_back(obj, "Author uuid", uuid);
     object_emplace_string_back(obj, "Body", mess->core);
-    cttime = object_emplace_object_back(obj, "Creation time");
-    object_emplace_primitive_back(cttime->value, "sec", ltime->tm_sec);
-    object_emplace_primitive_back(cttime->value, "min", ltime->tm_min);
-    object_emplace_primitive_back(cttime->value, "hour", ltime->tm_hour);
-    object_emplace_primitive_back(cttime->value, "mday", ltime->tm_mday);
-    object_emplace_primitive_back(cttime->value, "wday", ltime->tm_wday);
-    object_emplace_primitive_back(cttime->value, "yday", ltime->tm_yday);
-    object_emplace_primitive_back(cttime->value, "mon", ltime->tm_mon);
-    object_emplace_primitive_back(cttime->value, "year", ltime->tm_year);
-    object_emplace_primitive_back(cttime->value, "isdst", ltime->tm_isdst);
+    object_emplace_string_back(obj, "Creation time", time_to_string(mess->time));
 }
 
 static void save_thread(thread_t *thrd, jsnp_token_t *array)
