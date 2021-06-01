@@ -12,13 +12,11 @@
 
 void load_clients()
 {
-    
     struct dirent *de;
     char *new_path;
     DIR *dr = opendir("server/save/clients/");
     char *tmp;
     jsnp_t *jsnp;
-    char *jew;
 
     while (dr && (de = readdir(dr)) != NULL) {
     

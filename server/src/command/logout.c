@@ -33,9 +33,9 @@ void logout(server_t *server, client_t *client, const char *command)
         strcat(new_path, uuid_str);
         write_jsnp(jsnp, new_path);
 
-        delete_client(server, client->uuid_str);
         dprintf(client->socket, "102 Disconnection successfully{%s}{%s}\r\n",
         client->uuid_str, client->user_name);
+        delete_client(server, client->uuid);
         return;
     }
     dprintf(client->socket, "440 Disconnection successfully\r\n");
