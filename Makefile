@@ -23,7 +23,7 @@ SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_r
 
 ## INCLUDE VARIABLES
 ## --------------------------------------------->
-INC_FOLDER =	./inc 
+INC_FOLDER =	./inc
 IGNORE_INC := .
 INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 ## --------------------------------------------->
@@ -92,26 +92,26 @@ SRC_FAILED =			(echo -e $(YELLOW)" ╚═> " $(RED) "Coudn't Build" ; $(MAKE) in
 .PHONY: all introduce compile_obj re clean fclean
 
 all:
+	$(MAKE) all -C libs/json_parser/
 	$(MAKE) all -C client/
 	$(MAKE) all -C server/
-	$(MAKE) all -C libs/json_parser/
 
 clean:
+	$(MAKE) clean -C libs/json_parser/
 	$(MAKE) clean -C client/
 	$(MAKE) clean -C server/
-	$(MAKE) clean -C libs/json_parser/
 
 
 fclean:
+	$(MAKE) fclean -C libs/json_parser/
 	$(MAKE) fclean -C client/
 	$(MAKE) fclean -C server/
-	$(MAKE) fclean -C libs/json_parser/
 
 
 re:
+	$(MAKE) re -C libs/json_parser/
 	$(MAKE) re -C client/
 	$(MAKE) re -C server/
-	$(MAKE) re -C libs/json_parser/
 
 ## --------------------------------------------->
 
