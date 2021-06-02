@@ -31,7 +31,7 @@ void send_command(client_t *client, char *command)
     command = strtok(command, " ");
     if (space != -1)
         args = strdup(command + space);
-    for (int i = 0; base_command[i]; i++) {
+    for (int i = 0; command && base_command[i]; i++) {
         if (strcasecmp(command, base_command[i]) == 0) {
             dprintf(client->socket, "%s %s\r\n", real_command[i], args);
             return;
