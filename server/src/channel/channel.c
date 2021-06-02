@@ -5,7 +5,6 @@
 ** thread.c
 */
 
-#include <stdlib.h>
 #include <string.h>
 #include "server.h"
 #include "channels.h"

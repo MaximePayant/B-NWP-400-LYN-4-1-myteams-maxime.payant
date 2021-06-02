@@ -9,6 +9,22 @@
 #include <string.h>
 #include <malloc.h>
 
+static char **add_value(char **return_args, int *index, char *value, char **arg)
+{
+    if (!return_args) {
+        return_args = malloc(sizeof(char *));
+        return_args[*index] = strdup(value);
+        (*index)++;
+        (*arg) += strlen(value) + 1;
+    } else {
+        return_args = reallocarray(return_args, *index + 1, sizeof(char *));
+        return_args[*index] = strdup(value);
+        (*index)++;
+        (*arg) += strlen(value) + 1;
+    }
+    return (return_args);
+}
+
 char **get_params(const char *args)
 {
     char **return_args = NULL;
@@ -23,17 +39,7 @@ char **get_params(const char *args)
             continue;
         value = strdup(arg + 1);
         value = strtok(value, "\"");
-        if (!return_args) {
-            return_args = malloc(sizeof(char *));
-            return_args[index] = strdup(value);
-            index++;
-            arg += strlen(value) + 1;
-        } else {
-            return_args = reallocarray(return_args, index + 1, sizeof(char *));
-            return_args[index] = strdup(value);
-            index++;
-            arg += strlen(value) + 1;
-        }
+        return_args = add_value(return_args, &index, value, &arg);
     } while (arg);
     return_args = reallocarray(return_args, index + 1, sizeof(char *));
     return_args[index] = NULL;

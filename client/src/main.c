@@ -10,7 +10,17 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <signal.h>
 #include "client.h"
+
+client_t *get_client(client_t *client)
+{
+    static client_t *real_client = NULL;
+
+    if (client)
+        real_client = client;
+    return (real_client);
+}
 
 int help_output(void)
 {
@@ -54,6 +64,9 @@ int main(int ac, char **av)
     if (ac != 3)
         return (84);
     client = init_struct(av);
+    get_client(client);
+    signal(SIGINT, signal_handler);
+    signal(SIGTERM, signal_handler);
     if (connect(client->socket, (struct sockaddr *) &client->sock,
     sizeof(client->sock)) == -1)
         printf("Connection refused!\n");

@@ -48,11 +48,11 @@ static void print_event(thread_t *new_thread, client_t *client)
     char *channel_uuid = malloc(sizeof(char) * 37);
 
     uuid_unparse(client->channel_uuid, channel_uuid);
-    server_event_thread_created(channel_uuid, new_thread->uuid_str, client->uuid_str,
-    new_thread->name, new_thread->message->core);
+    server_event_thread_created(channel_uuid, new_thread->uuid_str,
+    client->uuid_str, new_thread->name, new_thread->message->core);
     dprintf(client->socket, "111 thread successfully created{thread}"
-    "{%s}{%s}{%s}{%s}\r\n", new_thread->uuid_str, client->uuid_str, new_thread->name,
-    new_thread->message->core);
+    "{%s}{%s}{%s}{%s}\r\n", new_thread->uuid_str, client->uuid_str,
+    new_thread->name, new_thread->message->core);
     send_event(get_server(NULL), new_thread, client);
     free(channel_uuid);
 }

@@ -9,12 +9,19 @@
 #include <malloc.h>
 #include "server.h"
 
+static void send_message_sub(team_t *target, client_t *client)
+{
+    if (is_in_team(target, client->uuid)) {
+        dprintf(client->socket, "{%s}{%s}{%s}\n", client->uuid_str,
+        target->name, target->description);
+    }
+}
+
 void subscribed(server_t *server, client_t *client, const char *command)
 {
     char *args = get_args(command);
     uuid_t team_uuid;
     team_t *target = NULL;
-    char *uuid_str = malloc(sizeof(char) * 37);
 
     if (args) {
         uuid_parse(args, team_uuid);
@@ -24,10 +31,7 @@ void subscribed(server_t *server, client_t *client, const char *command)
         target = server->teams;
         dprintf(client->socket, "114 \n");
         while (target) {
-            if (is_in_team(target, client->uuid)) {
-                uuid_unparse(target->uuid, uuid_str);
-                dprintf(client->socket, "{%s}{%s}{%s}\n", uuid_str, target->name, target->description);
-            }
+            send_message_sub(target, client);
             target = target->next;
         }
         dprintf(client->socket, "\r\n");

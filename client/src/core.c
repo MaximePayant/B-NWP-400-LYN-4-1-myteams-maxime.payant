@@ -73,7 +73,6 @@ int select_socket(client_t *client, fd_set *set)
             else
                 return (command_handler_send(client));
         }
-
     }
     return (0);
 }

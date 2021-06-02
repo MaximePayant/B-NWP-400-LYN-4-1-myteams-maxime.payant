@@ -33,7 +33,7 @@ static void send_event(server_t *server, message_t *message, client_t *client, c
             current = current->next;
             continue;
         }
-        dprintf(current->socket, "222 New team created{replay}{%s}"
+        dprintf(current->socket, "222 New team created{reply}{%s}"
         "{%s}{%s}{%s}\r\n", team_uuid, thread_uuid, client->uuid_str, message->core);
         current = current->next;
     }

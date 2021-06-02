@@ -9,6 +9,24 @@
 #include "client.h"
 #include "libs/myteams/logging_client.h"
 
+static void part_2(char **arg)
+{
+    if (strcmp(arg[0], "thread") == 0) {
+        for (int i = 1; arg[i]; i++) {
+            client_channel_print_threads(arg[i], arg[i + 1], time(NULL),
+            arg[i + 2], arg[i + 3]);
+            i += 3;
+        }
+    }
+    if (strcmp(arg[0], "message") == 0) {
+        for (int i = 1; arg[i]; i++) {
+            client_thread_print_replies(arg[i], arg[i + 1], time(NULL),
+            arg[i + 3]);
+            i += 3;
+        }
+    }
+}
+
 void code_112(const char *args)
 {
     char **arg = get_return_args(args);
@@ -25,16 +43,5 @@ void code_112(const char *args)
             i += 2;
         }
     }
-    if (strcmp(arg[0], "thread") == 0) {
-        for (int i = 1; arg[i]; i++) {
-            client_channel_print_threads(arg[i], arg[i + 1], time(NULL), arg[i + 2], arg[i + 3]);
-            i += 3;
-        }
-    }
-    if (strcmp(arg[0], "message") == 0) {
-        for (int i = 1; arg[i]; i++) {
-            client_thread_print_replies(arg[i], arg[i + 1], time(NULL), arg[i + 3]);
-            i += 3;
-        }
-    }
+    part_2(arg);
 }

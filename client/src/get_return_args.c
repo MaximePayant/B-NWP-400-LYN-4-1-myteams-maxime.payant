@@ -9,6 +9,20 @@
 #include <string.h>
 #include <malloc.h>
 
+static char **copy_value(char **return_args, int *index, char *value)
+{
+    if (!return_args) {
+        return_args = malloc(sizeof(char *));
+        return_args[*index] = strdup(value);
+        (*index)++;
+    } else {
+        return_args = reallocarray(return_args, *index + 1, sizeof(char *));
+        return_args[*index] = strdup(value);
+        (*index)++;
+    }
+    return (return_args);
+}
+
 char **get_return_args(const char *args)
 {
     char **return_args = NULL;
@@ -23,15 +37,7 @@ char **get_return_args(const char *args)
             continue;
         value = strdup(arg + 1);
         value = strtok(value, "}");
-        if (!return_args) {
-            return_args = malloc(sizeof(char *));
-            return_args[index] = strdup(value);
-            index++;
-        } else {
-            return_args = reallocarray(return_args, index + 1, sizeof(char *));
-            return_args[index] = strdup(value);
-            index++;
-        }
+        return_args = copy_value(return_args, &index, value);
     } while (arg);
     return_args = reallocarray(return_args, index + 1, sizeof(char *));
     return_args[index] = NULL;
