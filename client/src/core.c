@@ -60,11 +60,11 @@ int select_socket(client_t *client, fd_set *set)
 {
     int select_return = 0;
 
-    select_return = select(FD_SETSIZE, set, NULL, NULL, 0);
+    select_return = select(FD_SETSIZE, set, NULL, NULL, NULL);
     if (select_return == -1) {
         perror("select");
         return (1);
-    } else {
+    } else if (select_return > 0) {
         for (int i = 0; i < FD_SETSIZE; i++) {
             if (!FD_ISSET(i, set))
                 continue;

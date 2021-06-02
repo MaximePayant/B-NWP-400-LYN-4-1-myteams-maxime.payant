@@ -11,6 +11,21 @@
 #include "server.h"
 #include "libs/myteams/logging_server.h"
 
+static void send_event(server_t *server, client_t *client)
+{
+    client_t *current = server->client;
+
+    while (current) {
+        if (!current->connected) {
+            current = current->next;
+            continue;
+        }
+        dprintf(current->socket, "222 New user connected{logout}{%s}"
+        "{%s}\r\n", client->uuid_str, client->user_name);
+        current = current->next;
+    }
+}
+
 void logout(server_t *server, client_t *client, const char *command)
 {
     jsnp_t *jsnp = jsnp_parse_file(check_exist(client->user_name, "Name"));
@@ -35,6 +50,7 @@ void logout(server_t *server, client_t *client, const char *command)
 
         dprintf(client->socket, "102 Disconnection successfully{%s}{%s}\r\n",
         client->uuid_str, client->user_name);
+        send_event(server, client);
         delete_client(server, client->uuid);
         return;
     }

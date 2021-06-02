@@ -23,4 +23,6 @@ void event_handler(const char *args)
         client_event_thread_reply_received(list_args[1], list_args[2], list_args[3], list_args[4]);
     if (strcmp(list_args[0], "login") == 0)
         client_event_logged_in(list_args[1], list_args[2]);
+    if (strcmp(list_args[0], "logout") == 0)
+        client_event_logged_out(list_args[1], list_args[2]);
 }
