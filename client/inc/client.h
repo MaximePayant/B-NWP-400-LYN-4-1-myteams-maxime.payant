@@ -55,4 +55,7 @@ void code_442(const char *args);
 void code_443(const char *args);
 void code_444(const char *args);
 
+
+char *time_to_string(time_t time);
+time_t string_to_time(char *string);
 #endif //CLIENT

@@ -11,5 +11,18 @@
 
 void code_107(const char *args)
 {
-    (void) args;
+    int nbr;
+    char *uuid;
+    char *heure;
+    char *message;
+
+    printf("\n jew = %s\n", args);
+
+    strtok(args, "{");
+    nbr = atoi(strtok(NULL, "}"));
+
+    for (int i = 0; i != nbr; i++) {
+        client_private_message_print_messages(strtok(NULL, "}")+3, string_to_time(strtok(NULL, "}")+3), strtok(NULL, "}")+3);
+    }
+    printf("%d\n", nbr);
 }

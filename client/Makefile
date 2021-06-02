@@ -24,7 +24,11 @@ SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_r
 ## INCLUDE VARIABLES
 ## --------------------------------------------->
 INC_FOLDER =	./inc	\
-				./../
+				./../   \
+				./../server/inc/ \
+				../server/inc \
+				./../libs/json_parser/ \
+				../libs/json_parser/inc
 IGNORE_INC := .
 INC := $(filter-out $(IGNORE_INC), $(addprefix -I, $(INC_FOLDER)))
 ## --------------------------------------------->

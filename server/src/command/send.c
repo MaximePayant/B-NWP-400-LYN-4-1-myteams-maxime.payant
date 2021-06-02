@@ -64,7 +64,7 @@ void send_message(server_t *server, client_t *client, const char *command)
     if (check_exist(target, "Uuid")) {
         printf("uuid %s exist\n", target);
         time(&now);
-        timeinfo = localtime(&now);
+//        timeinfo = localtime(&now);
         printf("Current local time and date: %s", asctime (timeinfo));
         strcpy(path_home, "server/save/clients/");
         strcpy(path_target, "server/save/clients/");
@@ -88,7 +88,7 @@ void send_message(server_t *server, client_t *client, const char *command)
         jsnp_value_t *value = array_emplace_object_back(msg->value);
         object_emplace_string_back(value, "Uuid target", target);
         object_emplace_string_back(value, "Uuid home", client->uuid_str);
-        object_emplace_string_back(value, "Heure", strtok(asctime(timeinfo), "\n"));
+        object_emplace_string_back(value, "Heure", time_to_string(now));
         object_emplace_string_back(value, "Message", message);
 
         write_jsnp(jnsp, path_target);
