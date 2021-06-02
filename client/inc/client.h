@@ -24,13 +24,15 @@ typedef struct client_s
 //Core
 void client_core(client_t *client);
 void update_set(client_t *client, fd_set *set);
+client_t *get_client(client_t *client);
+void signalHandler(int signum);
 
 //Command
 int command_handler(client_t *client);
 void send_command(client_t *client, char *command);
 void code_handler(char *code, char *args);
 char **get_return_args(const char *args);
-void event_handler(const char *args);
+void event_handler(client_t *client, const char *args);
 
 //Code
 void code_101(const char *args);

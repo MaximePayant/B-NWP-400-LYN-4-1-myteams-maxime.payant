@@ -27,5 +27,5 @@ void code_handler(char *code, char *args)
             list_func[i](args);
     }
     if (strcmp(code, "222") == 0)
-        event_handler(args);
+        event_handler(get_client(NULL), args);
 }

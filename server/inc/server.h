@@ -71,6 +71,7 @@ void server_core(server_t *server);
 void command_handler(server_t *server, client_t *client);
 void print_new_reply(message_t *message, client_t *client);
 server_t *get_server(server_t *server);
+void signalHandler(int signum);
 
 //Client
 client_t *create_new_client(server_t *server);

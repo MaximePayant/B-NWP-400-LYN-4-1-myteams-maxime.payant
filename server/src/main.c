@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "server.h"
 
 int help_output(void)
@@ -40,6 +41,8 @@ int main(int ac, char **av)
         return (help_output());
     server = init_struct(av);
     get_server(server);
+    signal(SIGINT, signalHandler);
+    signal(SIGTERM, signalHandler);
     if (init_server(server) == 1) {
         printf("[SERVER] Cannot initialize the server\n");
         free((server));

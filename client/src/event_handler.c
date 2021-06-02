@@ -9,7 +9,7 @@
 #include "client.h"
 #include "libs/myteams/logging_client.h"
 
-void event_handler(const char *args)
+void event_handler(client_t *client, const char *args)
 {
     char **list_args = get_return_args(args);
 
@@ -25,4 +25,6 @@ void event_handler(const char *args)
         client_event_logged_in(list_args[1], list_args[2]);
     if (strcmp(list_args[0], "logout") == 0)
         client_event_logged_out(list_args[1], list_args[2]);
+    if (strcmp(list_args[0], "leave") == 0)
+        client->exit = 1;
 }
