@@ -25,7 +25,7 @@ typedef struct client_s
 void client_core(client_t *client);
 void update_set(client_t *client, fd_set *set);
 client_t *get_client(client_t *client);
-void signalHandler(int signum);
+void signal_handler(int signum);
 
 //Command
 int command_handler(client_t *client);

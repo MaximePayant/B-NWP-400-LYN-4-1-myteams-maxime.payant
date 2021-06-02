@@ -25,7 +25,8 @@ void code_113(const char *args)
         }
     if (strcmp(arg[0], "thread") == 0)
         for (int i = 1; arg[i]; i++) {
-            client_print_thread(arg[i], arg[i + 1], time(NULL), arg[i + 3], arg[i + 4]);
+            client_print_thread(arg[i], arg[i + 1], time(NULL),
+            arg[i + 3], arg[i + 4]);
             i += 4;
         }
 }

@@ -10,23 +10,21 @@
 #include <string.h>
 #include "client.h"
 
-char *get_args(char *command)
+static char *get_args(char *command)
 {
     return (strstr(command, " "));
 }
 
-char *get_code(char *command)
+static char *get_code(char *command)
 {
     return (strtok(command, " "));
 }
 
-int command_handler(client_t *client)
+static char *get_full_command(client_t *client)
 {
     char *respond = "\0";
-    size_t size = 0;
     char *complete = NULL;
-    char *args = NULL;
-    char *code = NULL;
+    size_t size = 0;
     size_t mem = 0;
 
     do {
@@ -39,6 +37,17 @@ int command_handler(client_t *client)
             strcat(complete, respond);
         }
     } while (!strstr(complete, "\r\n"));
+    free(respond);
+    return (complete);
+}
+
+int command_handler(client_t *client)
+{
+    char *args = NULL;
+    char *code = NULL;
+    char *complete = NULL;
+
+    complete = get_full_command(client);
     code = strdup(complete);
     args = get_args(complete);
     code = get_code(code);
@@ -46,7 +55,6 @@ int command_handler(client_t *client)
     if (strcmp(code, "102") == 0)
         client->exit = 1;
     free(code);
-    free(respond);
     free(complete);
     return (0);
 }

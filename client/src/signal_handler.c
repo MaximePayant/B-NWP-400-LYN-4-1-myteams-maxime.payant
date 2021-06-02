@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "client.h"
 
-void signalHandler(int signum)
+void signal_handler(int signum)
 {
     (void) signum;
     send_command(get_client(NULL), "/logout");

@@ -11,12 +11,10 @@
 #include "client.h"
 
 const char *base_command[] = {"/help", "/login", "/logout",
-                             "/users", "/user", "/send", "/messages",
-                             "/subscribe", "/subscribed", "/unsubscribe",
-                             "/use", "/create", "/list", "/info", NULL};
-const char *real_command[] = {"HELP", "LOGIN", "LOGOUT", "USERS", "USER", "SEND",
-                              "MSG", "SUBC", "SUBED", "UNSUB", "USE", "CREA",
-                              "LIST", "INFO", NULL};
+"/users", "/user", "/send", "/messages", "/subscribe", "/subscribed",
+"/unsubscribe", "/use", "/create", "/list", "/info", NULL};
+const char *real_command[] = {"HELP", "LOGIN", "LOGOUT", "USERS", "USER",
+"SEND", "MSG", "SUBC", "SUBED", "UNSUB", "USE", "CREA", "LIST", "INFO", NULL};
 
 void send_command(client_t *client, char *command)
 {

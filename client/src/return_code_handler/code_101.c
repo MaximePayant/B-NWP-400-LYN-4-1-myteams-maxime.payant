@@ -7,7 +7,6 @@
 
 #include <string.h>
 #include <malloc.h>
-#include "libs/myteams/logging_client.h"
 
 void code_101(const char *args)
 {

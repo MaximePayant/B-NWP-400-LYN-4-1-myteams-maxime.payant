@@ -65,8 +65,8 @@ int main(int ac, char **av)
         return (84);
     client = init_struct(av);
     get_client(client);
-    signal(SIGINT, signalHandler);
-    signal(SIGTERM, signalHandler);
+    signal(SIGINT, signal_handler);
+    signal(SIGTERM, signal_handler);
     if (connect(client->socket, (struct sockaddr *) &client->sock,
     sizeof(client->sock)) == -1)
         printf("Connection refused!\n");
