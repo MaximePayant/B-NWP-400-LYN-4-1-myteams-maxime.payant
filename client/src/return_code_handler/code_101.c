@@ -18,6 +18,5 @@ void code_101(const char *args)
     name = strstr(name + 1, "{");
     uuid = strtok(uuid, "}");
     name = strtok(name, "}");
-    client_event_logged_in(uuid + 1, name + 1);
     free(save);
 }

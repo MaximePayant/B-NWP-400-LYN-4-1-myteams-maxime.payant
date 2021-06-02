@@ -26,7 +26,7 @@ int on_command(char *command)
     return (1);
 }
 
-char *get_command()
+char *get_command(void)
 {
     char *buffer = NULL;
     size_t size = 0;
@@ -60,7 +60,7 @@ int select_socket(client_t *client, fd_set *set)
 {
     int select_return = 0;
 
-    select_return = select(FD_SETSIZE, set, NULL, NULL, NULL);
+    select_return = select(FD_SETSIZE, set, NULL, NULL, 0);
     if (select_return == -1) {
         perror("select");
         return (1);

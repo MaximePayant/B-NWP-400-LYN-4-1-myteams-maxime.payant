@@ -46,6 +46,21 @@ char *check_exist(char *log, char *search)
     return NULL;
 }
 
+static void send_event(server_t *server, client_t *client)
+{
+    client_t *current = server->client;
+
+    while (current) {
+        if (!current->connected) {
+            current = current->next;
+            continue;
+        }
+        dprintf(current->socket, "222 New user connected{login}{%s}"
+        "{%s}\r\n", client->uuid_str, client->user_name);
+        current = current->next;
+    }
+}
+
 void login(server_t *server, client_t *client, const char *command)
 {
     struct stat st = {0};
@@ -93,6 +108,7 @@ void login(server_t *server, client_t *client, const char *command)
         server_event_user_logged_in(client->uuid_str);
         dprintf(client->socket, "101 create log successfully{%s}{%s}\r\n",
         client->uuid_str, client->user_name);
+        send_event(server, client);
         free_jsnp(jsnp);
         free(path_folder);
         free(uuid_str);
@@ -122,9 +138,9 @@ void login(server_t *server, client_t *client, const char *command)
         uuid_str = modif_uuid(uuid_str);
         strcat(new_path, uuid_str);
         write_jsnp(jsnp, new_path);
-
         dprintf(client->socket, "101 log successfully{%s}{%s}\r\n",
         client->uuid_str, client->user_name);
+        send_event(server, client);
         free_jsnp(jsnp);
     }
 }
