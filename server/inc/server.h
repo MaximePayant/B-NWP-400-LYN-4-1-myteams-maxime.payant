@@ -72,6 +72,13 @@ void command_handler(server_t *server, client_t *client);
 void print_new_reply(message_t *message, client_t *client);
 server_t *get_server(server_t *server);
 void signalHandler(int signum);
+void display_info_teams(server_t *server, client_t *client);
+void display_info_channel(server_t *server, client_t *client);
+void display_info_thread(server_t *server, client_t *client);
+void display_list_teams(server_t *server, client_t *client);
+void display_list_channels(server_t *server, client_t *client);
+void display_list_threads(server_t *server, client_t *client);
+void display_list_messages(server_t *server, client_t *client);
 
 //Client
 client_t *create_new_client(server_t *server);

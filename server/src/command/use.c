@@ -17,18 +17,8 @@ char *correct_uuid(char *uuid)
     return (uuid);
 }
 
-void use(server_t *server, client_t *client, const char *command)
+static void define_target(client_t *client, char **args)
 {
-    char **args = get_params(command);
-
-    (void)server;
-    if (!args[0] || strcasecmp(args[0], "(null)") == 0) {
-        uuid_clear(client->team_uuid);
-        uuid_clear(client->channel_uuid);
-        uuid_clear(client->thread_uuid);
-        dprintf(client->socket, "110 You don't have any target\r\n");
-        return;
-    }
     uuid_parse(correct_uuid(args[0]), client->team_uuid);
     if (!args[1]) {
         dprintf(client->socket, "110 You target a team\r\n");
@@ -41,4 +31,19 @@ void use(server_t *server, client_t *client, const char *command)
     }
     uuid_parse(correct_uuid(args[2]), client->thread_uuid);
     dprintf(client->socket, "110 You target a thread\r\n");
+}
+
+void use(server_t *server, client_t *client, const char *command)
+{
+    char **args = get_params(command);
+
+    (void)server;
+    uuid_clear(client->team_uuid);
+    uuid_clear(client->channel_uuid);
+    uuid_clear(client->thread_uuid);
+    if (!args[0] || strcasecmp(args[0], "(null)") == 0) {
+        dprintf(client->socket, "110 You don't have any target\r\n");
+        return;
+    }
+    define_target(client, args);
 }

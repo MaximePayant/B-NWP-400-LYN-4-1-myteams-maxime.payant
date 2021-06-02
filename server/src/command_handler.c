@@ -10,7 +10,7 @@
 
 const char *command_nolog[] = {"HELP", "LOGIN", "LOGOUT", NULL};
 const char *command_log[] = {"USERS", "USER", "SEND", "MSG", "SUBC", "UNSUB",
-                             "SUBED", "USE", "CREA", "LIST", "INFO", NULL};
+"SUBED", "USE", "CREA", "LIST", "INFO", NULL};
 
 char *str_clean(char *string)
 {
@@ -23,8 +23,8 @@ char *str_clean(char *string)
 void command_logged(server_t *server, client_t *client, char *command)
 {
     void (*list_func[])(server_t *, client_t *, const char *) =
-    {&users, &user, &send_message, &message, &subscribe, &unsubscribe, &subscribed, &use,
-    &create, &list, &info, NULL};
+    {&users, &user, &send_message, &message, &subscribe, &unsubscribe,
+    &subscribed, &use, &create, &list, &info, NULL};
     char *real_command = strdup(command);
 
     real_command = strtok(real_command, " ");
@@ -42,8 +42,8 @@ void command_logged(server_t *server, client_t *client, char *command)
 
 void command_without_login(server_t *server, client_t *client, char *command)
 {
-        void (*list_func[])(server_t *, client_t *, const char *) =
-        {&help, &login, &logout};
+    void (*list_func[])(server_t *, client_t *, const char *) =
+    {&help, &login, &logout};
 
     for (int i = 0; command_nolog[i]; i++)
         if (strstr(command, command_nolog[i]) == command) {

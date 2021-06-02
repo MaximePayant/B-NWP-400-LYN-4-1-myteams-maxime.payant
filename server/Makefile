@@ -15,15 +15,17 @@ EXT :=	c
 
 ## SOURCES VARIABLES
 ## --------------------------------------------->
-SRC_FOLDER :=	src/			\
-				src/channel		\
-				src/client		\
-				src/command		\
-				src/linked_list	\
-				src/message		\
-				src/team		\
-				src/thread		\
-				src/save		\
+SRC_FOLDER :=	src/				\
+				src/channel			\
+				src/client			\
+				src/command			\
+				src/command/info	\
+				src/command/list	\
+				src/linked_list		\
+				src/message			\
+				src/team			\
+				src/thread			\
+				src/save			\
 				src/utils
 IGNORE_SRC :=	.
 SRC :=			$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_readdir_race -maxdepth 1 -name '*.$(EXT)')))

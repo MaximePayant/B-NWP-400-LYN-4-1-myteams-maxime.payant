@@ -37,18 +37,15 @@ char *description)
             current = current->next;
             continue;
         }
-        dprintf(current->socket, "222 New team created{team}{%s}{%s}{%s}\r\n",
-        team_uuid, name, description);
+        dprintf(current->socket, "222 New team created{team}{%s}{%s}"
+        "{%s}\r\n", team_uuid, name, description);
         current = current->next;
     }
 }
 
-team_t *create_team(server_t *server, client_t *client,
-char *name, char *description)
+static void *check_error(server_t *server, char *name, client_t *client,
+char *description)
 {
-    team_t *new_team = malloc(sizeof(team_t));
-    team_t *current = server->teams;
-
     if (get_team_by_name(&server->teams, name)) {
         dprintf(client->socket, "439 \r\n");
         return (NULL);
@@ -61,6 +58,17 @@ char *name, char *description)
         dprintf(client->socket, "411 Team's description too long\r\n");
         return (NULL);
     }
+    return (server);
+}
+
+team_t *create_team(server_t *server, client_t *client,
+char *name, char *description)
+{
+    team_t *new_team = malloc(sizeof(team_t));
+    team_t *current = server->teams;
+
+    if (!check_error(server, name, client, description))
+        return (NULL);
     define_value(new_team, name, description);
     if (!current)
         server->teams = new_team;
@@ -70,8 +78,10 @@ char *name, char *description)
         current->next = new_team;
         new_team->prev = current;
     }
-    server_event_team_created(new_team->uuid_str, new_team->name, client->uuid_str);
-    dprintf(client->socket, "111 Team successfully created{team}{%s}{%s}{%s}\r\n", new_team->uuid_str, name, description);
+    server_event_team_created(new_team->uuid_str, new_team->name,
+    client->uuid_str);
+    dprintf(client->socket, "111 Team successfully created{team}{%s}{%s}"
+    "{%s}\r\n", new_team->uuid_str, name, description);
     send_event(server, new_team->uuid_str, name, description);
     return (new_team);
 }

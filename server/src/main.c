@@ -14,7 +14,8 @@
 int help_output(void)
 {
     printf("USAGE: ./myteams_server port\n\t");
-    printf("port  is the port number on which the server socket listens.\n");
+    printf("port  is the port number on which the server"
+    " socket listens.\n");
     return (0);
 }
 
