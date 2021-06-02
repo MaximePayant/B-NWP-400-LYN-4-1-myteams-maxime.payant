@@ -43,6 +43,6 @@ client_t *create_new_client(server_t *server)
 
     } else
         server->client = new_client;
-    printf("[SERVER] New client created\n");
+    printf("[SERVER] New client\n");
     return (new_client);
 }

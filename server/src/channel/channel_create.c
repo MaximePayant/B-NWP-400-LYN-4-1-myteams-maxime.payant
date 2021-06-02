@@ -13,7 +13,7 @@
 
 static void define_value(channel_t *new_channel, char *name, char *description)
 {
-    int last = strlen(description) - 1;
+    unsigned int last = strlen(description) - 1;
 
     new_channel->next = NULL;
     new_channel->prev = NULL;
@@ -26,7 +26,8 @@ static void define_value(channel_t *new_channel, char *name, char *description)
     uuid_unparse(new_channel->uuid, new_channel->uuid_str);
 }
 
-static void *check_error(client_t *client, channel_t **first, char *name, char *description)
+static void *check_error(client_t *client, channel_t **first, char *name,
+char *description)
 {
     if (get_channel_by_name(first, name))
         return (dprintf(client->socket, "439"), NULL);
@@ -62,12 +63,13 @@ static void print_event(channel_t *new_channel, client_t *client)
     char *team_uuid = malloc(sizeof(char) * 37);
 
     uuid_unparse(client->team_uuid, team_uuid);
-    server_event_channel_created(team_uuid, new_channel->uuid_str, new_channel->name);
+    server_event_channel_created(team_uuid, new_channel->uuid_str,
+    new_channel->name);
     dprintf(client->socket, "111 Channel successfully created{channel}"
     "{%s}{%s}{%s}\r\n", new_channel->uuid_str, new_channel->name,
     new_channel->description);
-    send_event(get_server(NULL), new_channel->uuid_str, new_channel->name,
-    new_channel->description);
+    send_event(get_server(NULL), new_channel->uuid_str,
+    new_channel->name, new_channel->description);
     free(team_uuid);
 }
 
