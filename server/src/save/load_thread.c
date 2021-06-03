@@ -16,7 +16,7 @@ void load_message(thread_t *thrd, jsnp_value_t *value)
     message_t *mess = malloc(sizeof(message_t));
     message_t *current = thrd->message;
 
-    uuid_parse(get_token(value, "uuid")->value->str, mess->author);
+    uuid_parse(get_token(value, "Author uuid")->value->str, mess->author);
     mess->core = strdup(get_token(value, "Body")->value->str);
     mess->time = string_to_time(get_token(value, "Creation time")->value->str);
     mess->next = NULL;

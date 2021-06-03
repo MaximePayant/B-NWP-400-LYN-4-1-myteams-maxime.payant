@@ -5,5 +5,5 @@ myteams_server
 myteams_cli
 .minfo
 .vscode/
-server.json
+server/save/
 libjsnp.a
