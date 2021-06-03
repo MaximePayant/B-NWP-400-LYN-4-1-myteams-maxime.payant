@@ -37,8 +37,9 @@ static void send_event(server_t *server, thread_t *new_thread, client_t *client)
             continue;
         }
         dprintf(current->socket, "222 New team created{thread}{%s}"
-        "{%s}{%s}{%s}{%s}\r\n", new_thread->uuid_str, client->uuid_str, "TIMER",
-        new_thread->name, new_thread->message->core);
+        "{%s}{%s}{%s}{%s}\r\n", new_thread->uuid_str, client->uuid_str,
+        time_to_string(new_thread->time), new_thread->name,
+        new_thread->message->core);
         current = current->next;
     }
 }

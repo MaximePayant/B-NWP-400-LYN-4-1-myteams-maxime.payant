@@ -42,11 +42,9 @@ void send_message(server_t *server, client_t *client, const char *command)
     char *message = NULL;
     jsnp_t *jnsp;
     jsnp_token_t *msg;
-//    jsnp_value_t *value_nbr;
     jsnp_token_t *nbr;
     time_t now;
     int j = 0;
-    struct tm * timeinfo;
     char *path_target = malloc(sizeof(char) * 110);
     char *path_home = malloc(sizeof(char) * 110);
 

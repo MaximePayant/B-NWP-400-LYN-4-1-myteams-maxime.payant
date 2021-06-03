@@ -20,7 +20,7 @@ char *take_string(const char *str, unsigned *ctr)
         size += 1;
     result = malloc(sizeof(char) * (size + 1));
     if (!result)
-        return (perror("malloc"), NULL);
+        return (NULL);
     for (int i = 0; i < size; i += 1) {
         result[i] = str[*ctr];
         *ctr += 1;

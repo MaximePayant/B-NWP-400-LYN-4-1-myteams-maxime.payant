@@ -16,7 +16,7 @@ jsnp_value_t *array_emplace_string_back(jsnp_value_t *u, const char *value)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_STRING;
     v->count = 0;
     v->str = str_dup(value);
@@ -29,7 +29,7 @@ jsnp_value_t *array_emplace_string_front(jsnp_value_t *u, const char *value)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_STRING;
     v->count = 0;
     v->str = str_dup(value);
@@ -42,7 +42,7 @@ jsnp_value_t *array_emplace_string_at(jsnp_value_t *u, const char *value, unsign
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_STRING;
     v->count = 0;
     v->str = str_dup(value);

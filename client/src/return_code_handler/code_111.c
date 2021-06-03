@@ -17,10 +17,11 @@ void code_111(const char *args)
         client_print_team_created(list_args[1], list_args[2], list_args[3]);
     if (strcmp(list_args[0], "channel") == 0)
         client_print_channel_created(list_args[1], list_args[2], list_args[3]);
-    if (strcmp(list_args[0], "thread") == 0)
-        client_print_thread_created(list_args[1], list_args[2], time(NULL),
-        list_args[3], list_args[4]);
-    if (strcmp(list_args[0], "message") == 0)
-        client_print_reply_created(list_args[1], list_args[2], time(NULL),
-        list_args[3]);
+    if (strcmp(list_args[0], "message") == 0) {
+        if (strcmp(list_args[0], "thread") == 0)
+            client_print_thread_created(list_args[1], list_args[2],
+            string_to_time(list_args[3]), list_args[4], list_args[5]);
+        client_print_reply_created(list_args[1], list_args[2],
+        string_to_time(list_args[3]), list_args[4]);
+    }
 }

@@ -17,7 +17,7 @@ jsnp_token_t *take_token(const char *str, unsigned *ctr)
     jsnp_token_t *token = malloc(sizeof(jsnp_token_t));
 
     if (!token)
-        return (perror("malloc"), NULL);
+        return (NULL);
 
     token->key = take_key(str, *ctr);
     token->value = take_value(str, ctr);
@@ -34,7 +34,7 @@ static char *take_key(const char *str, unsigned ctr)
         size += 1;
     result = malloc(sizeof(char) * (size + 1));
     if (!result)
-        return (perror("malloc"), NULL);
+        return (NULL);
     for (int i = 0; i < size; i += 1)
         result[size - (1 + i)] = str[ctr - i];
     result[size] = '\0';

@@ -26,10 +26,8 @@ void write_jsnp(jsnp_t *jsnp, const char *filename)
 {
     int fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 
-    if (fd == -1) {
-        perror("open");
+    if (fd == -1)
         return;
-    }
     write(fd, "{\n", 2);
     for (jsnp_token_t *it = jsnp->value->objects.lh_first; it != NULL; it = it->next.le_next) {
         write_token(it, fd);

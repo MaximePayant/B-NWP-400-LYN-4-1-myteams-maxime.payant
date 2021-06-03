@@ -45,9 +45,9 @@ void display_list_channels(server_t *server, client_t *client)
 void display_list_threads(server_t *server, client_t *client)
 {
     team_t *team = get_team_by_uuid(&server->teams,
-                                    client->team_uuid);
+    client->team_uuid);
     channel_t *channel = get_channel_by_uuid(&team->channels,
-                                             client->channel_uuid);
+    client->channel_uuid);
     thread_t *current = channel->threads;
     char *uuid = malloc(sizeof(char) * 37);
     char *client_uuid = malloc(sizeof(char) * 37);
@@ -58,6 +58,7 @@ void display_list_threads(server_t *server, client_t *client)
         uuid_unparse(client->uuid, client_uuid);
         dprintf(client->socket, "{%s}", uuid);
         dprintf(client->socket, "{%s}", client_uuid);
+        dprintf(client->socket, "{%s}", time_to_string(current->time));
         dprintf(client->socket, "{%s}", current->name);
         dprintf(client->socket, "{%s}\n", current->message->core);
         current = current->next;
@@ -82,7 +83,7 @@ void display_list_messages(server_t *server, client_t *client)
         uuid_unparse(client->thread_uuid, thread_uuid);
         dprintf(client->socket, "{%s}", thread_uuid);
         dprintf(client->socket, "{%s}", client_uuid);
-        dprintf(client->socket, "{%s}", "TIMER");
+        dprintf(client->socket, "{%s}", time_to_string(current->time));
         dprintf(client->socket, "{%s}\n", current->core);
         current = current->next;
     }

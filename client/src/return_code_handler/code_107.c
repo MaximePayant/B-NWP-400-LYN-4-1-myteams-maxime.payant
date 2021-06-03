@@ -12,11 +12,12 @@
 
 void code_107(const char *args)
 {
-    int nbr;
+    char **list_args = get_return_args(args);
 
-    strtok(args, "{");
-    nbr = atoi(strtok(NULL, "}"));
-    for (int i = 0; i != nbr; i++) {
-        client_private_message_print_messages(strtok(NULL, "}")+3, string_to_time(strtok(NULL, "}")+3), strtok(NULL, "}")+3);
+    for (int i = 0; list_args[i]; i++) {
+        client_private_message_print_messages(list_args[i],
+        string_to_time(list_args[i + 1]),
+        list_args[i + 2]);
+        i += 2;
     }
 }

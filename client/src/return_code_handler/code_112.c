@@ -13,14 +13,14 @@ static void part_2(char **arg)
 {
     if (strcmp(arg[0], "thread") == 0) {
         for (int i = 1; arg[i]; i++) {
-            client_channel_print_threads(arg[i], arg[i + 1], time(NULL),
-            arg[i + 2], arg[i + 3]);
-            i += 3;
+            client_channel_print_threads(arg[i], arg[i + 1], string_to_time(arg[i + 2]),
+            arg[i + 3], arg[i + 4]);
+            i += 4;
         }
     }
     if (strcmp(arg[0], "message") == 0) {
         for (int i = 1; arg[i]; i++) {
-            client_thread_print_replies(arg[i], arg[i + 1], time(NULL),
+            client_thread_print_replies(arg[i], arg[i + 1], string_to_time(arg[i + 2]),
             arg[i + 3]);
             i += 3;
         }

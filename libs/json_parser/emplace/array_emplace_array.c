@@ -16,7 +16,7 @@ jsnp_value_t *array_emplace_array_back(jsnp_value_t *u)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_ARRAY;
     v->count = 0;
     LIST_INIT(&v->array);
@@ -29,7 +29,7 @@ jsnp_value_t *array_emplace_array_front(jsnp_value_t *u)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_ARRAY;
     v->count = 0;
     LIST_INIT(&v->array);
@@ -42,7 +42,7 @@ jsnp_value_t *array_emplace_array_at(jsnp_value_t *u, unsigned index)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_ARRAY;
     v->count = 0;
     LIST_INIT(&v->array);
