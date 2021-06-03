@@ -8,6 +8,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "libs/myteams/logging_client.h"
+#include "client.h"
 
 void code_102(const char *args)
 {
@@ -19,5 +20,6 @@ void code_102(const char *args)
     uuid = strtok(uuid, "}");
     name = strtok(name, "}");
     client_event_logged_out(uuid + 1, name + 1);
+    get_client(NULL)->exit = 1;
     free(save);
 }

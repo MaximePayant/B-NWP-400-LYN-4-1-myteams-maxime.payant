@@ -89,5 +89,4 @@ void client_core(client_t *client)
         if (select_socket(client, &set))
             return;
     }
-    send_command(get_client(NULL), "/logout");
 }
