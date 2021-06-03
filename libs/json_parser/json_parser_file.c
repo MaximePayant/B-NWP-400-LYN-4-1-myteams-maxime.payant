@@ -36,6 +36,8 @@ static jsnp_t *split_object(const char *str)
     unsigned brack_ctr = 0;
 
     jsnp = create_jsnp();
+    if (!jsnp)
+        return (NULL);
     while (str[ctr] && jsnp->value->count < count) {
         if (brack_ctr < 2 && str[ctr] == ':')
             insert_token_back(jsnp->value, take_token(str, &ctr));

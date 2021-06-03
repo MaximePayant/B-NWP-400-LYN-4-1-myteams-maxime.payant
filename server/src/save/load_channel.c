@@ -27,7 +27,7 @@ void load_channel(team_t *team, jsnp_value_t *value)
     chan->next = NULL;
     chan->prev = NULL;
     if (!current)
-        current = chan;
+        team->channels = chan;
     else {
         while (current->next)
             current = current->next;

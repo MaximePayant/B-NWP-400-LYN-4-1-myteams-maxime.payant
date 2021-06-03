@@ -16,13 +16,13 @@ void load_message(thread_t *thrd, jsnp_value_t *value)
     message_t *mess = malloc(sizeof(message_t));
     message_t *current = thrd->message;
 
-    uuid_parse(get_token(value, "uuid")->value->str, mess->author);
+    uuid_parse(get_token(value, "Author uuid")->value->str, mess->author);
     mess->core = strdup(get_token(value, "Body")->value->str);
     mess->time = string_to_time(get_token(value, "Creation time")->value->str);
     mess->next = NULL;
     mess->prev = NULL;
     if (!current)
-        current = mess;
+        thrd->message = mess;
     else {
         while (current->next)
             current = current->next;
@@ -45,7 +45,7 @@ void load_thread(channel_t *chan, jsnp_value_t *value)
     thrd->next = NULL;
     thrd->prev = NULL;
     if (!current)
-        current = thrd;
+        chan->threads = thrd;
     else {
         while (current->next)
             current = current->next;

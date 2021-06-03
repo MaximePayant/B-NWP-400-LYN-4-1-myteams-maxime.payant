@@ -6,3 +6,5 @@ myteams_cli
 .minfo
 .vscode/
 libs/json_parser/libjsnp.a
+server/save/
+libjsnp.a

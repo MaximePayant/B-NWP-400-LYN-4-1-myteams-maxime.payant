@@ -92,26 +92,26 @@ SRC_FAILED =			(echo -e $(YELLOW)" ╚═> " $(RED) "Coudn't Build" ; $(MAKE) in
 .PHONY: all introduce compile_obj re clean fclean
 
 all:
-	$(MAKE) all -C libs/json_parser/
-	$(MAKE) all -C client/
-	$(MAKE) all -C server/
+	$(MAKE) -C libs/json_parser/ all
+	$(MAKE) -C client/ all
+	$(MAKE) -C server/ all
 
 clean:
-	$(MAKE) clean -C libs/json_parser/
-	$(MAKE) clean -C client/
-	$(MAKE) clean -C server/
+	$(MAKE) -C libs/json_parser/ clean
+	$(MAKE) -C client/ clean
+	$(MAKE) -C server/ clean
 
 
 fclean:
-	$(MAKE) fclean -C libs/json_parser/
-	$(MAKE) fclean -C client/
-	$(MAKE) fclean -C server/
+	$(MAKE) -C libs/json_parser/ fclean
+	$(MAKE) -C client/ fclean
+	$(MAKE) -C server/ fclean
 
 
 re:
-	$(MAKE) re -C libs/json_parser/
-	$(MAKE) re -C client/
-	$(MAKE) re -C server/
+	$(MAKE) -C libs/json_parser/ re
+	$(MAKE) -C client/ re
+	$(MAKE) -C server/ re
 
 ## --------------------------------------------->
 

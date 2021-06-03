@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "server.h"
+#include "libs/json_parser/json_parser.h"
 
 int help_output(void)
 {
@@ -19,6 +20,7 @@ int help_output(void)
     return (0);
 }
 
+/*
 server_t *init_struct(char **av)
 {
     server_t *new_server = malloc(sizeof(server_t));
@@ -31,6 +33,7 @@ server_t *init_struct(char **av)
     new_server->teams = NULL;
     return (new_server);
 }
+*/
 
 int main(int ac, char **av)
 {
@@ -40,7 +43,7 @@ int main(int ac, char **av)
         return (84);
     if (strcmp(av[1], "-help") == 0)
         return (help_output());
-    server = init_struct(av);
+    server = load(atoi(av[1]));
     get_server(server);
     signal(SIGINT, signalHandler);
     signal(SIGTERM, signalHandler);
