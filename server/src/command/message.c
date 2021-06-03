@@ -16,7 +16,6 @@ void message(server_t *server, client_t *client, const char *command)
     char *new_command = strdup(command);
     char *target = NULL;
     char *path_target = malloc(sizeof(char) * 110);
-    char *json_str;
     char *m = malloc(sizeof(char) * 30);
 
 
@@ -34,7 +33,6 @@ void message(server_t *server, client_t *client, const char *command)
     jnsp = jsnp_parse_file(path_target);
     
     dprintf(client->socket, "107 ");
-    dprintf(client->socket, " {%s} ", get_token(jnsp->value, "Nbr_msg")->value->str);
     for(int i = 0; i != atoi(get_token(jnsp->value, "Nbr_msg")->value->str); i++) {
         dprintf(client->socket, " {%s} ", get_token(get_value(get_token(jnsp->value, my_itoa(i+1, m))->value, 1), "Message")->value->str);
         dprintf(client->socket, " {%s} ", get_token(get_value(get_token(jnsp->value, my_itoa(i+1, m))->value, 1), "Heure")->value->str);

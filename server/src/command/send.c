@@ -64,7 +64,7 @@ void send_message(server_t *server, client_t *client, const char *command)
     if (check_exist(target, "Uuid")) {
         printf("uuid %s exist\n", target);
         time(&now);
-//        timeinfo = localtime(&now);
+        timeinfo = localtime(&now);
         printf("Current local time and date: %s", asctime (timeinfo));
         strcpy(path_home, "server/save/clients/");
         strcpy(path_target, "server/save/clients/");

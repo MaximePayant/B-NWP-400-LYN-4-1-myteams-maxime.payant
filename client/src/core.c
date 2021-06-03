@@ -34,7 +34,6 @@ char *get_command(void)
 
     status = (int)getline(&buffer, &size, stdin);
     if (status == -1) {
-        perror("getline");
         return (NULL);
     } else {
         if (on_command(buffer))
@@ -62,7 +61,6 @@ int select_socket(client_t *client, fd_set *set)
 
     select_return = select(FD_SETSIZE, set, NULL, NULL, NULL);
     if (select_return == -1) {
-        perror("select");
         return (1);
     } else if (select_return > 0) {
         for (int i = 0; i < FD_SETSIZE; i++) {

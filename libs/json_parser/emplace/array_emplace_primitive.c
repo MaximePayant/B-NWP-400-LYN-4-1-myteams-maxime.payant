@@ -5,7 +5,6 @@
 ** array_emplace_primitive.c
 */
 
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "../jsnp_header.h"
@@ -15,7 +14,7 @@ jsnp_value_t *array_emplace_primitive_back(jsnp_value_t *u, int value)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_PRIMITIVE;
     v->count = 0;
     v->primitive = value;
@@ -28,7 +27,7 @@ jsnp_value_t *array_emplace_primitive_front(jsnp_value_t *u, int value)
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_PRIMITIVE;
     v->count = 0;
     v->primitive = value;
@@ -41,7 +40,7 @@ jsnp_value_t *array_emplace_primitive_at(jsnp_value_t *u, int value, unsigned in
     jsnp_value_t *v = malloc(sizeof(jsnp_value_t));
 
     if (!v)
-        return (perror("malloc"), NULL);
+        return (NULL);
     v->type = JSNP_PRIMITIVE;
     v->count = 0;
     v->primitive = value;

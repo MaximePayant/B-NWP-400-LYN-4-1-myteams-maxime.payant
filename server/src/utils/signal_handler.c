@@ -13,7 +13,7 @@ void signalHandler(int signum)
     server_t *server = get_server(NULL);
     client_t *current = server->client;
 
-    (void) signum;
+    (void)signum;
     save(server);
     while (current) {
         dprintf(current->socket, "222 {leave}\r\n");

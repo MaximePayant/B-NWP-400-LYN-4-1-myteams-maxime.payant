@@ -17,7 +17,6 @@ int bind_socket(server_t *server)
     result = bind(server->server_socket, (struct sockaddr *)&server->sock,
     server->sock_size);
     if (result == -1) {
-        perror("bind");
         printf("[SERVER] Closing socket...\n");
         close(server->server_socket);
         return (1);
@@ -30,7 +29,6 @@ int listen_socket(server_t *server)
     int result = listen(server->server_socket, 5);
 
     if (result == -1) {
-        perror("listen");
         printf("[SERVER] Closing socket....\n");
         close(server->server_socket);
         return (1);
@@ -43,7 +41,6 @@ int init_server(server_t *server)
     server->server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
     if (server->server_socket == -1) {
-        perror("socket");
         return (1);
     }
     printf("[SERVER] Socket %d is now open on TCP/IP mode\n",

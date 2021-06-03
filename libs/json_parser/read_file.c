@@ -42,16 +42,16 @@ static char *read_file(const char *filename)
 
     error = stat(filename, &st);
     if (error == -1)
-        return (perror("stat"), NULL);
+        return (NULL);
     buffer = malloc(sizeof(char) * (st.st_size + 1));
     if (buffer == NULL)
-        return (perror("malloc"), NULL);
+        return (NULL);
     fd = open(filename, O_RDONLY);
     if (fd == -1)
-        return (perror("open"), NULL);
+        return (NULL);
     error = read(fd, buffer, st.st_size);
     if (error == -1)
-        return (close(fd), perror("read"), NULL);
+        return (close(fd), NULL);
     buffer[st.st_size] = '\0';
     close(fd);
     return (buffer);
@@ -74,7 +74,7 @@ static char *clean_file(char *str)
     bool in_quote = false;
 
     if (!file)
-        return (perror("malloc"), NULL);
+        return (NULL);
     for (int ctr = 0; str[ctr]; ctr += 1) {
         if (!in_quote && str_contain(str[ctr], " \n\t"))
             continue;
