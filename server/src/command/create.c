@@ -43,7 +43,7 @@ client_t *client, char **args)
     team_t *team = NULL;
 
     if (uuid_is_null(client->team_uuid) && uuid_is_null(client->channel_uuid)
-    && uuid_is_null(client->thread_uuid))
+        && uuid_is_null(client->thread_uuid))
         create_team(server, client, args[0], args[1]);
     else if (!uuid_is_null(client->team_uuid)
     && uuid_is_null(client->channel_uuid)

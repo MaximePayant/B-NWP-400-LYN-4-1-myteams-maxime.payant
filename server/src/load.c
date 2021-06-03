@@ -10,7 +10,7 @@
 #include "server.h"
 #include "libs/myteams/logging_server.h"
 
-void load_clients()
+void load_clients(void)
 {
     struct dirent *de;
     char *new_path;
@@ -19,8 +19,8 @@ void load_clients()
     jsnp_t *jsnp;
 
     while (dr && (de = readdir(dr)) != NULL) {
-    
-        if (!strcmp(de->d_name, "..") || !strcmp(de->d_name, ".") || !strcmp(de->d_name, ".exist"))
+        if (!strcmp(de->d_name, "..") || \
+!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".exist"))
             continue;
         new_path = malloc(sizeof(char) * 100);
         strcpy(new_path, "server/save/clients/");
@@ -29,7 +29,8 @@ void load_clients()
         tmp = modif_uuid(tmp);
         strcat(new_path, tmp);
         jsnp = jsnp_parse_file(new_path);
-        server_event_user_loaded(get_token(jsnp->value, "Uuid")->value->str, get_token(jsnp->value, "Name")->value->str);    
+        server_event_user_loaded(get_token(jsnp->value, "Uuid")\
+->value->str, get_token(jsnp->value, "Name")->value->str);
     }
     closedir(dr);
 }

@@ -11,5 +11,10 @@
 
 void code_104(const char *args)
 {
-    printf("%s\n", args);
+    char **list_args = get_return_args(args);
+
+    for (int i = 0; list_args[i]; i++) {
+        client_print_users(list_args[i], list_args[i + 1], atoi(list_args[i + 2]));
+        i += 2;
+    }
 }

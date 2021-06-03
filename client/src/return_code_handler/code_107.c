@@ -18,7 +18,6 @@ void code_107(const char *args)
 
     strtok(args, "{");
     nbr = atoi(strtok(NULL, "}"));
-
     for (int i = 0; i != nbr; i++) {
         client_private_message_print_messages(strtok(NULL, "}")+3, string_to_time(strtok(NULL, "}")+3), strtok(NULL, "}")+3);
     }
