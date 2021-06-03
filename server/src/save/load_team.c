@@ -46,14 +46,10 @@ void load_team(server_t *server, jsnp_value_t *value)
         load_subscriber(team, it);
 
     int ctr = 1;
-    printf("load chan:\n");
-
     for (jsnp_value_t *it =
     get_token(value, "Channels")->value->array.lh_first;
-    it; it = it->next.le_next) {
-        printf("chan %i\n", ctr);
+    it; it = it->next.le_next)
         load_channel(team, it);
-    }
     team->next = NULL;
     team->prev = NULL;
     if (!current)

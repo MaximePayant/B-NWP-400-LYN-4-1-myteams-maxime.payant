@@ -79,7 +79,6 @@ void save(server_t *server)
 
     for (team_t *it = server->teams; it; it = it->next)
         save_team(it, team_array);
-    disp_jsnp(jsnp);
     write_jsnp(jsnp, "server/save/server.json");
     free(jsnp);
 }
