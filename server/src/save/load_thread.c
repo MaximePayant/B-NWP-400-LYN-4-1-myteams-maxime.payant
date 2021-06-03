@@ -22,7 +22,7 @@ void load_message(thread_t *thrd, jsnp_value_t *value)
     mess->next = NULL;
     mess->prev = NULL;
     if (!current)
-        current = mess;
+        thrd->message = mess;
     else {
         while (current->next)
             current = current->next;
@@ -45,7 +45,7 @@ void load_thread(channel_t *chan, jsnp_value_t *value)
     thrd->next = NULL;
     thrd->prev = NULL;
     if (!current)
-        current = thrd;
+        chan->threads = thrd;
     else {
         while (current->next)
             current = current->next;

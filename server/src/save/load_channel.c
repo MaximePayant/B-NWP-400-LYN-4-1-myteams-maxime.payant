@@ -17,6 +17,7 @@ void load_channel(team_t *team, jsnp_value_t *value)
     channel_t *current = team->channels;
 
     chan->name = strdup(get_token(value, "Name")->value->str);
+    printf("Chan Name: %s\n", chan->name);
     chan->description = strdup(get_token(value, "Description")->value->str);
     uuid_parse(get_token(value, "uuid")->value->str, chan->uuid);
     chan->threads = NULL;
@@ -27,7 +28,7 @@ void load_channel(team_t *team, jsnp_value_t *value)
     chan->next = NULL;
     chan->prev = NULL;
     if (!current)
-        current = chan;
+        team->channels = chan;
     else {
         while (current->next)
             current = current->next;

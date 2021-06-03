@@ -21,11 +21,13 @@ static void load_subscriber(team_t *team, jsnp_value_t *value)
     uuid->string = strdup(value->str);
     uuid_parse(uuid->string, uuid->uuid);
     if (!current)
-        current = uuid;
-    while (current->next)
-        current = current->next;
-    current->next = uuid;
-    uuid->prev = current;
+        team->list_uuid = uuid;
+    else {
+        while (current->next)
+            current = current->next;
+        current->next = uuid;
+        uuid->prev = current;
+    }
 }
 
 void load_team(server_t *server, jsnp_value_t *value)
@@ -42,10 +44,16 @@ void load_team(server_t *server, jsnp_value_t *value)
     get_token(value, "Subscribers")->value->array.lh_first;
     it; it = it->next.le_next)
         load_subscriber(team, it);
+
+    int ctr = 1;
+    printf("load chan:\n");
+
     for (jsnp_value_t *it =
     get_token(value, "Channels")->value->array.lh_first;
-    it; it = it->next.le_next)
+    it; it = it->next.le_next) {
+        printf("chan %i\n", ctr);
         load_channel(team, it);
+    }
     team->next = NULL;
     team->prev = NULL;
     if (!current)
