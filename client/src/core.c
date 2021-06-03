@@ -61,8 +61,9 @@ int command_handler_send(client_t *client)
 int select_socket(client_t *client, fd_set *set)
 {
     int select_return = 0;
+    struct timeval time = {0, 0};
 
-    select_return = select(FD_SETSIZE, set, NULL, NULL, NULL);
+    select_return = select(FD_SETSIZE, set, NULL, NULL, &time);
     if (select_return == -1) {
         printf("yo\n");
         return (1);
