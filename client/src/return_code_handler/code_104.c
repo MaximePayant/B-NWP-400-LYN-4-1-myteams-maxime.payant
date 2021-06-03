@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "client.h"
 #include "libs/myteams/logging_client.h"
 

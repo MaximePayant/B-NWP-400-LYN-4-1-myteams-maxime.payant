@@ -45,7 +45,6 @@ void load_team(server_t *server, jsnp_value_t *value)
     it; it = it->next.le_next)
         load_subscriber(team, it);
 
-    int ctr = 1;
     for (jsnp_value_t *it =
     get_token(value, "Channels")->value->array.lh_first;
     it; it = it->next.le_next)

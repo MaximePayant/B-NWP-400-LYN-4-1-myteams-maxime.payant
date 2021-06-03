@@ -13,7 +13,7 @@ char *check_exist(char *log, char *search);
 char *modif_uuid(char *uuid_str);
 int verif_file_exist(char *path);
 char *my_itoa(int num, char *str);
-char *create_path(char *new_path, char *name, char *tmp);
+char *create_path(char *new_path, char *name);
 void create_json_count(char *log, char *path_folder, char *uuid_str);
 void call_event_create_count(client_t *client);
 

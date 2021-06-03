@@ -16,7 +16,6 @@ void message(server_t *server, client_t *client, const char *command)
     char *new_command = strdup(command);
     char *target = NULL;
     char *path_target = malloc(sizeof(char) * 110);
-    char *json_str;
     char *m = malloc(sizeof(char) * 30);
 
 

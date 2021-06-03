@@ -8,7 +8,7 @@
 ## VARIABLES
 ## --------------------------------------------->
 EXEC :=	myteams_server
-FLAG := -Wall -Wextra -pedantic -g3 -Ofast
+FLAG := -Wall -Wextra -Werror -pedantic -g3 -Ofast
 CC :=	gcc
 EXT :=	c
 ## --------------------------------------------->

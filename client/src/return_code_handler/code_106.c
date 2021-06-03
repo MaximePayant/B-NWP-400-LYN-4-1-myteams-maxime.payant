@@ -19,6 +19,5 @@ void code_106(const char *args)
     message = strstr(message + 1, "{");
     uuid = strtok(uuid, "}");
     message = strtok(message, "}");
-//    client_event_private_message_received(uuid+1, message+1);
     free(save);
 }

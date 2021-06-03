@@ -6,15 +6,13 @@
 */
 
 #include <string.h>
+#include <stdlib.h>
 #include "client.h"
 #include "libs/myteams/logging_client.h"
 
 void code_107(const char *args)
 {
     int nbr;
-    char *uuid;
-    char *heure;
-    char *message;
 
     strtok(args, "{");
     nbr = atoi(strtok(NULL, "}"));

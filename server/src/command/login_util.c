@@ -19,13 +19,15 @@ char *modif_uuid(char *uuid_str)
     return new_uuid;
 }
 
-char *create_path(char *new_path, char *name, char *tmp)
+char *create_path(char *new_path, char *name)
 {
+    char *tmp;
     strcpy(new_path, "server/save/clients/");
     strcat(new_path, name);
     tmp = name;
     tmp = modif_uuid(tmp);
     strcat(new_path, tmp);
+    return (new_path);
 }
 
 char *check_exist(char *log, char *search)
@@ -33,7 +35,6 @@ char *check_exist(char *log, char *search)
     struct dirent *de;
     char *new_path;
     DIR *dr = opendir("server/save/clients/");
-    char *tmp;
     jsnp_t *jsnp;
 
     while (dr && (de = readdir(dr)) != NULL) {
@@ -41,7 +42,7 @@ char *check_exist(char *log, char *search)
 || !strcmp(de->d_name, ".exist"))
             continue;
         new_path = malloc(sizeof(char) * 100);
-        create_path(new_path, de->d_name, tmp);
+        create_path(new_path, de->d_name);
         jsnp = jsnp_parse_file(new_path);
         if (!strcmp(log, get_token(jsnp->value, search)->value->str)) {
             closedir(dr);
