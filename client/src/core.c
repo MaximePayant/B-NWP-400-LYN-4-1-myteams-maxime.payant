@@ -47,8 +47,11 @@ int command_handler_send(client_t *client)
     char *command = NULL;
 
     command = get_command();
-    if (command == NULL)
+    if (command == NULL) {
+        send_command(client, "/logout");
+        command_handler(client);
         return (1);
+    }
     send_command(client, command);
     command_handler(client);
     free(command);
@@ -61,6 +64,7 @@ int select_socket(client_t *client, fd_set *set)
 
     select_return = select(FD_SETSIZE, set, NULL, NULL, NULL);
     if (select_return == -1) {
+        printf("yo\n");
         return (1);
     } else if (select_return > 0) {
         for (int i = 0; i < FD_SETSIZE; i++) {
