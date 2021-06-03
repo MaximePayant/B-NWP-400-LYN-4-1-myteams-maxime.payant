@@ -5,3 +5,4 @@ myteams_server
 myteams_cli
 .minfo
 .vscode/
+server.json

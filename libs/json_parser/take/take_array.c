@@ -16,6 +16,8 @@ void take_array(jsnp_value_t *value, const char *str, unsigned *ctr)
     unsigned count = count_value(&str[*ctr], ',') + 1;
     unsigned brack_ctr = 1;
 
+    if (str[*ctr + 1] == ']')
+        count -= 1;
     value->type = JSNP_ARRAY;
     value->count = 0;
     LIST_INIT(&value->array);
