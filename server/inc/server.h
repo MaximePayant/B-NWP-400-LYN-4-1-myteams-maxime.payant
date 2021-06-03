@@ -11,6 +11,8 @@
 typedef struct server_s server_t;
 typedef struct client_s client_t;
 
+int end;
+
 #include <netinet/in.h>
 #include <uuid/uuid.h>
 #include <sys/stat.h>
@@ -57,6 +59,7 @@ struct server_s
     int server_socket;
     client_t *client;
     team_t *teams;
+    int end;
 };
 
 //Utils

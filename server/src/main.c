@@ -20,21 +20,6 @@ int help_output(void)
     return (0);
 }
 
-/*
-server_t *init_struct(char **av)
-{
-    server_t *new_server = malloc(sizeof(server_t));
-
-    new_server->sock = (struct sockaddr_in){ 0 };
-    new_server->sock_size = sizeof(new_server->sock);
-    new_server->port = atoi(av[1]);
-    new_server->client = NULL;
-    new_server->server_socket = -1;
-    new_server->teams = NULL;
-    return (new_server);
-}
-*/
-
 int main(int ac, char **av)
 {
     server_t *server = NULL;

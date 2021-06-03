@@ -52,8 +52,6 @@ int command_handler(client_t *client)
     args = get_args(complete);
     code = get_code(code);
     code_handler(code, args);
-    if (strcmp(code, "102") == 0)
-        client->exit = 1;
     free(code);
     free(complete);
     return (0);

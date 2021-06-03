@@ -20,6 +20,7 @@ static server_t *init_struct(int port)
     new_server->client = NULL;
     new_server->server_socket = -1;
     new_server->teams = NULL;
+    new_server->end = 0;
     return (new_server);
 }
 

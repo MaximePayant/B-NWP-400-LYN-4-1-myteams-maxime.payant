@@ -13,6 +13,7 @@
 #include <signal.h>
 #include "client.h"
 
+
 client_t *get_client(client_t *client)
 {
     static client_t *real_client = NULL;

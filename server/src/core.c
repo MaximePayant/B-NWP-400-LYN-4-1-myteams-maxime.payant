@@ -9,11 +9,14 @@
 #include <stdio.h>
 #include "server.h"
 
+int end = 0;
+
 int select_socket(server_t *server, fd_set *set)
 {
     int select_return = 0;
+    struct timeval time = {0, 0};
 
-    select_return = select(FD_SETSIZE, set, NULL, NULL, NULL);
+    select_return = select(FD_SETSIZE, set, NULL, NULL, &time);
     if (select_return == -1) {
         return (1);
     } else if (select_return > 0) {
@@ -45,11 +48,18 @@ void server_core(server_t *server)
 {
     fd_set set = (fd_set){ 0 };
     int value = -1;
+    client_t *current = NULL;
 
-    while (1) {
+    while (!end) {
         update_set(server, &set);
         value = select_socket(server, &set);
         if (value == 1)
             return;
     }
+    current = server->client;
+    while (current) {
+        dprintf(current->socket, "222 {leave}\r\n");
+        current = current->next;
+    }
+    save(server);
 }
