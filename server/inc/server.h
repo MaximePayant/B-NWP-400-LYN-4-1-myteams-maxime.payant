@@ -11,7 +11,7 @@
 typedef struct server_s server_t;
 typedef struct client_s client_t;
 
-int end;
+extern int end;
 
 #include <netinet/in.h>
 #include <uuid/uuid.h>
